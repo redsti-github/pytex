@@ -70,6 +70,7 @@
 		\@pytexParser@tryMExprNext%
 		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
 		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
 	}{%
 		\def\ifresult{0}%
 	}%
@@ -97,45 +98,45 @@
 	\else%
 		\def\next{\relax}%
 	\fi%
-
 	\next%
 }
 
 
-\def\@pytexParser@expressionTen{ % operators '*', '/', '//', '@', '%'
-	\@pytexParser@tryMExpr%
-	\else%
-		EXPECTED EXPRESSION!
-	\fi%
+% a_expr ::= m_expr | a_expr "+" m_expr | a_expr "-" m_expr
+\def\@pytexParser@tryAExpr{%
+	\wrapif{\@pytexParser@tryMExpr}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryAExprNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
 }
-
-\def\@pytexParser@expressionNineNext{ % parse next expression using left-to-right associativity
-	% left expression is already in \current
-	\def\expressionNineNext{\relax} %
-	\ifmatch{\tokentypeADD} %
-		\@pytexParser@expressionTen % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@add\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\def\expressionNineNext{\@pytexParser@expressionNineNext} %
-	\fi %
-	\ifmatch{\tokentypeSUBTRACT} %
-		\@pytexParser@expressionTen % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@subtract\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\@pytexParser@expressionNineNext %
-		\def\expressionNineNext{\@pytexParser@expressionNineNext} %
-	\fi %
-	\expressionNineNext %
+\def\@pytexParser@tryAExprNext{%
+	\@pytexParser@choice%
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryMExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@add\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryMExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@subtract\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}%
+		\def\next{\@pytexParser@tryAExprNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
 }
 
 \def\@pytexParser@expressionNine{ % operators '+' and '-'
-	\@pytexLocal@begin{current}%
-
-	\@pytexParser@expressionTen % left side of expression
-	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-	
-	\@pytexParser@expressionNineNext % parse loop
-
-	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
-	\@pytexLocal@end{current}%
+	\@pytexParser@tryAExpr%
+	\else%
+		EXPECTED EXPRESSION!
+	\fi%
 }
 
 \def\@pytexParser@expressionEight{% operators '>>' and '<<' TODO
@@ -195,8 +196,8 @@
 	\fi %
 }
 
-\def\@pytexParser@expressionTwoNext{
-	\def\expressionTwoNext{\relax}
+\def\@pytexParser@expressionTwoNext{%
+	\def\expressionTwoNext{\relax}%
 	\ifmatch{\tokentypeAND} % and
 		\@pytexParser@expressionThree % right side of expression
 		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@and\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
@@ -207,12 +208,12 @@
 
 \def\@pytexParser@expressionTwo{% operator 'and'
 	\@pytexLocal@begin{current}%
-
+	
 	\@pytexParser@expressionThree % left side of expression
 	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
 	
 	\@pytexParser@expressionTwoNext%
-
+	
 	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
 	\@pytexLocal@end{current}%
 }
