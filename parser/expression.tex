@@ -132,114 +132,82 @@
 	\next%
 }
 
-\def\@pytexParser@expressionNine{ % operators '+' and '-'
-	\@pytexParser@tryAExpr%
+
+% shift_expr ::= a_expr | shift_expr ("<<" | ">>") a_expr
+\def\@pytexParser@tryShiftExpr{%
+	\wrapif{\@pytexParser@tryAExpr}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryShiftExprNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+\def\@pytexParser@tryShiftExprNext{%
+	\@pytexParser@choice%
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSHIFTLEFT}}{\@pytexParser@tryAExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftleft\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSHIFTRIGHT}}{\@pytexParser@tryAExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftright\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}%
+		\def\next{\@pytexParser@tryShiftExprNext}%
 	\else%
-		EXPECTED EXPRESSION!
+		\def\next{\relax}%
 	\fi%
+	\next%
 }
 
-\def\@pytexParser@expressionEight{% operators '>>' and '<<' TODO
-	\@pytexParser@expressionNine%
+% and_expr ::= shift_expr | and_expr "&" shift_expr
+\def\@pytexParser@tryAndExpr{% TODO
+	\@pytexParser@tryShiftExpr%
 }
 
-\def\@pytexParser@expressionSeven{% operator '&' (bitwise and) TODO
-	\@pytexParser@expressionEight%
+% xor_expr ::= and_expr | xor_expr "^" and_expr
+\def\@pytexParser@tryXorExpr{% TODO
+	\@pytexParser@tryAndExpr%
 }
 
-\def\@pytexParser@expressionSix{% operator '^' (bitwise xor) TODO
-	\@pytexParser@expressionSeven%
-}
-\def\@pytexParser@expressionFive{% operator '|' (bitwise or) TODO
-	\@pytexParser@expressionSix%
+% or_expr  ::= xor_expr | or_expr "|" xor_expr
+\def\@pytexParser@tryOrExpr{% TODO
+	\@pytexParser@tryXorExpr%
 }
 
-
-% TODO: for now, we disallow associativity for these operators - but it is allow in python
-\def\@pytexParser@expressionFour{% operators 'in', 'not in', 'is', 'is not', '<', '<=', '>', '>=', '==', '!='
-	\@pytexLocal@begin{current}%
-
-	\@pytexParser@expressionFive % left side of expression
-	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-	
-	\ifmatch{\tokentypeIN} %
-		\@pytexParser@expressionFive % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@in\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-	\fi
-	% TODO: not in
-	\ifmatch{\tokentypeIS} %
-		\@pytexParser@expressionFive % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@is\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-	\fi
-	% TODO: is not
-	% TODO: <, <=, >, >=
-	\ifmatch{\tokentypeEQUAL} % ==
-		\@pytexParser@expressionFive % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@equal\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-	\fi
-	\ifmatch{\tokentypeNOTEQUAL} % !=
-		\@pytexParser@expressionFive % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@notequal\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-	\fi
-
-	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
-	\@pytexLocal@end{current}%
+% comparison    ::= or_expr (comp_operator or_expr)*
+% comp_operator ::= "<" | ">" | "==" | ">=" | "<=" | "!="
+%                  | "is" ["not"] | ["not"] "in"
+\def\@pytexParser@tryComparison{% TODO
+	\@pytexParser@tryOrExpr%
 }
 
-\def\@pytexParser@expressionThree{ % operator 'not'
-	% note: no need to use \current
-	\ifmatch{\tokentypeNOT} % not
-		\@pytexParser@expressionThree % right side of not
-		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\@pytexTMP@parserReturnValue}} %
-	\else %
-		\@pytexParser@expressionFour % no not
-	\fi %
+
+% not_test ::= comparison | "not" not_test
+\def\@pytexParser@tryNotTest{%
+	\@pytexParser@choice{\@pytexParser@tryComparison}%
+		{%
+			\@pytesParser@join{\@pytexParser@tryToken{\tokentypeNOT}} {\@pytexParser@tryNotTest}%
+				{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\second}}}%
+		}%
 }
 
-\def\@pytexParser@expressionTwoNext{%
-	\def\expressionTwoNext{\relax}%
-	\ifmatch{\tokentypeAND} % and
-		\@pytexParser@expressionThree % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@and\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\def\expressionTwoNext{\@pytexParser@expressionTwoNext}%
-	\fi %
-	\expressionTwoNext %
+% and_test ::= not_test | and_test "and" not_test
+\def\@pytexParser@tryAndTest{% TODO
+	\@pytexParser@tryNotTest%
 }
 
-\def\@pytexParser@expressionTwo{% operator 'and'
-	\@pytexLocal@begin{current}%
-	
-	\@pytexParser@expressionThree % left side of expression
-	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-	
-	\@pytexParser@expressionTwoNext%
-	
-	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
-	\@pytexLocal@end{current}%
+% or_test  ::= and_test | or_test "or" and_test
+\def\@pytexParser@tryOrTest{% TODO
+	\@pytexParser@tryAndTest%
 }
 
-\def\@pytexParser@expressionOneNext{%
-	\def\expressionOneNext{\relax}%
-	\ifmatch{\tokentypeOR}%
-		\@pytexParser@expressionTwo % right side of expression
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@or\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\def\expressionOneNext{\@pytexParser@expressionOneNext}%
-	\fi%
-	\expressionOneNext%
-}
-
-\def\@pytexParser@expressionOne{% operator 'or'
-	\@pytexLocal@begin{current}%
-
-	\@pytexParser@expressionTwo % left side of expression
-	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-	
-	\@pytexParser@expressionOneNext%
-
-	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
-	\@pytexLocal@end{current}%
-}
 
 \def\@pytexParser@expression{%
-	\@pytexParser@expressionOne%
+	\@pytexParser@tryOrTest\else%
+		EXPECTED EXPRESSION!
+	\fi%
 }
