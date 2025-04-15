@@ -16,90 +16,97 @@
 
 
 % atom ::= identifier | literal | enclosure
+% TODO: other literals, enclosures
 \def\@pytexParser@tryAtom{%
-	\wrapif{\ifmatch{\tokentypeIDENTIFIER}}{%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
-		\def\ifresult{\iftrue}%
-	}{%
-		\wrapif{\ifmatch{\tokentypeNUMBER}}{%
-			\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
-			\def\ifresult{\iftrue}%
+	\@pytexParser@choice{\@pytexParser@tryToken{\tokentypeIDENTIFIER}}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
+}
+
+
+% primary ::= atom | attributeref | subscription | slicing | call
+% TODO: anything else than atom
+\def\@pytexParser@tryPrimary{%
+	\@pytexParser@tryAtom%
+}
+
+% await_expr ::= "await" primary
+\def\@pytexParser@tryAwaitExpr{%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeAWAIT}}{\@pytexParser@tryPrimary}{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@await\e{\second}}}%
+}
+
+% power ::= (await_expr | primary) ["**" u_expr]
+\def\@pytexParser@tryPower{%
+	\@pytexParser@joinOptional%
+		{\@pytexParser@choice{\@pytexParser@tryAwaitExpr} {\@pytexParser@tryPrimary}} % (await_expr | primary)
+		{\@pytexParser@join{\@pytexParser@tryToken{\tokentypeEXPONENTIATION}} {\@pytexParser@tryUExpr} {\let\@pytexTMP@parserReturnValue\second}} % ["**" u_expr]
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@pow\e\e\e{\e\first\e}\e{\second}}}%
+}
+
+% u_expr ::= power | "-" u_expr | "+" u_expr | "~" u_expr
+\def\@pytexParser@tryUExpr{%
+	\@pytexParser@choiceFour%
+		{\@pytexParser@tryPower}% power
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryUExpr} % "-" u_expr
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@negate\e{\second}}}%
 		}{%
-			\def\ifresult{\iffalse}%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryUExpr} % "+" u_expr
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@pos\e{\second}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeINVERT}}{\@pytexParser@tryUExpr} % "~" u_expr
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@invert\e{\second}}}%
 		}%
+}
+
+% m_expr ::= u_expr 
+%		   | m_expr "*"  u_expr
+%		   | m_expr "@"  m_expr  -> note: using 'm_expr "@" u_expr' instead, but like who cares
+%		   | m_expr "//" u_expr
+%		   | m_expr "/"  u_expr
+%		   | m_expr "%"  u_expr
+\def\@pytexParser@tryMExpr{%
+	\wrapif{\@pytexParser@tryUExpr}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryMExprNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+	}{%
+		\def\ifresult{0}%
 	}%
-	\ifresult%
+	\ifnum\ifresult=1 %
 }
-
-
-\def\@pytexParser@expressionThirteen{ % parentheses and literals
-	\ifmatch{\tokentypeIDENTIFIER} %
-		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
-	\e\else% expand after hack - TODO figure out how to do this better
-		\ifmatch{\tokentypeNUMBER} %
-			\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
-		\else%
-			% TODO: parentheses
-			ERROR: Expected expression!
-		\fi%
+\def\@pytexParser@tryMExprNext{% try to parse an operator and another u_expr
+	\@pytexParser@choiceFive%
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMULTIPLY}}{\@pytexParser@tryUExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@multiply\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMATMULT}}{\@pytexParser@tryUExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@matmult\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeFLOORDIVIDE}}{\@pytexParser@tryUExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@floordivide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeDIVIDE}}{\@pytexParser@tryUExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@divide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMODULO}}{\@pytexParser@tryUExpr}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@modulo\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}%
+		\def\next{\@pytexParser@tryMExprNext}%
+	\else%
+		\def\next{\relax}%
 	\fi%
+
+	\next%
 }
 
-\def\@pytexParser@expressionTwelve{ % subscripting, slicing (x[index], s[index:index], ...) TODO
-	\@pytexParser@expressionThirteen%
-}
-
-\def\@pytexParser@expressionEleven{ % operator '**' (exponentiation)
-	% note: this operator is right-to-left associative
-	\@pytexLocal@begin{current}%
-	
-	\@pytexParser@expressionTwelve % left side of expression
-	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-	
-	\ifmatch{\tokentypeEXPONENTIATION} %
-		\@pytexParser@expressionEleven % right side
-		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@exponentiation\e{\@pytexTMP@parserReturnValue}} %
-	\fi %
-
-	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
-	\@pytexLocal@end{current}%
-}
-
-\def\@pytexParser@expressionTenNext{ % input is in \current
-	\def\expressionTenNext{\relax} %
-	\ifmatch{\tokentypeMULTIPLY} %
-		\@pytexParser@expressionEleven%
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@multiply\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\def\expressionTenNext{\@pytexParser@expressionTenNext}%
-	\fi
-	\ifmatch{\tokentypeDIVIDE} %
-		\@pytexParser@expressionEleven%
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@divide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\def\expressionTenNext{\@pytexParser@expressionTenNext}%
-	\fi
-	\ifmatch{\tokentypeFLOORDIVIDE} %
-		\@pytexParser@expressionEleven%
-		\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@floordivide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-		\def\expressionTenNext{\@pytexParser@expressionTenNext}%
-	\fi
-	%\ifmatch{\tokentypeMATMULT} %
-	%	\@pytexParser@expressionEleven%
-	%	\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@matmult\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}} %
-	%	\def\expressionTenNext{\@pytexParser@expressionTenNext}%
-	%\fi
-	\expressionTenNext%
-}
 
 \def\@pytexParser@expressionTen{ % operators '*', '/', '//', '@', '%'
-	\@pytexLocal@begin{current}%
-
-	\@pytexParser@expressionEleven % left side of expression
-	\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-	
-	\@pytexParser@expressionTenNext %
-
-	\e\def\e\@pytexTMP@parserReturnValue\e{\current} % return expr
-	\@pytexLocal@end{current}%
+	\@pytexParser@tryMExpr%
+	\else%
+		EXPECTED EXPRESSION!
+	\fi%
 }
 
 \def\@pytexParser@expressionNineNext{ % parse next expression using left-to-right associativity

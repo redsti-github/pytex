@@ -2,6 +2,8 @@
 % #1 = stack name to create
 \def\@pytexStack@new#1{%
 	\e\def\csname #1@size\endcsname{0}%
+	\e\def\csname #1@push\endcsname##1{\@pytexStack@push{#1}{##1}}%
+	\e\def\csname #1@pop\endcsname##1{\@pytexStack@pop{#1}{##1}}%
 }
 
 % #1 = stack name, #2 = item
@@ -17,10 +19,15 @@
 	\e\e\e\let\e\e\e#2\e\csname\@pytexTMP@stackElement\endcsname%
 }
 
+% #1 = stack name
+\def\@pytexStack@popd#1{%
+	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1\relax}%
+}
+
 % #1 = stack name, #2 = macro to store result in
 \def\@pytexStack@pop#1#2{%
 	\@pytexStack@peek{#1}{#2}%
-	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1\relax}%
+	\@pytexStack@popd{#1}%
 }
 
 % #1 = stack name

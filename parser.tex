@@ -19,13 +19,16 @@
 \enumnext{IN}
 \enumnext{NOTIN}
 
+\enumnext{EXPONENTIATION}
+\enumnext{INVERT}
+\enumnext{MULTIPLY}
+\enumnext{MATMULT}
+\enumnext{FLOORDIVIDE}
+\enumnext{DIVIDE}
+\enumnext{MODULO}
+
 \enumnext{ADD}
 \enumnext{SUBTRACT}
-\enumnext{MULTIPLY}
-\enumnext{DIVIDE}
-\enumnext{FLOORDIVIDE}
-\enumnext{EXPONENTIATION}
-\enumnext{MODULO}
 
 \enumnext{EQUAL}
 \enumnext{NOTEQUAL}
@@ -36,6 +39,11 @@
 
 \enumnext{ASSIGN}
 
+% keywords
+\enumnext{AWAIT}
+\enumnext{IF}
+\enumnext{ELSE}
+\enumnext{FOR}
 
 
 
@@ -75,18 +83,19 @@
 
 
 \def\currentidx{0}
+\@pytexStack@new{idxsavestack}
 
-\def\savestate#1{%
-	\e\e\e\edef\csname currentidx@#1\endcsname{\currentidx}%
+\def\savestate{%
+	\e\idxsavestack@push\e{\currentidx}%
 }
-\def\restorestate#1{%
-	\edef\currentidx{\csname currentidx@#1\endcsname}
-	\e\e\e\let\csname currentidx@#1\endcsname\undefined%
-	%\e\@pytexTokeniser@TokenList@getim\e{\currentidx}%
+\def\restorestate{%
+	\@pytexStack@pop{idxsavestack}{\currentidx}%
 }
-%\def\commitstate#1{%
-%	\e\e\e\let\csname currentidx@#1\endcsname\undefined%
-%}
+\def\commitstate{%
+	\@pytexStack@popd{idxsavestack}%
+}
+
+
 
 % #1 = if, #2 = iftrue, #3 = iffalse
 \def\wrapif#1#2#3{
@@ -95,6 +104,101 @@
 	\else %
 		#3 %
 	\fi %
+}
+
+% #1 = iftrue, #2 = if, #3 = iffalse
+\def\wrapifsw#1#2#3{
+	#2 %
+		#1 %
+	\else %
+		#3 %
+	\fi %
+}
+
+% result ::= #1
+\def\@pytexParser@tryToken#1{%
+	\ifmatch{#1}%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
+}
+
+% result ::= #1 | #2
+\def\@pytexParser@choice#1#2{%
+	\wrapif{#1}{%
+		\def\ifresult{1}%
+	}{%
+		\wrapif{#2}{
+			\def\ifresult{1}%
+		}{%
+			\def\ifresult{0}%
+		}%
+	}%
+	\ifnum\ifresult=1 %
+}
+
+% result ::= #1 | #2 | #3
+\def\@pytexParser@choiceThree#1#2#3{%
+	\@pytexParser@choice{#1}{\@pytexParser@choice{#2}{#3}}%
+}
+
+% result ::= #1 | #2 | #3 | #4
+\def\@pytexParser@choiceFour#1#2#3#4{%
+	\@pytexParser@choice{#1}{\@pytexParser@choiceThree{#2}{#3}{#4}}%
+}
+
+% result ::= #1 | #2 | #3 | #4 | #5
+\def\@pytexParser@choiceFive#1#2#3#4#5{%
+	\@pytexParser@choice{#1}{\@pytexParser@choiceFour{#2}{#3}{#4}{#5}}%
+}
+
+% result ::= #1 | #2 | #3 | #4 | #5 | #6
+\def\@pytexParser@choiceSix#1#2#3#4#5#6{%
+	\@pytexParser@choice{#1}{\@pytexParser@choiceFive{#2}{#3}{#4}{#5}{#6}}%
+}
+
+
+
+% #1 = first thing, #2 = second thing, #3 = joining operation (results of #1 and #2 are in \first and \second)
+% result ::= #1 #2
+\def\@pytexParser@join#1#2#3{%
+	\savestate%
+	\wrapif{#1}{%
+		\e\wrapifsw\e{%
+			\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
+			\let\second\@pytexTMP@parserReturnValue%
+			#3%
+			\def\ifresult{1}%
+			\commitstate%
+		}{#2}{
+			\def\ifresult{0}%
+			\restorestate%
+		}
+	}{
+		\def\ifresult{0}%
+		\restorestate%
+	}
+	\ifnum\ifresult=1 %
+}
+
+% #1 = first thing, #2 = second thing, #3 = joining operation (provided with \first and \second), only executed when #2 is present
+% result ::= #1 [#2]	-> {if(#2): #3}
+\def\@pytexParser@joinOptional#1#2#3{%
+	\savestate%
+	\wrapif{#1}{%
+		\e\wrapifsw\e{%
+			\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
+			\let\second\@pytexTMP@parserReturnValue%
+			#3%
+			\def\ifresult{1}%
+			\commitstate%
+		}{#2}{
+			\def\ifresult{1}%
+			\commitstate%
+		}
+	}{
+		\def\ifresult{0}%
+		\restorestate%
+	}
+	\ifnum\ifresult=1 %
 }
 
 
@@ -146,6 +250,7 @@
 \def\@pytexParser@parse{
 	\@pytexLocal@new{current}%
 	\@pytexTokeniser@TokenList@peekim%
+	\e\@pytexTokeniser@TokenList@push\e{\tokentypeEND}%
 	
 	\@pytexParser@parseNext%
 	
