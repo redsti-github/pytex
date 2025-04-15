@@ -206,6 +206,15 @@
 }
 
 
+
+% (extra) TODO: 
+% 	assignment_expression  ::= [identifier ":="] expression
+%   conditional_expression ::= or_test ["if" or_test "else" expression]
+%	expression             ::= conditional_expression | lambda_expr
+
+
+
+
 \def\@pytexParser@expression{%
 	\@pytexParser@tryOrTest\else%
 		EXPECTED EXPRESSION!
