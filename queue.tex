@@ -1,0 +1,71 @@
+
+
+% #1 = queue name to create
+\def\@pytexQueue@new#1{%
+	\e\def\csname #1@start\endcsname{0}%
+	\e\def\csname #1@end\endcsname{0}%
+	\e\def\csname #1@size\endcsname{\the\numexpr\csname #1@end\endcsname-\csname #1@start\endcsname}%
+	\e\def\csname #1@push\endcsname##1{\@pytexQueue@push{#1}{##1}}%
+	\e\def\csname #1@peek\endcsname##1{\@pytexQueue@peek{#1}{##1}}%
+	\e\def\csname #1@peekim\endcsname{\@pytexQueue@peekim{#1}}%
+	\e\def\csname #1@pop\endcsname##1{\@pytexQueue@pop{#1}{##1}}%
+	\e\def\csname #1@popd\endcsname{\@pytexQueue@popd{#1}}%
+	\e\def\csname #1@clear\endcsname##1{\@pytexQueue@clear{#1}{##1}}%
+	\e\def\csname #1@getim\endcsname##1{\@pytexQueue@getim{#1}{##1}}%
+}
+
+% #1 = queue name, #2 = item
+\def\@pytexQueue@push#1#2{% TODO: test
+	\edef\@pytexTMP@queueElement{#1@\csname #1@end\endcsname}%
+	\e\def\csname\@pytexTMP@queueElement\endcsname{#2}%
+	\e\edef\csname #1@end\endcsname{\the\numexpr\csname #1@end\endcsname+1\relax}%
+}
+
+% #1 = queue name, #2 = index
+\def\@pytexQueue@getim#1#2{ %
+	\edef\@pytexTMP@queueElement{#1@\the\numexpr\csname #1@start\endcsname+#2}%
+	\e\csname\@pytexTMP@queueElement\endcsname%
+}
+
+% #1 = queue name, #2 = macro to store result in
+\def\@pytexQueue@peek#1#2{% TODO: test
+	\edef\@pytexTMP@queueElement{#1@\csname #1@start\endcsname}%
+	\e\e\e\let\e\e\e#2\e\csname\@pytexTMP@queueElement\endcsname%
+}
+
+% #1 = queue name, #2 = macro to store result in
+\def\@pytexQueue@pop#1#2{% TODO: test
+	\@pytexQueue@peek{#1}{#2}%
+	\e\edef\csname #1@start\endcsname{\the\numexpr\csname #1@start\endcsname+1\relax}%
+}
+
+% #1 = queue name
+\def\@pytexQueue@popd#1{% TODO: test
+	\e\edef\csname #1@start\endcsname{\the\numexpr\csname #1@start\endcsname+1\relax}%
+}
+
+% #1 = queue name
+\def\@pytexQueue@peekim#1{% TODO: test
+	\e\e\e\csname\e\e\e#1\e\e\e @\csname #1@start\endcsname\endcsname%
+}
+
+% #1 = queue name
+\def\@pytexQueue@clear#1{% TODO: test
+	\ifnum \csname #1@start\endcsname = \csname #1@end\endcsname\else%
+		\e\edef\csname #1@start\endcsname{\the\numexpr\csname #1@start\endcsname+1\relax}%
+		\e\let\csname #1@start\endcsname\undefined%
+		\@pytexQueue@clear{#1}%
+	\fi%
+}
+
+% #1 = queue name
+\def\@pytexQueue@delete#1{% TODO: test
+	\ifnum \csname #1@start\endcsname = \csname #1@end\endcsname%
+		\e\let\csname #1@start\endcsname\undefined%
+	\else%
+		\e\edef\csname #1@start\endcsname{\the\numexpr\csname #1@start\endcsname+1\relax}%
+		\e\let\csname #1@start\endcsname\undefined%
+		\@pytexQueue@clear{#1}%
+	\fi%
+}
+

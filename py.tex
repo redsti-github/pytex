@@ -1,0 +1,37 @@
+\let\e\expandafter
+\catcode`@=11
+
+\input{stack.tex}
+\input{queue.tex}
+\input{localvar.tex}
+\input{active_chars.tex}
+\input{tokeniser.tex}
+\input{parser.tex}
+
+\def\@pytexChar@Backslash{\loggingall\@pytexParser@parse}
+\let\@pytexChar@Dollar\bye
+
+\input{clean_macros.tex}
+
+\@pytexCatcodes@setallactive
+
+#Test operators
+x + y * z - c // b % 10 ** 2
+result2 = x == y or y != z and x > y
+result3 = x & y | z ^ c
+result4 = x is y
+result5 = x in l
+# TODO:
+# result4 = x is not y
+# result5 = x not in l
+
+#Test operators with assignment TODO
+#x += 1
+#y -= 2
+#z *= 3
+#c //= 4
+#b %= 5
+#x **= 2
+
+\$
+\bye

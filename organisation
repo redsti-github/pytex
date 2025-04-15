@@ -1,0 +1,25 @@
+
+all macros should start with '@pytex'
+
+\@pytexTMP@...
+\@pytexChar@...  -> when character ... is encountered on the input stream
+\@pytexToken@... -> when token is encountered
+	\@pytexToken@... 	-> keywords, operators, delimiters
+	\@pytexToken@Identifier#1
+	\@pytexToken@Number#1  - Should Number, String and Bool be replaced by a direct variable instead?
+	\@pytexToken@String#1
+	\@pytexToken@Bool#1	-> ?
+	\@pytexToken@None	-> ?
+	
+\@pytexOp@...	-> actuall interpreter running the code
+				-> all operations push their return value into \@pytexTMP@OpReturn
+				-> most arguments are macros (exceptions are variable loading and storing)
+	\@pytexOp@add#1#2
+	\@pytexOp@sub#1#2
+	...
+
+\@pytexTokeniser@...
+	\@pytexTokeniser@TokenList	-> a queue containing all tokens
+
+\@pytexCatcodes@...
+\@pytexParser@...

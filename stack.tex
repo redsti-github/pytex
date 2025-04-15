@@ -1,0 +1,39 @@
+
+% #1 = stack name to create
+\def\@pytexStack@new#1{%
+	\e\def\csname #1@size\endcsname{0}%
+}
+
+% #1 = stack name, #2 = item
+\def\@pytexStack@push#1#2{%
+	\edef\@pytexTMP@stackElement{#1@\csname #1@size\endcsname}%
+	\e\def\csname\@pytexTMP@stackElement\endcsname{#2}%
+	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname+1\relax}%
+}
+
+% #1 = stack name, #2 = macro to store result in
+\def\@pytexStack@peek#1#2{%
+	\edef\@pytexTMP@stackElement{#1@\the\numexpr\csname #1@size\endcsname-1\relax}%
+	\e\e\e\let\e\e\e#2\e\csname\@pytexTMP@stackElement\endcsname%
+}
+
+% #1 = stack name, #2 = macro to store result in
+\def\@pytexStack@pop#1#2{%
+	\@pytexStack@peek{#1}{#2}%
+	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1\relax}%
+}
+
+% #1 = stack name
+\def\@pytexStack@clear#1{% TODO: test
+	\ifnum \csname #1@size\endcsname = 0\else%
+		\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1\relax}%
+		\e\let\csname #1@size\endcsname\undefined%
+		\@pytexStack@clear{#1}%
+	\fi%
+}
+
+% #1 = stack name
+\def\@pytexStack@delete#1{% TODO: test
+	\@pytexStack@clear{#1}%
+	\e\let\csname #1@size\endcsname\undefined%
+}

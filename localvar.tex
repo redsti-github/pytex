@@ -1,0 +1,22 @@
+
+\def\swap#1#2{#2{#1}}
+\def\ExpandAfter#1#2{%
+	\e\swap\e{#2}{#1}
+}
+
+% define a new local variable name
+\def\@pytexLocal@new#1{%
+	\@pytexStack@new{#1@stack}%
+}
+
+% allocate a new variable
+\def\@pytexLocal@begin#1{%
+	\e\let\e\@pytexTMP@localvar\csname#1\endcsname%
+	\ExpandAfter{\@pytexStack@push{#1@stack}}{\@pytexTMP@localvar}%
+}
+
+% release allocated variable
+\def\@pytexLocal@end#1{%
+	\@pytexStack@pop{#1@stack}{\@pytexTMP@localvar}%
+	\e\let\csname#1\endcsname\@pytexTMP@localvar%
+}
