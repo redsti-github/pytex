@@ -16,7 +16,7 @@
 
 
 % atom ::= identifier | literal | enclosure
-% TODO: other literals, enclosures
+% TODO: non number literals, enclosures
 \def\@pytexParser@tryAtom{%
 	\@pytexParser@choice{\@pytexParser@tryToken{\tokentypeIDENTIFIER}}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
 }
@@ -76,7 +76,7 @@
 	}%
 	\ifnum\ifresult=1 %
 }
-\def\@pytexParser@tryMExprNext{% try to parse an operator and another u_expr
+\def\@pytexParser@tryMExprNext{%
 	\@pytexParser@choiceFive%
 		{%
 		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMULTIPLY}}{\@pytexParser@tryUExpr}%
@@ -164,18 +164,75 @@
 }
 
 % and_expr ::= shift_expr | and_expr "&" shift_expr
-\def\@pytexParser@tryAndExpr{% TODO
-	\@pytexParser@tryShiftExpr%
+\def\@pytexParser@tryAndExpr{%
+	\wrapif{\@pytexParser@tryShiftExpr}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryAndExprNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+\def\@pytexParser@tryAndExprNext{%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEAND}}{\@pytexParser@tryShiftExpr}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseand\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		\def\next{\@pytexParser@tryAndExprNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
 }
 
 % xor_expr ::= and_expr | xor_expr "^" and_expr
-\def\@pytexParser@tryXorExpr{% TODO
-	\@pytexParser@tryAndExpr%
+\def\@pytexParser@tryXorExpr{%
+	\wrapif{\@pytexParser@tryAndExpr}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryXorExprNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+\def\@pytexParser@tryXorExprNext{%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEXOR}}{\@pytexParser@tryAndExpr}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwisexor\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		\def\next{\@pytexParser@tryXorExprNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
 }
 
 % or_expr  ::= xor_expr | or_expr "|" xor_expr
 \def\@pytexParser@tryOrExpr{% TODO
-	\@pytexParser@tryXorExpr%
+	\wrapif{\@pytexParser@tryXorExpr}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryOrExprNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+\def\@pytexParser@tryOrExprNext{%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEOR}}{\@pytexParser@tryXorExpr}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseor\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		\def\next{\@pytexParser@tryOrExprNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
 }
 
 % comparison    ::= or_expr (comp_operator or_expr)*
@@ -196,15 +253,52 @@
 }
 
 % and_test ::= not_test | and_test "and" not_test
-\def\@pytexParser@tryAndTest{% TODO
-	\@pytexParser@tryNotTest%
+\def\@pytexParser@tryAndTest{%
+	\wrapif{\@pytexParser@tryNotTest}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryAndTestNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+\def\@pytexParser@tryAndTestNext{%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeAND}}{\@pytexParser@tryNotTest}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@and\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		\def\next{\@pytexParser@tryAndTestNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
 }
 
 % or_test  ::= and_test | or_test "or" and_test
-\def\@pytexParser@tryOrTest{% TODO
-	\@pytexParser@tryAndTest%
+\def\@pytexParser@tryOrTest{%
+	\wrapif{\@pytexParser@tryAndTest}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryOrTestNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+		\def\ifresult{1}%
+	}{%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
 }
-
+\def\@pytexParser@tryOrTestNext{%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeOR}}{\@pytexParser@tryAndTest}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@or\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		\def\next{\@pytexParser@tryOrTestNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
+}
 
 
 % (extra) TODO: 
