@@ -1,3 +1,20 @@
+% https://www.programiz.com/python-programming/precedence-associativity
+% https://www.wscubetech.com/resources/python/precedence-associativity-operators
+% https://docs.python.org/3/reference/expressions.html#grammar-token-python-grammar-primary
+
+% try<thing> looks ahead and tries to parse <thing>.
+% if parsing was succesful:
+	% sets \@pytexTMP@parserReturnValue to the parsed construct
+	% consumes the parsed tokens
+	% ends with \iftrue
+% else,
+	% leaves \@pytexTMP@parserReturnValue untouched
+	% leaves tokens untouched
+	% ends with \iffalse
+% use \wrapif{\try<thing>}{<iftrue>}{<iffalse>} to avoid problems with ifs
+
+\def\@pytexParser@NotImplemented{\iffalse}%
+
 
 % token type enum
 \def\tokentypeEND{0}
@@ -299,6 +316,33 @@
 	\ifnum\ifresult=1 %
 }
 
+
+% #1 = first thing, #2 = second thing, #3 = single operation, #4 = double joining operation
+% result ::= #1 [#2]	-> {if(#2): #4 else: #3}
+\def\@pytexParser@joinOptionalDouble#1#2#3#4{%
+	\savestate%
+	\wrapif{#1}{%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\wrapif{#2}{%
+			\let\first\current%
+			\let\second\@pytexTMP@parserReturnValue%
+			#4%
+			\def\ifresult{1}%
+			\commitstate%
+		}{%
+			\let\first\current%
+			#3%
+			\def\ifresult{1}%
+			\commitstate%
+		}%
+		\@pytexLocal@end{current}%
+	}{%
+		\def\ifresult{0}%
+		\restorestate%
+	}%
+	\ifnum\ifresult=1 %
+}
 
 
 

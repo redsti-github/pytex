@@ -26,11 +26,11 @@
 % target_list ::= target ("," target)* [","]
 \def\@pytexParser@tryTargetList{%
 	\@pytexParser@tryTargetListBare% target ("," target)*
-		\wrapif{\@pytexParser@tryToken{\tokentypeCOMMA}}{}{}% [","] % TODO: technically could mangle parserReturnValue
+		\wrapif{\@pytexParser@tryToken{\tokentypeCOMMA}}{}{}% [","] % TODO: technically could mangle parserReturnValue, should use \joinOptional instead
 }
 \def\@pytexParser@tryTargetListBare{%
 	\@pytexParser@joinOptional{\@pytexParser@tryTarget}%
-		{\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeCOMMA}}{\@pytexParser@tryTargetList}}%
+		{\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeCOMMA}}{\@pytexParser@tryTargetListBare}}%
 		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@targetList\e\e\et{\e\first\e}\e{\second}}}%
 }
 
@@ -77,10 +77,7 @@
 	\iffalse%
 }
 
-% return_stmt ::= "return" [expression_list]
-\def\@pytexParser@tryReturnStmt{% TODO
-	\iffalse%
-}
+
 
 % yield_stmt ::= yield_expression
 \def\@pytexParser@tryYieldStmt{% TODO
@@ -176,5 +173,151 @@
 		{\@pytexParser@tryTypeStmt}%
 	}%
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% NEW STUFF %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% simple_stmts:
+%     | simple_stmt !';' NEWLINE  # Not needed, there for speedup
+%     | ';'.simple_stmt+ [';'] NEWLINE 
+% TODO
+
+
+
+
+% # NOTE: assignment MUST precede expression, else parsing a simple assignment
+% # will throw a SyntaxError.
+% simple_stmt:
+%     | assignment
+%     | type_alias
+%     | star_expressions 
+%     | return_stmt
+%     | import_stmt
+%     | raise_stmt
+%     | 'pass' 
+%     | del_stmt
+%     | yield_stmt
+%     | assert_stmt
+%     | 'break' 
+%     | 'continue' 
+%     | global_stmt
+%     | nonlocal_stmt
+% TODO
+
+
+
+
+% compound_stmt:
+%     | function_def
+%     | if_stmt
+%     | class_def
+%     | with_stmt
+%     | for_stmt
+%     | try_stmt
+%     | while_stmt
+%     | match_stmt
+% TODO
+
+
+
+
+% # NOTE: annotated_rhs may start with 'yield'; yield_expr must start with 'yield'
+% assignment:
+%     | NAME ':' expression ['=' annotated_rhs ] 
+%     | ('(' single_target ')' 
+%          | single_subscript_attribute_target) ':' expression ['=' annotated_rhs ] 
+%     | (star_targets '=' )+ (yield_expr | star_expressions) !'=' [TYPE_COMMENT] 
+%     | single_target augassign ~ (yield_expr | star_expressions) 
+% TODO
+
+
+
+
+% annotated_rhs: yield_expr | star_expressions
+% TODO
+
+
+
+
+% augassign:
+%     | '+=' 
+%     | '-=' 
+%     | '*=' 
+%     | '@=' 
+%     | '/=' 
+%     | '%=' 
+%     | '&=' 
+%     | '|=' 
+%     | '^=' 
+%     | '<<=' 
+%     | '>>=' 
+%     | '**=' 
+%     | '//=' 
+% TODO
+
+
+
+
+%return_stmt:
+%    | 'return' [star_expressions] 
+\def\@pytexParser@tryReturnStmt{%
+	\@pytexParser@joinOptionalDouble%
+		{\@pytexParser@tryToken{\tokentypeRETURN}}%
+		{\@pytexParser@tryStarExpressions}%
+		{\def\@pytexTMP@parserReturnValue{\@pytexOperator@return{None}}} % TODO: actually return None
+		{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@return\e{\second}}}%
+}
+
+
+% raise_stmt:
+%     | 'raise' expression ['from' expression ] 
+%     | 'raise' 
+% TODO
+
+
+
+
+% global_stmt: 'global' ','.NAME+ 
+% TODO
+
+
+
+
+% nonlocal_stmt: 'nonlocal' ','.NAME+ 
+% TODO
+
+
+
+
+% del_stmt:
+%     | 'del' del_targets &(';' | NEWLINE) 
+% TODO
+
+
+
+
+% yield_stmt: yield_expr 
+% TODO
+
+
+
+
+% assert_stmt: 'assert' expression [',' expression ] 
+% TODO
+
+
+
+
+% import_stmt:
+%     | import_name
+%     | import_from
+% TODO - wont implement (probably)
+
 
 

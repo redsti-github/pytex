@@ -1,21 +1,3 @@
-% https://www.programiz.com/python-programming/precedence-associativity
-% https://www.wscubetech.com/resources/python/precedence-associativity-operators
-% https://docs.python.org/3/reference/expressions.html#grammar-token-python-grammar-primary
-
-% try<thing> looks ahead and tries to parse <thing>.
-% if parsing was succesful:
-	% sets \@pytexTMP@parserReturnValue to the parsed construct
-	% consumes the parsed tokens
-	% ends with \iftrue
-% else,
-	% leaves \@pytexTMP@parserReturnValue untouched
-	% leaves tokens untouched
-	% ends with \iffalse
-% use \wrapif{\try<thing>}{<iftrue>}{<iffalse>} to avoid problems with ifs
-
-\def\@pytexParser@NotImplemented{\iffalse}%
-
-
 
 % expression:
 %     | disjunction 'if' disjunction 'else' expression 
@@ -37,12 +19,32 @@
 %     | star_expression (',' star_expression )+ [','] 
 %     | star_expression ',' 
 %     | star_expression
-% TODO
+\def\@pytexParser@tryStarExpressions{%
+	\@pytexParser@joinOptional%
+		{\@pytexParser@tryStarExpressionsBare}%
+		{\@pytexParser@tryToken{\tokentypeCOMMA}}%
+		{\e\def\e\@pytexTMP@parserReturnValue\e{\first}}%
+}
+\def\@pytexParser@tryStarExpressionsBare{%
+	\@pytexParser@joinOptional{\@pytexParser@tryStarExpression}%
+		{\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeCOMMA}}{\@pytexParser@tryStarExpressionsBare}}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@starExpressionList\e\e\et{\e\first\e}\e{\second}}}%
+}
+
 
 % star_expression:
 %     | '*' bitwise_or 
 %     | expression
-% TODO
+\def\@pytexParser@tryStarExpression{%
+	\@pytexParser@choice%
+		{\@pytexParser@join%
+			{\@pytexParser@tryToken{\tokentypeMULTIPLY}}%
+			{\@pytexParser@tryBitwiseOr}%
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@unpack\e{\second}}}%
+		}%
+		{\@pytexParser@tryExpression}%
+}
+
 
 % star_named_expressions: ','.star_named_expression+ [','] 
 % TODO
@@ -119,27 +121,3 @@
 				{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\second}}}%
 		}%
 }
-
-
-
-
-
-
-
-% TODO: move this
-% https://docs.python.org/3/reference/grammar.html
-% star_expression:
-%     | '*' bitwise_or 
-%     | expression
-\def\@pytexParser@tryStarExpression{%
-	\@pytexParser@choice%
-		{\@pytexParser@joinSecondUnary%
-			{\@pytexParser@tryToken{\tokentypeMULTIPLY}}%
-			{\@pytexParser@tryBitwiseOr}%
-			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@starred\e{\@pytexTMP@parserReturnValue}}}%
-		}%
-		{\@pytexParser@tryExpression}%
-}
-
-
-
