@@ -61,6 +61,7 @@
 %     | expression !':='
 % TODO
 
+
 % disjunction:
 %     | conjunction ('or' conjunction )+ 
 %     | conjunction
@@ -84,241 +85,12 @@
 	\next%
 }
 
+
 % conjunction:
 %     | inversion ('and' inversion )+ 
 %     | inversion
-
-
-% inversion:
-%     | 'not' inversion 
-%     | comparison
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% atom ::= identifier | literal | enclosure
-% TODO: non number literals, enclosures
-\def\@pytexParser@tryAtom{%
-	\@pytexParser@choice{\@pytexParser@tryIdentifier}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
-}
-
-
-% primary ::= atom | attributeref | subscription | slicing | call
-% TODO: anything else than atom
-\def\@pytexParser@tryPrimary{%
-	\@pytexParser@tryAtom%
-}
-
-% await_expr ::= "await" primary
-\def\@pytexParser@tryAwaitExpr{%
-	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeAWAIT}}{\@pytexParser@tryPrimary}{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@await\e{\second}}}%
-}
-
-% power ::= (await_expr | primary) ["**" u_expr]
-\def\@pytexParser@tryPower{%
-	\@pytexParser@joinOptional%
-		{\@pytexParser@choice{\@pytexParser@tryAwaitExpr} {\@pytexParser@tryPrimary}} % (await_expr | primary)
-		{\@pytexParser@join{\@pytexParser@tryToken{\tokentypeEXPONENTIATION}} {\@pytexParser@tryUExpr} {\let\@pytexTMP@parserReturnValue\second}} % ["**" u_expr]
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@pow\e\e\e{\e\first\e}\e{\second}}}%
-}
-
-% u_expr ::= power | "-" u_expr | "+" u_expr | "~" u_expr
-\def\@pytexParser@tryUExpr{%
-	\@pytexParser@choiceFour%
-		{\@pytexParser@tryPower}% power
-		{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryUExpr} % "-" u_expr
-			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@negate\e{\second}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryUExpr} % "+" u_expr
-			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@pos\e{\second}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeINVERT}}{\@pytexParser@tryUExpr} % "~" u_expr
-			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@invert\e{\second}}}%
-		}%
-}
-
-% m_expr ::= u_expr 
-%		   | m_expr "*"  u_expr
-%		   | m_expr "@"  m_expr  -> note: using 'm_expr "@" u_expr' instead, but like who cares
-%		   | m_expr "//" u_expr
-%		   | m_expr "/"  u_expr
-%		   | m_expr "%"  u_expr
-\def\@pytexParser@tryMExpr{%
-	\@pytexParser@tryUExpr%
-		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-		\@pytexParser@tryMExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
-		\@pytexLocal@end{current}%
-}
-\def\@pytexParser@tryMExprNext{%
-	\@pytexParser@choiceFive%
-		{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMULTIPLY}}{\@pytexParser@tryUExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@multiply\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMATMULT}}{\@pytexParser@tryUExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@matmult\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeFLOORDIVIDE}}{\@pytexParser@tryUExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@floordivide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeDIVIDE}}{\@pytexParser@tryUExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@divide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMODULO}}{\@pytexParser@tryUExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@modulo\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}%
-		\def\next{\@pytexParser@tryMExprNext}%
-	\else%
-		\def\next{\relax}%
-	\fi%
-	\next%
-}
-
-
-% a_expr ::= m_expr | a_expr "+" m_expr | a_expr "-" m_expr
-\def\@pytexParser@tryAExpr{%
-	\@pytexParser@tryMExpr%
-		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-		\@pytexParser@tryAExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
-		\@pytexLocal@end{current}%
-}
-\def\@pytexParser@tryAExprNext{%
-	\@pytexParser@choice%
-		{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryMExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@add\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryMExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@subtract\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}%
-		\def\next{\@pytexParser@tryAExprNext}%
-	\else%
-		\def\next{\relax}%
-	\fi%
-	\next%
-}
-
-
-% shift_expr ::= a_expr | shift_expr ("<<" | ">>") a_expr
-\def\@pytexParser@tryShiftExpr{%
-	\@pytexParser@tryAExpr%
-		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-		\@pytexParser@tryShiftExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
-		\@pytexLocal@end{current}%
-}
-\def\@pytexParser@tryShiftExprNext{%
-	\@pytexParser@choice%
-		{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSHIFTLEFT}}{\@pytexParser@tryAExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftleft\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSHIFTRIGHT}}{\@pytexParser@tryAExpr}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftright\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		}%
-		\def\next{\@pytexParser@tryShiftExprNext}%
-	\else%
-		\def\next{\relax}%
-	\fi%
-	\next%
-}
-
-% and_expr ::= shift_expr | and_expr "&" shift_expr
-\def\@pytexParser@tryAndExpr{%
-	\@pytexParser@tryShiftExpr%
-		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-		\@pytexParser@tryAndExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
-		\@pytexLocal@end{current}%
-}
-\def\@pytexParser@tryAndExprNext{%
-	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEAND}}{\@pytexParser@tryShiftExpr}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseand\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		\def\next{\@pytexParser@tryAndExprNext}%
-	\else%
-		\def\next{\relax}%
-	\fi%
-	\next%
-}
-
-% xor_expr ::= and_expr | xor_expr "^" and_expr
-\def\@pytexParser@tryXorExpr{%
-	\@pytexParser@tryAndExpr%
-		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-		\@pytexParser@tryXorExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
-		\@pytexLocal@end{current}%
-}
-\def\@pytexParser@tryXorExprNext{%
-	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEXOR}}{\@pytexParser@tryAndExpr}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwisexor\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		\def\next{\@pytexParser@tryXorExprNext}%
-	\else%
-		\def\next{\relax}%
-	\fi%
-	\next%
-}
-
-% or_expr  ::= xor_expr | or_expr "|" xor_expr
-\def\@pytexParser@tryOrExpr{%
-	\@pytexParser@tryXorExpr%
-		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
-		\@pytexParser@tryOrExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
-		\@pytexLocal@end{current}%
-}
-\def\@pytexParser@tryOrExprNext{%
-	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEOR}}{\@pytexParser@tryXorExpr}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseor\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
-		\def\next{\@pytexParser@tryOrExprNext}%
-	\else%
-		\def\next{\relax}%
-	\fi%
-	\next%
-}
-
-% comparison    ::= or_expr (comp_operator or_expr)*
-% comp_operator ::= "<" | ">" | "==" | ">=" | "<=" | "!="
-%                  | "is" ["not"] | ["not"] "in"
-\def\@pytexParser@tryComparison{% TODO
-	\@pytexParser@tryOrExpr%
-}
-
-
-% not_test ::= comparison | "not" not_test
-\def\@pytexParser@tryNotTest{%
-	\@pytexParser@choice{\@pytexParser@tryComparison}%
-		{%
-			\@pytexParser@join{\@pytexParser@tryToken{\tokentypeNOT}} {\@pytexParser@tryNotTest}%
-				{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\second}}}%
-		}%
-}
-
-% and_test ::= not_test | and_test "and" not_test
 \def\@pytexParser@tryConjunction{%
-	\@pytexParser@tryNotTest
+	\@pytexParser@tryInversion
 		\@pytexLocal@begin{current}%
 		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
 		\@pytexParser@tryConjunctionNext%
@@ -326,7 +98,7 @@
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryConjunctionNext{%
-	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeAND}}{\@pytexParser@tryNotTest}%
+	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeAND}}{\@pytexParser@tryInversion}%
 		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@and\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
 		\def\next{\@pytexParser@tryConjunctionNext}%
 	\else%
@@ -336,14 +108,25 @@
 }
 
 
-% (extra) TODO: 
-% 	assignment_expression  ::= [identifier ":="] expression
-%   conditional_expression ::= or_test ["if" or_test "else" expression]
-%	expression             ::= conditional_expression | lambda_expr
-%   lambda_expr            ::= "lambda" [parameter_list] ":" expression
+
+% inversion:
+%     | 'not' inversion 
+%     | comparison
+\def\@pytexParser@tryInversion{%
+	\@pytexParser@choice{\@pytexParser@tryComparison}%
+		{%
+			\@pytexParser@join{\@pytexParser@tryToken{\tokentypeNOT}} {\@pytexParser@tryInversion}%
+				{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\second}}}%
+		}%
+}
 
 
 
+
+
+
+
+% TODO: move this
 % https://docs.python.org/3/reference/grammar.html
 % star_expression:
 %     | '*' bitwise_or 
@@ -352,7 +135,7 @@
 	\@pytexParser@choice%
 		{\@pytexParser@joinSecondUnary%
 			{\@pytexParser@tryToken{\tokentypeMULTIPLY}}%
-			{\@pytexParser@tryOrExpr}%
+			{\@pytexParser@tryBitwiseOr}%
 			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@starred\e{\@pytexTMP@parserReturnValue}}}%
 		}%
 		{\@pytexParser@tryExpression}%

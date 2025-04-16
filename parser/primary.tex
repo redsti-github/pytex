@@ -1,0 +1,63 @@
+
+% await_primary:
+%     | 'await' primary 
+%     | primary
+\def\@pytexParser@tryAwaitPrimary{%
+    \@pytexParser@choice%
+    {%
+        \@pytexParser@join%
+            {\@pytexParser@tryToken{\tokentypeAWAIT}}%
+            {\@pytexParser@tryPrimary}%
+            {\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@await\e{\second}}}%
+    }%
+    {\@pytexParser@tryPrimary}%
+}
+
+% primary:
+% TODO | primary '.' NAME 
+% TODO | primary genexp 
+% TODO | primary '(' [arguments] ')' 
+% TODO | primary '[' slices ']' 
+%      | atom
+\def\@pytexParser@tryPrimary{%
+	\@pytexParser@tryAtom%
+}
+
+
+% slices:
+%     | slice !',' 
+%     | ','.(slice | starred_expression)+ [','] 
+% TODO
+
+
+% slice:
+%     | [expression] ':' [expression] [':' [expression] ] 
+%     | named_expression 
+% TODO
+
+
+% atom:
+%     | NAME
+%TODO | 'True' 
+%TODO | 'False' 
+%TODO | 'None' 
+%TODO | strings
+%     | NUMBER
+%TODO | (tuple | group | genexp)
+%TODO | (list | listcomp)
+%TODO | (dict | set | dictcomp | setcomp)
+%TODO | '...' 
+\def\@pytexParser@tryAtom{%
+	\@pytexParser@choice{\@pytexParser@tryIdentifier}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
+}
+
+
+% group:
+%     | '(' (yield_expr | named_expression) ')' 
+% TODO
+
+
+
+
+
+

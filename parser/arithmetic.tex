@@ -1,0 +1,108 @@
+
+% sum:
+%     | sum '+' term 
+%     | sum '-' term 
+%     | term
+\def\@pytexParser@trySum{%
+	\@pytexParser@tryTerm%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@trySumNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+}
+\def\@pytexParser@trySumNext{%
+	\@pytexParser@choice%
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryTerm}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@add\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryTerm}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@subtract\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}%
+		\def\next{\@pytexParser@trySumNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
+}
+
+
+
+
+% term:
+%     | term '*' factor 
+%     | term '/' factor 
+%     | term '//' factor 
+%     | term '%' factor 
+%     | term '@' factor 
+%     | factor
+\def\@pytexParser@tryTerm{%
+	\@pytexParser@tryFactor%
+		\@pytexLocal@begin{current}%
+		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\@pytexParser@tryTermNext%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\@pytexLocal@end{current}%
+}
+\def\@pytexParser@tryTermNext{%
+	\@pytexParser@choiceFive%
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMULTIPLY}}{\@pytexParser@tryFactor}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@multiply\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMATMULT}}{\@pytexParser@tryFactor}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@matmult\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeFLOORDIVIDE}}{\@pytexParser@tryFactor}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@floordivide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeDIVIDE}}{\@pytexParser@tryFactor}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@divide\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeMODULO}}{\@pytexParser@tryFactor}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@modulo\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		}%
+		\def\next{\@pytexParser@tryTermNext}%
+	\else%
+		\def\next{\relax}%
+	\fi%
+	\next%
+}
+
+
+
+
+% factor:
+%     | '+' factor 
+%     | '-' factor 
+%     | '~' factor 
+%     | power
+\def\@pytexParser@tryFactor{%
+	\@pytexParser@choiceFour%
+		{\@pytexParser@tryPower}% power
+		{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryFactor} % "-" u_expr
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@negate\e{\second}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryFactor} % "+" u_expr
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@pos\e{\second}}}%
+		}{%
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeINVERT}}{\@pytexParser@tryFactor} % "~" u_expr
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@invert\e{\second}}}%
+		}%
+}
+
+
+
+% power:
+%     | await_primary '**' factor 
+%     | await_primary
+\def\@pytexParser@tryPower{%
+	\@pytexParser@joinOptional%
+		{\@pytexParser@tryAwaitPrimary}
+		{\@pytexParser@join{\@pytexParser@tryToken{\tokentypeEXPONENTIATION}} {\@pytexParser@tryFactor} {\let\@pytexTMP@parserReturnValue\second}}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@pow\e\e\e{\e\first\e}\e{\second}}}%
+}
+
+
