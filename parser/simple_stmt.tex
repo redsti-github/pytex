@@ -1,0 +1,180 @@
+% https://docs.python.org/3/reference/simple_stmts.html
+
+
+
+% expression_stmt ::= starred_expression | expression
+\def\@pytexParser@tryExpressionStmt{% TODO
+	\@pytexParser@tryExpression%
+}
+
+% assert_stmt ::= "assert" expression ["," expression]
+\def\@pytexParser@tryAssertStmt{% TODO
+	\iffalse%
+}
+
+% target ::= identifier
+%            | "(" [target_list] ")" TODO
+%            | "[" [target_list] "]" TODO
+%            | attributeref 	TODO
+%            | subscription 	TODO
+%            | slicing 			TODO
+%            | "*" target 		TODO
+\def\@pytexParser@tryTarget{%
+	\@pytexParser@tryIdentifier%
+}
+
+% target_list ::= target ("," target)* [","]
+\def\@pytexParser@tryTargetList{%
+	\@pytexParser@tryTargetListBare% target ("," target)*
+		\wrapif{\@pytexParser@tryToken{\tokentypeCOMMA}}{}{}% [","] % TODO: technically could mangle parserReturnValue
+}
+\def\@pytexParser@tryTargetListBare{%
+	\@pytexParser@joinOptional{\@pytexParser@tryTarget}%
+		{\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeCOMMA}}{\@pytexParser@tryTargetList}}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@targetList\e\e\et{\e\first\e}\e{\second}}}%
+}
+
+\def\@pytexParser@tryYieldExpr{\iffalse}% TODO
+
+% assignment_stmt ::= (target_list "=")+ (starred_expression | yield_expression)
+\def\@pytexParser@tryAssignmentStmt{% TODO
+	\@pytexParser@join%
+		{\@pytexParser@tryAsignmentList}%
+		{\@pytexParser@choice{\@pytexParser@tryStarExpression}{\@pytexParser@tryYieldExpr}}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@assignment\e\e\e{\e\first\e}\e{\second}}}%
+}
+\def\@pytexParser@tryAsignmentList{% (target_list "=")+
+	\@pytexParser@joinOptional%
+		{\@pytexParser@joinFirst{\@pytexParser@tryTargetList}{\@pytexParser@tryToken{\tokentypeASSIGN}}}% target_list "="
+		{\@pytexParser@tryAsignmentList}% repeat
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@assignmentList\e\e\et{\e\first\e}\e{\second}}}%
+}
+
+
+% augmented_assignment_stmt ::= augtarget augop (expression_list | yield_expression)
+% augtarget                 ::= identifier | attributeref | subscription | slicing
+% augop                     ::= "+=" | "-=" | "*=" | "@=" | "/=" | "//=" | "%=" | "**="
+%                               | ">>=" | "<<=" | "&=" | "^=" | "|="
+\def\@pytexParser@tryAugmentedAssignmentStmt{% TODO
+	\iffalse%
+}
+
+
+% annotated_assignment_stmt ::= augtarget ":" expression
+%                               ["=" (starred_expression | yield_expression)]
+\def\@pytexParser@tryAnnotatedAssignmentStmt{% TODO
+	\iffalse%
+}
+
+% pass_stmt ::= "pass"
+\def\@pytexParser@tryPassStmt{%
+	\@pytexParser@tryToken{\tokentypePASS}%
+		\def\@pytexTMP@parserReturnValue{\@pytexOperator@pass}% TODO: does this make sense?
+}
+
+% del_stmt ::= "del" target_list
+\def\@pytexParser@tryDelStmt{% TODO
+	\iffalse%
+}
+
+% return_stmt ::= "return" [expression_list]
+\def\@pytexParser@tryReturnStmt{% TODO
+	\iffalse%
+}
+
+% yield_stmt ::= yield_expression
+\def\@pytexParser@tryYieldStmt{% TODO
+	\iffalse%\@pytexParser@tryYieldExpr%
+}
+
+% raise_stmt ::= "raise" [expression ["from" expression]]
+\def\@pytexParser@tryRaiseStmt{% TODO
+	\iffalse%
+}
+
+% break_stmt ::= "break"
+\def\@pytexParser@tryBreakStmt{%
+	\@pytexParser@tryToken{\tokentypeBREAK}%
+		\def\@pytexTMP@parserReturnValue{\@pytexOperator@break}%
+}
+
+% continue_stmt ::= "continue"
+\def\@pytexParser@tryContinueStmt{%
+	\@pytexParser@tryToken{\tokentypeCONTINUE}%
+		\def\@pytexTMP@parserReturnValue{\@pytexOperator@continue}%
+}
+
+%
+\def\@pytexParser@tryImportStmt{% WONT BE IMPLEMENTED
+	\iffalse%
+}
+
+%
+\def\@pytexParser@tryFutureStmt{% WONT BE IMPLEMENTED
+	\iffalse%
+}
+
+% global_stmt ::= "global" identifier ("," identifier)*
+\def\@pytexParser@tryGlobalStmt{% TODO
+	\iffalse%
+}
+
+% nonlocal_stmt ::= "nonlocal" identifier ("," identifier)*
+\def\@pytexParser@tryNonlocalStmt{% TODO
+	\iffalse%
+}
+
+% type_stmt ::= 'type' identifier [type_params] "=" expression
+\def\@pytexParser@tryTypeStmt{% TODO
+	\iffalse%
+}
+
+
+
+
+
+
+% simple_stmt ::= expression_stmt
+%               | assert_stmt
+%               | assignment_stmt
+%               | augmented_assignment_stmt
+%               | annotated_assignment_stmt
+%               | pass_stmt
+%               | del_stmt
+%               | return_stmt
+%               | yield_stmt
+%               | raise_stmt
+%               | break_stmt
+%               | continue_stmt
+%               | import_stmt
+%               | future_stmt
+%               | global_stmt
+%               | nonlocal_stmt
+%               | type_stmt
+\def\@pytexParser@trySimpleStmt{%
+	\@pytexParser@choiceFour%
+	{\@pytexParser@choiceFive%
+		{\@pytexParser@tryAssertStmt}%
+		{\@pytexParser@tryAssignmentStmt}%
+		{\@pytexParser@tryAugmentedAssignmentStmt}%
+		{\@pytexParser@tryAnnotatedAssignmentStmt}%
+		{\@pytexParser@tryExpressionStmt}%
+	}{\@pytexParser@choiceFive%
+		{\@pytexParser@tryPassStmt}%
+		{\@pytexParser@tryDelStmt}%
+		{\@pytexParser@tryReturnStmt}%
+		{\@pytexParser@tryYieldStmt}%
+		{\@pytexParser@tryRaiseStmt}%
+	}{\@pytexParser@choiceFive%
+		{\@pytexParser@tryBreakStmt}%
+		{\@pytexParser@tryContinueStmt}%
+		{\@pytexParser@tryImportStmt}%
+		{\@pytexParser@tryFutureStmt}%
+		{\@pytexParser@tryGlobalStmt}%
+	}{\@pytexParser@choice%
+		{\@pytexParser@tryNonlocalStmt}%
+		{\@pytexParser@tryTypeStmt}%
+	}%
+}
+
+

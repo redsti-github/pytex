@@ -50,7 +50,13 @@
 \enumnext{IF}
 \enumnext{ELSE}
 \enumnext{FOR}
+\enumnext{PASS}
+\enumnext{BREAK}
+\enumnext{CONTINUE}
+\enumnext{RETURN}
 
+% other
+\enumnext{COMMA}
 
 
 % token macros - sets \toketype and, optionally, \tokenvalue
@@ -89,16 +95,21 @@
 
 
 \def\currentidx{0}
+\def\@pytexTMP@parserReturnValue{\undefined}
 \@pytexStack@new{idxsavestack}
+\@pytexStack@new{resultsavestack}
 
 \def\savestate{%
 	\e\idxsavestack@push\e{\currentidx}%
+	\e\resultsavestack@push\e{\@pytexTMP@parserReturnValue}%
 }
 \def\restorestate{%
 	\@pytexStack@pop{idxsavestack}{\currentidx}%
+	\@pytexStack@pop{resultsavestack}{\@pytexTMP@parserReturnValue}%
 }
 \def\commitstate{%
 	\@pytexStack@popd{idxsavestack}%
+	\@pytexStack@popd{resultsavestack}%
 }
 
 
@@ -162,6 +173,12 @@
 }
 
 
+\def\@pytexParser@tryIdentifier{%
+	\@pytexParser@tryToken{\tokentypeIDENTIFIER}%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
+}
+
+
 
 % #1 = first thing, #2 = second thing, #3 = joining operation (results of #1 and #2 are in \first and \second)
 % result ::= #1 #2
@@ -181,6 +198,81 @@
 	}{%
 		\def\ifresult{0}%
 		\restorestate%
+	}%
+	\ifnum\ifresult=1 %
+}
+
+% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is automatically set to the return value of #1
+\def\@pytexParser@joinFirst#1#2{%
+	\savestate%
+	\wrapif{#1}{%
+		\e\wrapifsw\e{\e\def\e\@pytexTMP@parserReturnValue\e{\@pytexTMP@parserReturnValue}%
+			\commitstate%
+			\def\ifresult{1}%
+		}{#2}{%
+			\restorestate%
+			\def\ifresult{0}%
+		}%
+	}{%
+		\restorestate%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+
+% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is automatically set to the return value of #2
+\def\@pytexParser@joinSecond#1#2{%
+	\savestate%
+	\wrapif{#1}{% TODO: this could mangle parserReturnValue
+		\wrapif{#2}{%
+			\commitstate%
+			\def\ifresult{1}%
+		}{%
+			\restorestate%
+			\def\ifresult{0}%
+		}%
+	}{%
+		\restorestate%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+
+% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is set to #3 (given \@pytexTMP@parserReturnValue as result of #1)
+\def\@pytexParser@joinFirstUnary#1#2#3{%
+	\savestate%
+	\wrapif{#1}{%
+		\e\wrapifsw\e{%
+			\e\def\e\@pytexTMP@parserReturnValue\e{\@pytexTMP@parserReturnValue}%
+			#3%
+			\commitstate%
+			\def\ifresult{1}%
+		}{#2}{%
+			\restorestate%
+			\def\ifresult{0}%
+		}%
+	}{%
+		\restorestate%
+		\def\ifresult{0}%
+	}%
+	\ifnum\ifresult=1 %
+}
+
+% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is set to #3 (given \@pytexTMP@parserReturnValue as result of #2)
+\def\@pytexParser@joinSecondUnary#1#2#3{%
+	\savestate%
+	\wrapif{#1}{%
+		\wrapif{#2}{%
+			#3%
+			\commitstate%
+			\def\ifresult{1}%
+		}{%
+			\restorestate%
+			\def\ifresult{0}%
+		}%
+	}{%
+		\restorestate%
+		\def\ifresult{0}%
 	}%
 	\ifnum\ifresult=1 %
 }
@@ -209,7 +301,10 @@
 
 
 
+
+
 \input{parser/expression.tex}
+\input{parser/simple_stmt.tex}
 
 
 
@@ -231,7 +326,7 @@
 }
 
 \def\@pytexParser@skipEmptyLines{%
-	\ifmatch{0}%
+	\ifmatch{\tokentypeNEWLINE}%
 		\def\next{\@pytexParser@skipEmptyLines}%
 	\else%
 		\def\next{\relax}%
@@ -241,16 +336,24 @@
 
 \def\@pytexParser@statement{%
 	\@pytexParser@skipEmptyLines%
-	\@pytexParser@expression% TODO: expect newline after (or ';')
+	\wrapif{\@pytexParser@trySimpleStmt}{}%
+	{%
+		\let\@pytexTMP@parserReturnValue\undefined%
+		EXPECTED SOMETHING!
+	}%
 }
 
 \def\@pytexParser@parseNext{%
-	\def\parseNext{\relax}%
 	\ifnum \@pytexTokeniser@TokenList@size > 0 %
 		\@pytexParser@statement%
+		%
 		\show\@pytexTMP@parserReturnValue%
+		%
+		\def\next{\@pytexParser@parseNext}%
+	\else %
+		\def\next{\relax}%
 	\fi %
-	\parseNext%
+	\next%
 }
 
 \def\@pytexParser@parse{

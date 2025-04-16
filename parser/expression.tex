@@ -18,7 +18,7 @@
 % atom ::= identifier | literal | enclosure
 % TODO: non number literals, enclosures
 \def\@pytexParser@tryAtom{%
-	\@pytexParser@choice{\@pytexParser@tryToken{\tokentypeIDENTIFIER}}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
+	\@pytexParser@choice{\@pytexParser@tryIdentifier}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
 }
 
 
@@ -247,7 +247,7 @@
 \def\@pytexParser@tryNotTest{%
 	\@pytexParser@choice{\@pytexParser@tryComparison}%
 		{%
-			\@pytesParser@join{\@pytexParser@tryToken{\tokentypeNOT}} {\@pytexParser@tryNotTest}%
+			\@pytexParser@join{\@pytexParser@tryToken{\tokentypeNOT}} {\@pytexParser@tryNotTest}%
 				{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\second}}}%
 		}%
 }
@@ -305,12 +305,25 @@
 % 	assignment_expression  ::= [identifier ":="] expression
 %   conditional_expression ::= or_test ["if" or_test "else" expression]
 %	expression             ::= conditional_expression | lambda_expr
+%   lambda_expr            ::= "lambda" [parameter_list] ":" expression
 
 
 
+% https://docs.python.org/3/reference/grammar.html
+% star_expression:
+%     | '*' bitwise_or 
+%     | expression
+\def\@pytexParser@tryStarExpression{%
+	\@pytexParser@choice%
+		{\@pytexParser@joinSecondUnary%
+			{\@pytexParser@tryToken{\tokentypeMULTIPLY}}%
+			{\@pytexParser@tryOrExpr}%
+			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@starred\e{\@pytexTMP@parserReturnValue}}}%
+		}%
+		{\@pytexParser@tryExpression}%
+}
 
-\def\@pytexParser@expression{%
-	\@pytexParser@tryOrTest\else%
-		EXPECTED EXPRESSION!
-	\fi%
+
+\def\@pytexParser@tryExpression{%
+	\@pytexParser@tryOrTest%
 }
