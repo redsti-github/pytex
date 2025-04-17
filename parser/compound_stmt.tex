@@ -86,35 +86,46 @@
 
 
 % if_stmt:
-%     | 'if' named_expression ':' block elif_stmt	TODO
+%     | 'if' named_expression ':' block elif_stmt
 %     | 'if' named_expression ':' block [else_block]
 \def\@pytexParser@tryIfStmt{%
 	\@pytexParser@joinSecond%
-		{\@pytexParser@tryToken{\tokentypeIF}}% 'if'
-		{\@pytexParser@join%
-			{\@pytexParser@tryNamedExpression}% named_expression
-			{\@pytexParser@joinSecond%
-				{\@pytexParser@tryToken{\tokentypeCOLON}}% ':'
-				{\@pytexParser@tryBlock}%
-			}%
-			{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e{\e\first\e}\e{\second}}} % format as macro arguments, to add \operatorIf or \operatorIfElse later
+		{\@pytexParser@tryToken{\tokentypeIF}}%
+		{\@pytexParser@tryIfStmtBare}%
+}
+
+% if_stmt_bare:
+%     | named_expression ':' block elif_stmt
+%     | named_expression ':' block [else_block]
+\def\@pytexParser@tryIfStmtBare{%
+	\@pytexParser@join%
+		{\@pytexParser@tryNamedExpression}% named_expression
+		{\@pytexParser@joinSecond%
+			{\@pytexParser@tryToken{\tokentypeCOLON}}% ':'
+			{\@pytexParser@tryBlock}%
 		}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e{\e\first\e}\e{\second}}} % format as macro arguments, to add \operatorIf or \operatorIfElse later
+		%
 		% test whether we have an if-else (or if-elif), or only if
 		\e\wrapifsw\e{\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
 			% we have an if-else
 			\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@ifelse\e\first\e{\@pytexTMP@parserReturnValue}}%
 		}%
-		{\@pytexParser@tryElseBlock}%
+		{\@pytexParser@choice{\@pytexParser@tryElseBlock}{\@pytexParser@tryElifStmt}}%
 		{%
 			% we only have an if
-			\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@if\first}%
+			\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@if\@pytexTMP@parserReturnValue}%
 		}%
 }
 
 % elif_stmt:
 %     | 'elif' named_expression ':' block elif_stmt
 %     | 'elif' named_expression ':' block [else_block]
-TODO
+\def\@pytexParser@tryElifStmt{%
+	\@pytexParser@joinSecond%
+		{\@pytexParser@tryToken{\tokentypeELIF}}%
+		{\@pytexParser@tryIfStmtBare}%
+}
 
 % else_block:
 %     | 'else' ':' block
