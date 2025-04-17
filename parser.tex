@@ -74,6 +74,8 @@
 
 % other
 \enumnext{COMMA}
+\enumnext{SEMICOLON}
+
 
 
 % token macros - sets \toketype and, optionally, \tokenvalue
@@ -149,8 +151,13 @@
 	\fi %
 }
 
-% result ::= #1
+% result ::= #1, parserReturnValue is left untouched
 \def\@pytexParser@tryToken#1{%
+	\ifmatch{#1}%
+}
+
+% result ::= #1
+\def\@pytexParser@tryTokenValued#1{%
 	\ifmatch{#1}%
 		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
 }
@@ -365,13 +372,6 @@
 
 
 
-\def\@pytexParser@statementAssign{ %
-	\@pytexLocal@begin{current}%
-%
-%	
-%	
-	\@pytexLocal@end{current}%
-}
 
 \def\@pytexParser@skipEmptyLines{%
 	\ifmatch{\tokentypeNEWLINE}%
@@ -382,9 +382,18 @@
 	\next%
 }
 
+\def\@pytexParser@tryCompoundStmt{\iffalse}%
+
+% statement: compound_stmt  | simple_stmts
+\def\@pytexParser@tryStatement{%
+	\@pytexParser@choice%
+		{\@pytexParser@trySimpleStmts}%
+		{\@pytexParser@tryCompoundStmt}%
+}
+
 \def\@pytexParser@statement{%
 	\@pytexParser@skipEmptyLines%
-	\wrapif{\@pytexParser@trySimpleStmt}{}%
+	\wrapif{\@pytexParser@tryStatement}{}%
 	{%
 		\let\@pytexTMP@parserReturnValue\undefined%
 		EXPECTED SOMETHING!

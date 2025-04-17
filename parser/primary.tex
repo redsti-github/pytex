@@ -48,7 +48,7 @@
 %TODO | (dict | set | dictcomp | setcomp)
 %TODO | '...' 
 \def\@pytexParser@tryAtom{%
-	\@pytexParser@choice{\@pytexParser@tryIdentifier}{\@pytexParser@tryToken{\tokentypeNUMBER}}%
+	\@pytexParser@choice{\@pytexParser@tryIdentifier}{\@pytexParser@tryTokenValued{\tokentypeNUMBER}}%
 }
 
 

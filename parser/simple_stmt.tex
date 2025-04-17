@@ -186,8 +186,23 @@
 % simple_stmts:
 %     | simple_stmt !';' NEWLINE  # Not needed, there for speedup
 %     | ';'.simple_stmt+ [';'] NEWLINE 
-% TODO
-
+\def\@pytexParser@trySimpleStmts{%
+	\@pytexParser@joinFirst%
+		{%
+			\@pytexParser@trySimpleStmtsBare%
+				\wrapif{\@pytexParser@tryToken{\tokentypeSEMICOLON}}{}{}% optionally consume semicolon
+		}%
+		{\@pytexParser@tryToken{\tokentypeNEWLINE}}% must end with a newline
+}
+\def\@pytexParser@trySimpleStmtsBare{%
+	\@pytexParser@joinOptional%
+		{\@pytexParser@trySimpleStmt}%
+		{\@pytexParser@joinSecond%
+			{\@pytexParser@tryToken{\tokentypeSEMICOLON}}%
+			{\@pytexParser@trySimpleStmtsBare}%
+		}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\first\second}}%
+}
 
 
 
