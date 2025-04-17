@@ -57,11 +57,16 @@
 % assignment_expression:
 %     | NAME ':=' ~ expression 
 % TODO
+\def\@pytexParser@tryAssignmentExpression{\iffalse }%
 
 % named_expression:
 %     | assignment_expression
 %     | expression !':='
-% TODO
+\def\@pytexParser@tryNamedExpression{%
+	\@pytexParser@choice%
+		{\@pytexParser@tryAssignmentExpression}%
+		{\@pytexParser@tryExpression}% TODO: do we need !':=' ?
+}
 
 
 % disjunction:

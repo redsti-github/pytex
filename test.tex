@@ -1,11 +1,19 @@
 
-\newcount\asd
-\asd=10
+\newcount\i
+\i=0
+
+\newcount\x
+\x=1
 
 \loop
-	\asd=\numexpr\asd-1\relax
-	a
-\ifnum \asd > 0 \repeat
+	\i=\numexpr\i+1\relax
+	\x=\numexpr\x*2\relax
+	\edef\t{\the\x}
+	\show\t
+\ifnum \i < 32 \repeat
 
+
+
+done!
 
 \bye

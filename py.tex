@@ -17,12 +17,19 @@ PROGRAM RESULT:
 
 \@pytexCatcodes@setallactive
 
+
+if a + b:
+	result1 = x + y * z - c // b % 10 ** 2
+else:
+	result3 = x & y | z ^ c
+
+
 #Test operators
 result1 = x + y * z - c // b % 10 ** 2
-result2 = x == y or y != z and x > y
+#result2 = x == y or y != z and x > y
 result3 = x & y | z ^ c
-result4 = x is y
-result5 = x in l
+#result4 = x is y
+#result5 = x in l
 # TODO:
 # result4 = x is not y
 # result5 = x not in l
@@ -34,6 +41,11 @@ result5 = x in l
 #c //= 4
 #b %= 5
 #x **= 2
+
+
+
+
+
 
 \$
 \bye

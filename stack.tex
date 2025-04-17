@@ -4,6 +4,8 @@
 	\e\def\csname #1@size\endcsname{0}%
 	\e\def\csname #1@push\endcsname##1{\@pytexStack@push{#1}{##1}}%
 	\e\def\csname #1@pop\endcsname##1{\@pytexStack@pop{#1}{##1}}%
+	\e\def\csname #1@peek\endcsname##1{\@pytexStack@peek{#1}{##1}}%
+	\e\def\csname #1@popd\endcsname{\@pytexStack@popd{#1}}%
 }
 
 % #1 = stack name, #2 = item

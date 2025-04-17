@@ -6,6 +6,12 @@
 
 \def\@pytexTokeniser@buffer{}
 \@pytexQueue@new{@pytexTokeniser@TokenList}
+
+\newcount\currentindent
+\currentindent=0
+\@pytexStack@new{indentStack}
+\indentStack@push{0}
+
 \def\@pytexTokeniser@endnametoken{
 		\ifnum\state=1
 		\def\@pytexTMP@keyword{False}
@@ -148,7 +154,8 @@
 		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
 			\@pytexTokeniser@TokenList@push{\@pytexToken@yield}
 		\else
-			\e\@pytexTokeniser@TokenList@push\e{\e\@pytexToken@Identifier\e{\@pytexTokeniser@buffer}}		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+			\e\@pytexTokeniser@TokenList@push\e{\e\@pytexToken@Identifier\e{\@pytexTokeniser@buffer}}
+		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
 		\state=0
 		\gdef\@pytexTokeniser@buffer{}
 		\let\@pytexTMP@keyword\undefined
@@ -163,8 +170,28 @@
 	\fi
 }
 
+\def\@pytexTokeniser@dedent{
+	\ifnum\currentindent<\lastindent
+		\@pytexTokeniser@TokenList@push{\@pytexToken@Dedent}
+		\indentStack@popd
+		\indentStack@peek{\lastindent}
+		\ifnum\currentindent>\lastindent
+			ERROR: INCONSISTENT DEDENT
+		\fi
+		\@pytexTokeniser@dedent
+	\fi
+}
+
 \def\@pytexTokeniser@endindent{
 	\ifnum\state=5
+		\indentStack@peek{\lastindent}
+		\ifnum\currentindent>\lastindent
+			\e\indentStack@push\e{\the\currentindent}
+			\edef\lastindent{\the\currentindent}
+			\@pytexTokeniser@TokenList@push{\@pytexToken@Indent}
+		\fi
+		\@pytexTokeniser@dedent
+		\currentindent=0
 		\state=0
 	\fi
 }
@@ -497,12 +524,18 @@
     \@pytexTokeniser@endnametoken
     \@pytexTokeniser@endnumbertoken
     \@pytexTokeniser@endsymboltoken
+    \ifnum\state=5
+        \advance\currentindent by 1
+    \fi
 }
 
 \def\@pytexChar@Tab{
     \@pytexTokeniser@endnametoken
     \@pytexTokeniser@endnumbertoken
     \@pytexTokeniser@endsymboltoken
+    \ifnum\state=5
+        \advance\currentindent by 1
+    \fi
 }
 
 \def\@pytexChar@Hash{

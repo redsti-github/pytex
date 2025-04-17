@@ -66,6 +66,7 @@
 \enumnext{AWAIT}
 \enumnext{IF}
 \enumnext{ELSE}
+\enumnext{ELIF}
 \enumnext{FOR}
 \enumnext{PASS}
 \enumnext{BREAK}
@@ -75,31 +76,47 @@
 % other
 \enumnext{COMMA}
 \enumnext{SEMICOLON}
+\enumnext{COLON}
+\enumnext{INDENT}
+\enumnext{DEDENT}
+
 
 
 
 % token macros - sets \toketype and, optionally, \tokenvalue
 \def\@pytexToken@Newline{\edef\tokentype{\tokentypeNEWLINE}}
-\def\@pytexToken@Identifier#1{\def\tokentype{\tokentypeIDENTIFIER}\def\tokenvalue{#1}}
-\def\@pytexToken@Number#1{\def\tokentype{\tokentypeNUMBER}\def\tokenvalue{#1}}
+\def\@pytexToken@Identifier#1{\edef\tokentype{\tokentypeIDENTIFIER}\def\tokenvalue{#1}}
+\def\@pytexToken@Number#1{\edef\tokentype{\tokentypeNUMBER}\def\tokenvalue{#1}}
 
-\def\@pytexToken@and{\def\tokentype{\tokentypeAND}}
-\def\@pytexToken@or{\def\tokentype{\tokentypeOR}}
-\def\@pytexToken@in{\def\tokentype{\tokentypeIN}}
-\def\@pytexToken@is{\def\tokentype{\tokentypeIS}}
-\def\@pytexToken@not{\def\tokentype{\tokentypeNOT}}
+\def\@pytexToken@and{\edef\tokentype{\tokentypeAND}}
+\def\@pytexToken@or{\edef\tokentype{\tokentypeOR}}
+\def\@pytexToken@in{\edef\tokentype{\tokentypeIN}}
+\def\@pytexToken@is{\edef\tokentype{\tokentypeIS}}
+\def\@pytexToken@not{\edef\tokentype{\tokentypeNOT}}
 
-\def\@pytexToken@Addition{\def\tokentype{\tokentypeADD}}
-\def\@pytexToken@Subtraction{\def\tokentype{\tokentypeSUBTRACT}}
-\def\@pytexToken@Multiplication{\def\tokentype{\tokentypeMULTIPLY}}
-\def\@pytexToken@Division{\def\tokentype{\tokentypeDIVIDE}}
-\def\@pytexToken@FloorDivision{\def\tokentype{\tokentypeFLOORDIVIDE}}
-\def\@pytexToken@EqualTo{\def\tokentype{\tokentypeEQUAL}}
-\def\@pytexToken@NotEqualTo{\def\tokentype{\tokentypeNOTEQUAL}}
-\def\@pytexToken@Exponentiation{\def\tokentype{\tokentypeEXPONENTIATION}}
-\def\@pytexToken@Modulo{\def\tokentype{\tokentypeMODULO}}
+\def\@pytexToken@Addition{\edef\tokentype{\tokentypeADD}}
+\def\@pytexToken@Subtraction{\edef\tokentype{\tokentypeSUBTRACT}}
+\def\@pytexToken@Multiplication{\edef\tokentype{\tokentypeMULTIPLY}}
+\def\@pytexToken@Division{\edef\tokentype{\tokentypeDIVIDE}}
+\def\@pytexToken@FloorDivision{\edef\tokentype{\tokentypeFLOORDIVIDE}}
+\def\@pytexToken@EqualTo{\edef\tokentype{\tokentypeEQUAL}}
+\def\@pytexToken@NotEqualTo{\edef\tokentype{\tokentypeNOTEQUAL}}
+\def\@pytexToken@Exponentiation{\edef\tokentype{\tokentypeEXPONENTIATION}}
+\def\@pytexToken@Modulo{\edef\tokentype{\tokentypeMODULO}}
 
-\def\@pytexToken@Assignment{\def\tokentype{\tokentypeASSIGN}}
+\def\@pytexToken@Assignment{\edef\tokentype{\tokentypeASSIGN}}
+\def\@pytexToken@Indent{\edef\tokentype{\tokentypeINDENT}}
+\def\@pytexToken@Dedent{\edef\tokentype{\tokentypeDEDENT}}
+\def\@pytexToken@BitwiseOr{\edef\tokentype{\tokentypeBITWISEOR}}
+\def\@pytexToken@BitwiseXor{\edef\tokentype{\tokentypeBITWISEXOR}}
+\def\@pytexToken@BitwiseAnd{\edef\tokentype{\tokentypeBITWISEAND}}
+
+\def\@pytexToken@if{\edef\tokentype{\tokentypeIF}}
+\def\@pytexToken@else{\edef\tokentype{\tokentypeELSE}}
+\def\@pytexToken@elif{\edef\tokentype{\tokentypeELIF}}
+\def\@pytexToken@Colon{\edef\tokentype{\tokentypeCOLON}}
+
+
 
 \def\ifmatch#1{%
 	\e\@pytexTokeniser@TokenList@getim\e{\currentidx}%
@@ -360,6 +377,7 @@
 \input{parser/comparison.tex}
 \input{parser/expression.tex}
 \input{parser/simple_stmt.tex}
+\input{parser/compound_stmt.tex}
 
 
 
@@ -381,8 +399,6 @@
 	\fi%
 	\next%
 }
-
-\def\@pytexParser@tryCompoundStmt{\iffalse}%
 
 % statement: compound_stmt  | simple_stmts
 \def\@pytexParser@tryStatement{%

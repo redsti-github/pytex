@@ -1,12 +1,136 @@
 
+% statements: statement+ 
+\def\@pytexParser@tryStatements{%
+	\@pytexParser@joinOptional%
+		{\@pytexParser@tryStatement}%
+		{\@pytexParser@tryStatements}%
+		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\first\second}}%
+}
+
+
 % compound_stmt:
 %     | function_def
-%     | if_stmt
-%     | class_def
-%     | with_stmt
-%     | for_stmt
-%     | try_stmt
-%     | while_stmt
-%     | match_stmt
+%     | if_stmt 		TODO
+%     | class_def 		TODO
+%     | with_stmt 		TODO
+%     | for_stmt 		TODO
+%     | try_stmt 		TODO
+%     | while_stmt 		TODO
+%     | match_stmt 		TODO
+\def\@pytexParser@tryCompoundStmt{%
+	\@pytexParser@choice%
+		{\@pytexParser@tryFunctionDef}%
+		{\@pytexParser@tryIfStmt}%
+}
+
+
+
+% block:
+%     | NEWLINE INDENT statements DEDENT 
+%     | simple_stmts
+\def\@pytexParser@tryBlock{%
+	\@pytexParser@choice%
+		{%
+			\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeNEWLINE}}%
+				{%
+					\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeINDENT}}%
+						{%
+							\@pytexParser@joinFirst{\@pytexParser@tryStatements}{\@pytexParser@tryToken{\tokentypeDEDENT}}	%
+						}%
+				}%
+		}%
+		{\@pytexParser@trySimpleStmts}%
+}
+
+
+
+% decorators: ('@' named_expression NEWLINE )+ 
+% TODO
+
+
+
+
+% class_def:
+%     | decorators class_def_raw 
+%     | class_def_raw
+% TODO
+
+
+
+
+% class_def_raw:
+%     | 'class' NAME [type_params] ['(' [arguments] ')' ] ':' block 
+% TODO
+
+
+
+ 
+% function_def:
+%     | decorators function_def_raw TODO
+%     | function_def_raw
+\def\@pytexParser@tryFunctionDef{%
+	\@pytexParser@tryFunctionDefRaw%
+}
+
+
+
+
+% function_def_raw:
+%     | 'def' NAME [type_params] '(' [params] ')' ['->' expression ] ':' [func_type_comment] block 
+%     | 'async' 'def' NAME [type_params] '(' [params] ')' ['->' expression ] ':' [func_type_comment] block 
+\def\@pytexParser@tryFunctionDefRaw{%
+	\iffalse % TODO
+}
+
+
+
+
+% if_stmt:
+%     | 'if' named_expression ':' block elif_stmt	TODO
+%     | 'if' named_expression ':' block [else_block]
+\def\@pytexParser@tryIfStmt{%
+	\@pytexParser@joinSecond%
+		{\@pytexParser@tryToken{\tokentypeIF}}% 'if'
+		{\@pytexParser@join%
+			{\@pytexParser@tryNamedExpression}% named_expression
+			{\@pytexParser@joinSecond%
+				{\@pytexParser@tryToken{\tokentypeCOLON}}% ':'
+				{\@pytexParser@tryBlock}%
+			}%
+			{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e{\e\first\e}\e{\second}}} % format as macro arguments, to add \operatorIf or \operatorIfElse later
+		}%
+		% test whether we have an if-else (or if-elif), or only if
+		\e\wrapifsw\e{\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
+			% we have an if-else
+			\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@ifelse\e\first\e{\@pytexTMP@parserReturnValue}}%
+		}%
+		{\@pytexParser@tryElseBlock}%
+		{%
+			% we only have an if
+			\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@if\first}%
+		}%
+}
+
+% elif_stmt:
+%     | 'elif' named_expression ':' block elif_stmt
+%     | 'elif' named_expression ':' block [else_block]
+TODO
+
+% else_block:
+%     | 'else' ':' block
+\def\@pytexParser@tryElseBlock{%
+	\@pytexParser@joinSecond%
+		{\@pytexParser@tryToken{\tokentypeELSE}}%
+		{\@pytexParser@joinSecond%
+			{\@pytexParser@tryToken{\tokentypeCOLON}}%
+			{\@pytexParser@tryBlock}%
+		}%
+}
+
+
+
+
+
+
 
 
