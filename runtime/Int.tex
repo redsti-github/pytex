@@ -1,0 +1,16 @@
+
+\def\STR_Int{Int}%
+
+% #1 = Int object ptr, #2 = object ptr
+\def\@pytexRuntime@Int@__add__#1#2{
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_Int\secondType%
+		\edef\result{\the\numexpr\csname#1@value\endcsname+\csname#2@value\endcsname}%
+		\e\@pytexCreateInt\e{\result}%
+		\show\result%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+

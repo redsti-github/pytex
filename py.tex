@@ -7,9 +7,11 @@
 \input{active_chars.tex}
 \input{tokeniser.tex}
 \input{parser.tex}
+\input{runtime.tex}
 
-\def\@pytexChar@Backslash{\loggingall\@pytexParser@parse}
+\def\@pytexChar@Backslash{\@pytexParser@parse}
 \let\@pytexChar@Dollar\bye
+
 
 %\input{clean_macros.tex}
 
@@ -17,44 +19,11 @@ PROGRAM RESULT:
 
 \@pytexCatcodes@setallactive
 
-
-if a+b:
-	c
-else:
-	d
-
-if a+b:
-	c
-
-if a+b:
-	c
-elif d+e:
-	f
-else:
-	g
-
-#Test operators
-result1 = x + y * z - c // b % 10 ** 2
-#result2 = x == y or y != z and x > y
-result3 = x & y | z ^ c
-#result4 = x is y
-#result5 = x in l
-# TODO:
-# result4 = x is not y
-# result5 = x not in l
-
-#Test operators with assignment TODO
-#x += 1
-#y -= 2
-#z *= 3
-#c //= 4
-#b %= 5
-#x **= 2
-
-
-
-
-
+a = 0
+b = 1
+c = 3
+d = 1 + 2
+e = b + d
 
 \$
 \bye

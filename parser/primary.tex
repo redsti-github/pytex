@@ -36,6 +36,16 @@
 % TODO
 
 
+\def\@pytexParser@tryInt{%
+	\@pytexParser@tryTokenValued{\tokentypeNUMBER}%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexCreateInt\e{\tokenvalue}}%
+}
+
+\def\@pytexParser@tryIdentifierExpr{%
+	\@pytexParser@tryIdentifier%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexRuntime@GetIdentifier\e{\tokenvalue}}%
+}
+
 % atom:
 %     | NAME
 %TODO | 'True' 
@@ -48,7 +58,9 @@
 %TODO | (dict | set | dictcomp | setcomp)
 %TODO | '...' 
 \def\@pytexParser@tryAtom{%
-	\@pytexParser@choice{\@pytexParser@tryIdentifier}{\@pytexParser@tryTokenValued{\tokentypeNUMBER}}%
+	\@pytexParser@choice%
+		{\@pytexParser@tryIdentifierExpr}%
+		{\@pytexParser@tryInt}%
 }
 
 

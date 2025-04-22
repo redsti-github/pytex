@@ -1,0 +1,62 @@
+
+\input{runtime/Int.tex}
+
+\def\Swap#1#2{%
+	#2%
+	#1%
+}
+
+\let\@pytexRuntime@return\undefined
+
+\newcount\objnum
+\objnum=0
+
+\def\@pytexRuntime@alloc{% -> empty object ptr TODO: refcounting
+	\advance\objnum by 1\relax%
+	\edef\@pytexRuntime@return{@pytexObject@\the\objnum}%
+}
+
+\def\@pytexRuntime@allocType#1{% -> empty object ptr with type #1
+	\@pytexRuntime@alloc%
+	\e\e\e\def\e\csname\@pytexRuntime@return @type\endcsname{#1}%
+}
+
+\def\@pytexRuntime@Typeof#1{%
+	\csname#1@type\endcsname%
+}
+
+\def\@pytexCreateInt#1{% -> int object ptr
+	\@pytexRuntime@allocType{Int}%
+	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
+}
+
+% #1 = name, \@pytexRuntime@return = value
+\def\@pytexRuntime@assign#1{%
+	\e\let\csname @pytexRuntime@currentScope@#1\endcsname\@pytexRuntime@return%
+}
+
+% #1 = name
+\def\@pytexRuntime@GetIdentifier#1{% -> object ptr
+	\e\let\e\@pytexRuntime@return\csname @pytexRuntime@currentScope@#1\endcsname%
+}
+
+
+% #1 = name (for now), #2 = expression
+\def\@pytexOperator@assignment#1#2{%
+	#2%
+	\@pytexRuntime@assign{#1}%
+}
+
+% #1, #2 = expression
+\def\@pytexOperator@add#1#2{%
+	#1%
+	\e\Swap\e{\e\def\e\first\e{\@pytexRuntime@return}}{#2}%
+	\let\second\@pytexRuntime@return%
+	%
+	\edef\firsttype{\e\@pytexRuntime@Typeof\e{\first}}%
+	%
+	\edef\func{@pytexRuntime@\firsttype @__add__}%
+	\begingroup\e\endgroup\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
+}
+
