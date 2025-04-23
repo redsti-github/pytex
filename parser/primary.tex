@@ -38,7 +38,7 @@
 
 \def\@pytexParser@tryInt{%
 	\@pytexParser@tryTokenValued{\tokentypeNUMBER}%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexCreateInt\e{\tokenvalue}}%
+		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexRuntime@int\e{\tokenvalue}}%
 }
 
 \def\@pytexParser@tryIdentifierExpr{%
@@ -46,21 +46,30 @@
 		\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexRuntime@GetIdentifier\e{\tokenvalue}}%
 }
 
+\def\@pytexParser@tryBool{%
+	\@pytexParser@choice%
+	{\@pytexParser@tryToken{\tokentypeTRUE}%
+		\def\@pytexTMP@parserReturnValue{\@pytexRuntime@boolTrue}}%
+	{\@pytexParser@tryToken{\tokentypeFALSE}%
+		\def\@pytexTMP@parserReturnValue{\@pytexRuntime@boolFalse}}%
+}
+
 % atom:
 %     | NAME
-%TODO | 'True' 
-%TODO | 'False' 
-%TODO | 'None' 
+%     | 'True'
+%     | 'False'
+%TODO | 'None'
 %TODO | strings
 %     | NUMBER
 %TODO | (tuple | group | genexp)
 %TODO | (list | listcomp)
 %TODO | (dict | set | dictcomp | setcomp)
-%TODO | '...' 
+%TODO | '...'
 \def\@pytexParser@tryAtom{%
-	\@pytexParser@choice%
+	\@pytexParser@choiceThree%
 		{\@pytexParser@tryIdentifierExpr}%
 		{\@pytexParser@tryInt}%
+		{\@pytexParser@tryBool}%
 }
 
 

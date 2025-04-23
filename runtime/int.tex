@@ -1,0 +1,177 @@
+
+\def\STR_int{int}%
+
+\def\@pytexRuntime@int#1{% -> int object ptr
+	\@pytexRuntime@allocType{int}%
+	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Arithmetic operations
+% #1 = Int object ptr, #2 = object ptr
+\def\@pytexRuntime@int@__add__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\edef\result{\the\numexpr\csname#1@value\endcsname+\csname#2@value\endcsname}%
+		\e\@pytexRuntime@int\e{\result}%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+% #1 = Int object ptr, #2 = object ptr
+\def\@pytexRuntime@int@__sub__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\edef\result{\the\numexpr\csname#1@value\endcsname-\csname#2@value\endcsname}%
+		\e\@pytexRuntime@int\e{\result}%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+% #1 = Int object ptr, #2 = object ptr
+\def\@pytexRuntime@int@__mul__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\edef\result{\the\numexpr\csname#1@value\endcsname*\csname#2@value\endcsname}%
+		\e\@pytexRuntime@int\e{\result}%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+% #1 = Int object ptr, #2 = object ptr
+\def\@pytexRuntime@int@__floordiv__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\edef\result{\the\numexpr\csname#1@value\endcsname/\csname#2@value\endcsname}%
+		\e\@pytexRuntime@int\e{\result}%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Type conversions
+% #1 = Int object ptr
+\def\@pytexRuntime@int@__bool__#1{%
+	\ifnum\csname#1@value\endcsname=0 %
+		\@pytexRuntime@boolFalse%
+	\else%
+		\@pytexRuntime@boolTrue%
+	\fi%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unary operators
+% #1 = Int object ptr
+\def\@pytexRuntime@int@__pos__#1{%
+	\edef\result{\csname#1@value\endcsname}%
+	\e\@pytexRuntime@int\e{\result}%
+}
+
+% #1 = Int object ptr
+\def\@pytexRuntime@int@__neg__#1{%
+	\edef\result{\the\numexpr0-\csname#1@value\endcsname}%
+	\e\@pytexRuntime@int\e{\result}%
+}
+
+% #1 = Int object ptr
+\def\@pytexRuntime@int@__abs__#1{%
+	\edef\result{\csname#1@value\endcsname}%
+	\ifnum\result<0 %
+		\e\@pytexRuntime@int\e{\the\numexpr0-\result}%
+	\else%
+		\e\@pytexRuntime@int\e{\result}%
+	\fi%
+}
+
+
+
+
+% python 3.11.2
+% >>> dir(int)
+% [
+% # type conversions
+% '__int__',	TODO
+% '__bool__',	DONE
+% '__float__',	TODO
+% '__str__',	TODO
+% '__repr__',	TODO
+
+
+% # unary operators
+% '__pos__',	DONE
+% '__neg__',	DONE
+% '__abs__', 	DONE
+% '__ceil__',	TODO
+% '__invert__',	TODO
+% '__round__',	TODO
+% '__trunc__',	TODO
+% '__floor__',	TODO
+
+
+% # arithmetic operators
+% '__add__',		DONE
+% '__sub__',		DONE
+% '__mul__', 		DONE
+% '__truediv__',	TODO
+% '__divmod__',		TODO
+% '__floordiv__',	DONE
+% '__mod__',		TODO
+% '__pow__',		TODO
+
+% '__radd__',		TODO
+% '__rsub__',		TODO
+% '__rmul__',		TODO
+% '__rtruediv__',	TODO
+% '__rdivmod__',	TODO
+% '__rfloordiv__',	TODO
+% '__rmod__',		TODO
+% '__rpow__',		TODO
+
+
+% # bitwise operators
+% '__and__',		TODO
+% '__xor__',		TODO
+% '__or__',			TODO
+% '__lshift__',		TODO
+% '__rshift__',		TODO
+
+% '__rand__',		TODO
+% '__rxor__',		TODO
+% '__ror__',		TODO
+% '__rlshift__',	TODO
+% '__rrshift__',	TODO
+
+
+% # comparisons
+% '__eq__',		TODO
+% '__ne__',		TODO
+% '__gt__',		TODO
+% '__ge__',		TODO
+% '__lt__',		TODO
+% '__le__',		TODO
+
+
+% # other (TODO)
+% '__delattr__',
+% '__doc__',
+% '__dir__',
+% '__class__',
+% '__format__',
+% '__getattribute__',
+% '__getnewargs__',
+% '__getstate__',
+% '__hash__',
+% '__index__',
+% '__init__',
+% '__init_subclass__',
+% '__new__',
+% '__reduce__',
+% '__reduce_ex__',
+% '__setattr__',
+% '__sizeof__',
+% '__subclasshook__',
+% 'as_integer_ratio', 'bit_count', 'bit_length', 'conjugate', 'denominator', 'from_bytes', 'imag', 'numerator', 'real', 'to_bytes']
+
+

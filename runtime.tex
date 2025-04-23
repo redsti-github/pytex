@@ -1,5 +1,6 @@
 
-\input{runtime/Int.tex}
+\input{runtime/int.tex}
+\input{runtime/bool.tex}
 
 \def\Swap#1#2{%
 	#2%
@@ -23,11 +24,6 @@
 
 \def\@pytexRuntime@Typeof#1{%
 	\csname#1@type\endcsname%
-}
-
-\def\@pytexCreateInt#1{% -> int object ptr
-	\@pytexRuntime@allocType{Int}%
-	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
 }
 
 % #1 = name, \@pytexRuntime@return = value
@@ -56,7 +52,100 @@
 	\edef\firsttype{\e\@pytexRuntime@Typeof\e{\first}}%
 	%
 	\edef\func{@pytexRuntime@\firsttype @__add__}%
-	\begingroup\e\endgroup\e\def\e\func\e{\csname\e\func\endcsname}%
-	\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: throw NotImplemented error (or other?) -> try reversed operator?
+		\edef\secondtype{\e\@pytexRuntime@Typeof\e{\second}}%
+		\@pytexError{TypeError: unsupported operand type(s) for +: '\firsttype' and '\secondtype'}%
+	\else%
+		\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
+	\fi%
+}
+
+% #1, #2 = expression
+\def\@pytexOperator@subtract#1#2{%
+	#1%
+	\e\Swap\e{\e\def\e\first\e{\@pytexRuntime@return}}{#2}%
+	\let\second\@pytexRuntime@return%
+	%
+	\edef\firsttype{\e\@pytexRuntime@Typeof\e{\first}}%
+	%
+	\edef\func{@pytexRuntime@\firsttype @__sub__}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: throw NotImplemented error (or other?) -> try reversed operator?
+		\edef\secondtype{\e\@pytexRuntime@Typeof\e{\second}}%
+		\@pytexError{TypeError: unsupported operand type(s) for -: '\firsttype' and '\secondtype'}%
+	\else%
+		\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
+	\fi%
+}
+
+% #1, #2 = expression
+\def\@pytexOperator@multiply#1#2{%
+	#1%
+	\e\Swap\e{\e\def\e\first\e{\@pytexRuntime@return}}{#2}%
+	\let\second\@pytexRuntime@return%
+	%
+	\edef\firsttype{\e\@pytexRuntime@Typeof\e{\first}}%
+	%
+	\edef\func{@pytexRuntime@\firsttype @__mul__}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: throw NotImplemented error (or other?) -> try reversed operator?
+		\edef\secondtype{\e\@pytexRuntime@Typeof\e{\second}}%
+		\@pytexError{TypeError: unsupported operand type(s) for -: '\firsttype' and '\secondtype'}%
+	\else%
+		\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
+	\fi%
+}
+
+% #1, #2 = expression
+\def\@pytexOperator@floordivide#1#2{%
+	#1%
+	\e\Swap\e{\e\def\e\first\e{\@pytexRuntime@return}}{#2}%
+	\let\second\@pytexRuntime@return%
+	%
+	\edef\firsttype{\e\@pytexRuntime@Typeof\e{\first}}%
+	%
+	\edef\func{@pytexRuntime@\firsttype @__floordiv__}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: throw NotImplemented error (or other?) -> try reversed operator?
+		\edef\secondtype{\e\@pytexRuntime@Typeof\e{\second}}%
+		\@pytexError{TypeError: unsupported operand type(s) for -: '\firsttype' and '\secondtype'}%
+	\else%
+		\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
+	\fi%
+}
+
+% #1 = condition (expression)
+% #2 = iftrue block
+% #3 = iffalse block
+\def\@pytexOperator@ifelse#1#2#3{%
+	#1%
+	\edef\type{\e\@pytexRuntime@Typeof\e{\@pytexRuntime@return}}%
+	%
+	\edef\func{@pytexRuntime@\type @__bool__}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: try __len__ != 0, otherwise True if \type isn't 'None'
+		\@pytexError{Internal error}%
+	\else%
+		\e\func\e{\@pytexRuntime@return}%
+	\fi%
+	%
+	\show\@pytexRuntime@return%
+	\wrapif{\e\@pytexRuntime@boolIf\e{\@pytexRuntime@return}}{%
+		#2%	
+	}{%
+		#3%
+	}%
+}
+
+% #1 = condition (expression)
+% #2 = iftrue block
+\def\@pytexOperator@if#1#2{%
+	\@pytexOperator@ifelse{#1}{#2}{}%
 }
 

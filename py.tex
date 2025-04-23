@@ -1,6 +1,10 @@
 \let\e\expandafter
 \catcode`@=11
 
+\def\@pytexError#1{%
+	\errmessage{#1}%
+}
+
 \input{stack.tex}
 \input{queue.tex}
 \input{localvar.tex}
@@ -9,7 +13,7 @@
 \input{parser.tex}
 \input{runtime.tex}
 
-\def\@pytexChar@Backslash{\@pytexParser@parse}
+\def\@pytexChar@Backslash{\loggingall\@pytexParser@parse}
 \let\@pytexChar@Dollar\bye
 
 
@@ -22,8 +26,14 @@ PROGRAM RESULT:
 a = 0
 b = 1
 c = 3
-d = 1 + 2
-e = b + d
+x = True
+y = False
+
+if x:
+	a = b + c
+else:
+	a = -1
+
 
 \$
 \bye

@@ -1,0 +1,146 @@
+
+\def\STR_bool{bool}%
+
+\def\@pytexRuntime@bool#1{% -> bool object ptr
+	\@pytexRuntime@allocType{bool}%
+	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
+	\show\@pytexRuntime@return%
+}
+
+\def\@pytexRuntime@boolTrue{%
+	\@pytexRuntime@bool{1}%
+}
+
+\def\@pytexRuntime@boolFalse{%
+	\@pytexRuntime@bool{0}%
+}
+
+% #1 = bool object ptr
+\def\@pytexRuntime@boolCopy#1{%
+	\e\e\e\@pytexRuntime@bool\e\e\e{\csname#1@value\endcsname}%
+}
+
+\def\@pytexRuntime@boolIf#1{%
+	\e\e\e\ifnum\csname#1@value\endcsname=1 %
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Type conversions
+
+% #1 = bool object ptr
+\def\@pytexRuntime@bool@__int__#1{%
+	\e\e\e\@pytexRuntime@int\e\e\e{\csname#1@value\endcsname}%
+}
+
+% #1 = bool object ptr
+\def\@pytexRuntime@bool@__bool__#1{%
+	\@pytexRuntime@boolCopy#1%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unary operators
+
+\let\@pytexRuntime@bool@__abs__\@pytexRuntime@bool@__int__
+\let\@pytexRuntime@bool@__pos__\@pytexRuntime@bool@__int__
+\let\@pytexRuntime@bool@__ceil__\@pytexRuntime@bool@__int__
+\let\@pytexRuntime@bool@__floor__\@pytexRuntime@bool@__int__
+\let\@pytexRuntime@bool@__trunc__\@pytexRuntime@bool@__int__
+\let\@pytexRuntime@bool@__round__\@pytexRuntime@bool@__int__
+
+
+
+
+
+% python 3.11.2
+% >>> dir(bool)
+% [
+% # type conversions
+% '__int__',	DONE
+% '__bool__',	DONE
+% '__float__',	TODO
+% '__str__',	TODO
+% '__repr__',	TODO
+
+
+% # unary operators
+% '__pos__',		DONE
+% '__neg__',		TODO
+% '__abs__',		DONE
+% '__ceil__',		DONE
+% '__floor__',		DONE
+% '__invert__',		TODO
+% '__trunc__',		DONE
+% '__round__',		DONE
+
+
+% # arithmetic operators
+% '__add__',		TODO
+% '__sub__',		TODO
+% '__mul__',		TODO
+% '__truediv__',	TODO
+% '__divmod__',		TODO
+% '__floordiv__',	TODO
+% '__mod__',		TODO
+% '__pow__',		TODO
+
+% '__radd__',		TODO
+% '__rsub__',		TODO
+% '__rmul__',		TODO
+% '__rtruediv__',	TODO
+% '__rdivmod__',	TODO
+% '__rfloordiv__',	TODO
+% '__rmod__',		TODO
+% '__rpow__',		TODO
+
+
+% # bitwise operators
+% '__and__',		TODO
+% '__xor__',		TODO
+% '__or__',			TODO
+% '__lshift__',		TODO
+% '__rshift__',		TODO
+
+% '__rand__',		TODO
+% '__rxor__',		TODO
+% '__ror__',		TODO
+% '__rlshift__',	TODO
+% '__rrshift__',	TODO
+
+
+% # comparisons
+% '__eq__',		TODO
+% '__ne__',		TODO
+% '__gt__',		TODO
+% '__ge__',		TODO
+% '__lt__',		TODO
+% '__le__',		TODO
+
+
+% # other
+% '__getattribute__',	TODO
+% '__getnewargs__',		TODO
+% '__getstate__',		TODO
+% '__init_subclass__',	TODO
+% '__subclasshook__',	TODO
+% '__class__',		TODO
+% '__delattr__',	TODO
+% '__dir__',		TODO
+% '__doc__',		TODO
+% '__format__',		TODO
+% '__hash__',		TODO
+% '__index__',		TODO
+% '__init__',		TODO
+% '__new__',		TODO
+% '__reduce__',		TODO
+% '__reduce_ex__',	TODO
+% '__setattr__',	TODO
+% '__sizeof__',		TODO
+% 'bit_count',		TODO
+% 'bit_length',		TODO
+% 'conjugate',		TODO
+% 'denominator',	TODO
+% 'from_bytes',		TODO
+% 'imag',			TODO
+% 'numerator',		TODO
+% 'real',			TODO
+% 'to_bytes'		TODO
+% 'as_integer_ratio',	TODO
+% ]

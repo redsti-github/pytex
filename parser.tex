@@ -72,6 +72,8 @@
 \enumnext{BREAK}
 \enumnext{CONTINUE}
 \enumnext{RETURN}
+\enumnext{TRUE}
+\enumnext{FALSE}
 
 % other
 \enumnext{COMMA}
@@ -115,6 +117,9 @@
 \def\@pytexToken@else{\edef\tokentype{\tokentypeELSE}}
 \def\@pytexToken@elif{\edef\tokentype{\tokentypeELIF}}
 \def\@pytexToken@Colon{\edef\tokentype{\tokentypeCOLON}}
+\def\@pytexToken@True{\edef\tokentype{\tokentypeTRUE}}
+\def\@pytexToken@False{\edef\tokentype{\tokentypeFALSE}}
+
 
 
 
@@ -418,7 +423,7 @@
 			EXPECTED SOMETHING!
 		}%
 		%
-		\show\@pytexTMP@parserReturnValue%
+		%\show\@pytexTMP@parserReturnValue%
 		\@pytexTMP@parserReturnValue%
 		%
 		\def\next{\@pytexParser@parseNext}%

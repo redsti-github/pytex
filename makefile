@@ -14,8 +14,8 @@ active_chars.tex: gen_active.py
 tokeniser.tex: gen_token.py
 	python3 gen_token.py
 
-clean_macros.tex: scan.py active_chars.tex tokeniser.tex py.tex
-	python3 scan.py
+#clean_macros.tex: scan.py active_chars.tex tokeniser.tex py.tex
+#	python3 scan.py
 
 .PHONY: clean
 clean:
