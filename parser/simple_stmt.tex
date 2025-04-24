@@ -69,7 +69,7 @@
 % pass_stmt ::= "pass"
 \def\@pytexParser@tryPassStmt{%
 	\@pytexParser@tryToken{\tokentypePASS}%
-		\def\@pytexTMP@parserReturnValue{\@pytexOperator@pass}% TODO: does this make sense?
+		\def\@pytexTMP@parserReturnValue{}%
 }
 
 % del_stmt ::= "del" target_list
