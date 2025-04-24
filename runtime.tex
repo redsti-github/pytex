@@ -126,16 +126,19 @@
 	#1%
 	\edef\type{\e\@pytexRuntime@Typeof\e{\@pytexRuntime@return}}%
 	%
-	\edef\func{@pytexRuntime@\type @__bool__}%
-	\e\def\e\func\e{\csname\e\func\endcsname}%
-	\e\ifx\func\relax%
-		% TODO: try __len__ != 0, otherwise True if \type isn't 'None'
-		\@pytexError{Internal error}%
+	% TODO: check if type is already bool
+	\ifx\type\@pytex@STR_bool%
 	\else%
-		\e\func\e{\@pytexRuntime@return}%
+		\edef\func{@pytexRuntime@\type @__bool__}%
+		\e\def\e\func\e{\csname\e\func\endcsname}%
+		\e\ifx\func\relax%
+			% TODO: try __len__ != 0, otherwise True if \type isn't 'None'
+			\@pytexError{Internal error}%
+		\else%
+			\e\func\e{\@pytexRuntime@return}%
+		\fi%
 	\fi%
 	%
-	\show\@pytexRuntime@return%
 	\wrapif{\e\@pytexRuntime@boolIf\e{\@pytexRuntime@return}}{%
 		#2%	
 	}{%
@@ -148,4 +151,6 @@
 \def\@pytexOperator@if#1#2{%
 	\@pytexOperator@ifelse{#1}{#2}{}%
 }
+
+
 

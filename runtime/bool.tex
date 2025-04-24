@@ -4,7 +4,6 @@
 \def\@pytexRuntime@bool#1{% -> bool object ptr
 	\@pytexRuntime@allocType{bool}%
 	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
-	\show\@pytexRuntime@return%
 }
 
 \def\@pytexRuntime@boolTrue{%
@@ -33,7 +32,7 @@
 
 % #1 = bool object ptr
 \def\@pytexRuntime@bool@__bool__#1{%
-	\@pytexRuntime@boolCopy#1%
+	\@pytexRuntime@boolCopy{#1}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unary operators
