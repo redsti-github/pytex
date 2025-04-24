@@ -66,16 +66,24 @@
 %TODO | (dict | set | dictcomp | setcomp)
 %TODO | '...'
 \def\@pytexParser@tryAtom{%
-	\@pytexParser@choiceThree%
+	\@pytexParser@choiceFour%
 		{\@pytexParser@tryIdentifierExpr}%
 		{\@pytexParser@tryInt}%
 		{\@pytexParser@tryBool}%
+		{\@pytexParser@tryGroup}%
 }
 
 
 % group:
 %     | '(' (yield_expr | named_expression) ')' 
-% TODO
+\def\@pytexParser@tryGroup{%
+	\@pytexParser@joinSecond%
+		{\@pytexParser@tryToken{\tokentypeLPAREN}}%
+		{\@pytexParser@joinFirst%
+			{\@pytexParser@choice{\@pytexParser@tryYieldExpr}{\@pytexParser@tryNamedExpression}}%
+			{\@pytexParser@tryToken{\tokentypeRPAREN}}%
+		}%
+}
 
 
 

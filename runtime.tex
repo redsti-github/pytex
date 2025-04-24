@@ -43,6 +43,46 @@
 	\@pytexRuntime@assign{#1}%
 }
 
+\def\@pytexRuntime@truthyBool#1{%
+	\edef\type{\@pytexRuntime@Typeof{#1}}%
+	%
+	\ifx\type\STR_bool%
+		\def\@pytexRuntime@return{#1}%
+	\else%
+		\edef\func{@pytexRuntime@\type @__bool__}%
+		\e\def\e\func\e{\csname\e\func\endcsname}%
+		\e\ifx\func\relax%
+			% TODO: try __len__ != 0, otherwise True if \type isn't 'None'
+			\@pytexError{Internal error}%
+		\else%
+			\func{#1}%
+		\fi%
+	\fi%
+	%
+}
+
+% #1 = object ptr
+\def\@pytexRuntime@truthyIf#1{%
+	\begingroup%
+	\edef\type{\@pytexRuntime@Typeof{#1}}%
+	%
+	\ifx\type\STR_bool%
+		\def\@pytexRuntime@return{#1}%
+	\else%
+		\edef\func{@pytexRuntime@\type @__bool__}%
+		\e\def\e\func\e{\csname\e\func\endcsname}%
+		\e\ifx\func\relax%
+			% TODO: try __len__ != 0, otherwise True if \type isn't 'None'
+			\@pytexError{Internal error}%
+		\else%
+			\func{#1}%
+		\fi%
+	\fi%
+	%
+	\wrapif{\e\@pytexRuntime@boolIf\e{\@pytexRuntime@return}}{\def\res{1}}{\def\res{0}}%
+	\e\endgroup\e\ifnum\res=1 %
+}
+
 % #1, #2 = expression
 \def\@pytexOperator@add#1#2{%
 	#1%
@@ -94,7 +134,7 @@
 	\e\ifx\func\relax%
 		% TODO: throw NotImplemented error (or other?) -> try reversed operator?
 		\edef\secondtype{\e\@pytexRuntime@Typeof\e{\second}}%
-		\@pytexError{TypeError: unsupported operand type(s) for -: '\firsttype' and '\secondtype'}%
+		\@pytexError{TypeError: unsupported operand type(s) for *: '\firsttype' and '\secondtype'}%
 	\else%
 		\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
 	\fi%
@@ -113,33 +153,50 @@
 	\e\ifx\func\relax%
 		% TODO: throw NotImplemented error (or other?) -> try reversed operator?
 		\edef\secondtype{\e\@pytexRuntime@Typeof\e{\second}}%
-		\@pytexError{TypeError: unsupported operand type(s) for -: '\firsttype' and '\secondtype'}%
+		\@pytexError{TypeError: unsupported operand type(s) for //: '\firsttype' and '\secondtype'}%
 	\else%
 		\e\e\e\func\e\e\e{\e\first\e}\e{\second}%
 	\fi%
 }
+
+% #1 = expression
+\def\@pytexOperator@negate#1{%
+	#1%
+	\edef\type{\e\@pytexRuntime@Typeof\e{\@pytexRuntime@return}}%
+	%
+	\edef\func{@pytexRuntime@\type @__neg__}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: throw NotImplemented error
+		\@pytexError{TypeError: bad operand type for unary -: '\firsttype'}%
+	\else%
+		\e\func\e{\@pytexRuntime@return}%
+	\fi%
+}
+
+% #1 = expression
+\def\@pytexOperator@pos#1{%
+	#1%
+	\edef\type{\e\@pytexRuntime@Typeof\e{\@pytexRuntime@return}}%
+	%
+	\edef\func{@pytexRuntime@\type @__pos__}%
+	\e\def\e\func\e{\csname\e\func\endcsname}%
+	\e\ifx\func\relax%
+		% TODO: throw NotImplemented error
+		\@pytexError{TypeError: bad operand type for unary +: '\firsttype'}%
+	\else%
+		\e\func\e{\@pytexRuntime@return}%
+	\fi%
+}
+
+
 
 % #1 = condition (expression)
 % #2 = iftrue block
 % #3 = iffalse block
 \def\@pytexOperator@ifelse#1#2#3{%
 	#1%
-	\edef\type{\e\@pytexRuntime@Typeof\e{\@pytexRuntime@return}}%
-	%
-	% TODO: check if type is already bool
-	\ifx\type\@pytex@STR_bool%
-	\else%
-		\edef\func{@pytexRuntime@\type @__bool__}%
-		\e\def\e\func\e{\csname\e\func\endcsname}%
-		\e\ifx\func\relax%
-			% TODO: try __len__ != 0, otherwise True if \type isn't 'None'
-			\@pytexError{Internal error}%
-		\else%
-			\e\func\e{\@pytexRuntime@return}%
-		\fi%
-	\fi%
-	%
-	\wrapif{\e\@pytexRuntime@boolIf\e{\@pytexRuntime@return}}{%
+	\wrapif{\e\@pytexRuntime@truthyIf\e{\@pytexRuntime@return}}{%
 		#2%	
 	}{%
 		#3%
@@ -152,5 +209,32 @@
 	\@pytexOperator@ifelse{#1}{#2}{}%
 }
 
+% #1, #2 = expression
+\def\@pytexOperator@and#1#2{%
+	#1%
+	%
+	\wrapif{\e\@pytexRuntime@truthyIf\e{\@pytexRuntime@return}}%
+	{#2}% if true, return #2
+	{}% if false, return the same as #1
+}
+
+% #1, #2 = expression
+\def\@pytexOperator@or#1#2{%
+	#1%
+	%
+	\wrapif{\e\@pytexRuntime@truthyIf\e{\@pytexRuntime@return}}%
+	{}% if true, return the same as #1
+	{#2}% if false, return #2
+}
+
+% #1 = expression
+\def\@pytexOperator@not#1{%
+	#1%
+	%
+	\e\@pytexRuntime@truthyBool\e{\@pytexRuntime@return}%
+	\wrapif{\e\@pytexRuntime@boolIf\e{\@pytexRuntime@return}}%
+		{\@pytexRuntime@boolFalse}%
+		{\@pytexRuntime@boolTrue}%
+}
 
 

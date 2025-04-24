@@ -8,13 +8,17 @@
 \input{stack.tex}
 \input{queue.tex}
 \input{localvar.tex}
-\input{active_chars.tex}
 \input{tokeniser.tex}
 \input{parser.tex}
 \input{runtime.tex}
 
+\input{active_chars.tex} % TODO: doesn't reset catcode of '*' properly (and maybe '~' and '^' too?)
+
 \def\@pytexChar@Backslash{\loggingall\@pytexParser@parse}
 \let\@pytexChar@Dollar\bye
+
+\def\@pytexChar@DoubleQuote{\relax}
+\def\@pytexChar@SingleQuote{\relax}
 
 
 %\input{clean_macros.tex}
@@ -23,17 +27,112 @@ PROGRAM RESULT:
 
 \@pytexCatcodes@setallactive
 
-a = 0
-b = 1
-c = 3
-x = True
-y = False
+# todo: function definitions
+# todo: class definitions
+# todo: in-place assignments (+=, -=, etc.)
+# todo: f-strings and other format strings
 
-if x:
-	a = b + c
-else:
-	a = -1
 
+# Arithmetic operators
+a = 10
+b = 5
+c = a + b  # Addition
+d = a - b  # Subtraction
+e = a * b  # Multiplication
+# f = a / b  # Division TODO
+g = a // b # Floor Division
+# h = a % b  # Modulo TODO
+i = -a     # Negation
+i2 = +a    # Positive
+# j = a ** b # Exponentiation TODO
+
+
+# Parentheses for order of operations
+k = (a + b) * c
+
+# # Comparison operators TODO
+# print(a == b)  # Equal to
+# print(a != b)  # Not equal to
+# print(a > b)   # Greater than
+# print(a < b)   # Less than
+# print(a >= b)  # Greater than or equal to
+# print(a <= b)  # Less than or equal to
+
+
+# # Logical operators
+x = True and False  # AND
+y = False or True   # OR
+z = not True        # NOT
+
+
+# # Conditional statements
+# if a > b:
+#     pass #print("a is greater than b")
+# elif a < b:
+#     pass #print("a is less than b")
+# else:
+#     pass #print("a is equal to b")
+# 
+# 
+# x = 20
+# if x % 2 == 0:
+#     pass #print("x is even")
+# else:
+#     pass #print("x is odd")
+# 
+# y = 15
+# if y > 10:
+#     pass #print("y is greater than 10")
+# elif y < 5:
+# 	pass #print("y is less than 5")
+# elif y == 15:
+#     pass #print("y is 15")
+# else:
+#     pass #print("y is between 5 and 10")
+# 
+# 
+# # Bitwise operators
+# m = 10  # 1010 in binary
+# n = 4   # 0100 in binary
+# print(m & n)  # Bitwise AND
+# print(m | n)  # Bitwise OR
+# print(m ^ n)  # Bitwise XOR
+# print(~m)   # Bitwise NOT
+# print(m << 2) # Left shift
+# print(m >> 1) # Right shift
+# 
+# 
+# # Assignment operators
+# x = 10
+# x += 5  # x = x + 5  (This is a todo item, but will likely parse correctly even if it doesn't execute)
+# x -= 2
+# print(x)
+# 
+# # Boolean values
+# isTrue = True
+# isFalse = False
+# print(isTrue and isFalse)
+# print(isTrue or isFalse)
+# 
+# 
+# # Multiple assignments
+# p, q, r = 1, 2, 3
+# print(p,q,r)
+# 
+# # Comments
+# # This is a single-line comment.
+# 
+# #'''This is a 
+# #multiline comment'''
+# 
+# 
+# #String operations
+# #str1 = "Hello"
+# #str2 = " World"
+# #str3 = str1 + str2
+# #print(str3)
+# #len(str3)
+# 
 
 \$
 \bye

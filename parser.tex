@@ -81,6 +81,8 @@
 \enumnext{COLON}
 \enumnext{INDENT}
 \enumnext{DEDENT}
+\enumnext{RPAREN}
+\enumnext{LPAREN}
 
 
 
@@ -119,6 +121,9 @@
 \def\@pytexToken@Colon{\edef\tokentype{\tokentypeCOLON}}
 \def\@pytexToken@True{\edef\tokentype{\tokentypeTRUE}}
 \def\@pytexToken@False{\edef\tokentype{\tokentypeFALSE}}
+
+\def\@pytexToken@OpeningParenthesis{\edef\tokentype{\tokentypeLPAREN}}
+\def\@pytexToken@ClosingParenthesis{\edef\tokentype{\tokentypeRPAREN}}
 
 
 
