@@ -6,6 +6,10 @@
 	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
 }
 
+\def\@pytexRuntime@intCopy#1{%
+	\e\e\e\@pytexRuntime@int\e\e\e{\csname#1@value\endcsname}%
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Arithmetic operations
 % #1 = Int object ptr, #2 = object ptr
 \def\@pytexRuntime@int@__add__#1#2{%
@@ -62,6 +66,8 @@
 	\fi%
 }
 
+\let\@pytexRuntime@int@__int__\@pytexRuntime@intCopy
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unary operators
 % #1 = Int object ptr
 \def\@pytexRuntime@int@__pos__#1{%
@@ -85,6 +91,90 @@
 	\fi%
 }
 
+\let\@pytexRuntime@int@__ceil__\@pytexRuntime@intCopy
+\let\@pytexRuntime@int@__floor__\@pytexRuntime@intCopy
+\let\@pytexRuntime@int@__trunc__\@pytexRuntime@intCopy
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Comparisons
+
+\def\@pytexRuntime@int@__eq__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\ifnum\numexpr\csname#1@value\endcsname=\csname#2@value\endcsname %
+			\@pytexRuntime@boolTrue%
+		\else%
+			\@pytexRuntime@boolFalse%
+		\fi%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+\def\@pytexRuntime@int@__ne__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\ifnum\numexpr\csname#1@value\endcsname=\csname#2@value\endcsname %
+			\@pytexRuntime@boolFalse%
+		\else%
+			\@pytexRuntime@boolTrue%
+		\fi%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+\def\@pytexRuntime@int@__lt__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\ifnum\numexpr\csname#1@value\endcsname<\csname#2@value\endcsname %
+			\@pytexRuntime@boolTrue%
+		\else%
+			\@pytexRuntime@boolFalse%
+		\fi%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+\def\@pytexRuntime@int@__gt__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\ifnum\numexpr\csname#1@value\endcsname>\csname#2@value\endcsname %
+			\@pytexRuntime@boolTrue%
+		\else%
+			\@pytexRuntime@boolFalse%
+		\fi%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+\def\@pytexRuntime@int@__ge__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\ifnum\numexpr\csname#1@value\endcsname<\csname#2@value\endcsname %
+			\@pytexRuntime@boolFalse%
+		\else%
+			\@pytexRuntime@boolTrue%
+		\fi%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
+
+\def\@pytexRuntime@int@__le__#1#2{%
+	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
+	\ifx\STR_int\secondType%
+		\ifnum\numexpr\csname#1@value\endcsname>\csname#2@value\endcsname %
+			\@pytexRuntime@boolFalse%
+		\else%
+			\@pytexRuntime@boolTrue%
+		\fi%
+	\else%
+		% TODO: throw NotImplemented error
+	\fi%
+}
 
 
 
@@ -92,7 +182,7 @@
 % >>> dir(int)
 % [
 % # type conversions
-% '__int__',	TODO
+% '__int__',	DONE
 % '__bool__',	DONE
 % '__float__',	TODO
 % '__str__',	TODO
@@ -103,11 +193,11 @@
 % '__pos__',	DONE
 % '__neg__',	DONE
 % '__abs__', 	DONE
-% '__ceil__',	TODO
+% '__ceil__',	DONE
 % '__invert__',	TODO
-% '__round__',	TODO
-% '__trunc__',	TODO
-% '__floor__',	TODO
+% '__round__',	TODO - takes 1 optional arg
+% '__trunc__',	DONE
+% '__floor__',	DONE
 
 
 % # arithmetic operators
@@ -145,12 +235,12 @@
 
 
 % # comparisons
-% '__eq__',		TODO
-% '__ne__',		TODO
-% '__gt__',		TODO
-% '__ge__',		TODO
-% '__lt__',		TODO
-% '__le__',		TODO
+% '__eq__',		DONE
+% '__ne__',		DONE
+% '__gt__',		DONE
+% '__ge__',		DONE
+% '__lt__',		DONE
+% '__le__',		DONE
 
 
 % # other (TODO)

@@ -25,26 +25,44 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Type conversions
 
-% #1 = bool object ptr
-\def\@pytexRuntime@bool@__int__#1{%
-	\e\e\e\@pytexRuntime@int\e\e\e{\csname#1@value\endcsname}%
-}
-
-% #1 = bool object ptr
-\def\@pytexRuntime@bool@__bool__#1{%
-	\@pytexRuntime@boolCopy{#1}%
-}
+\def\@pytexRuntime@bool@__int__\@pytexRuntime@intCopy
+\let\@pytexRuntime@bool@__bool__\@pytexRuntime@boolCopy
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unary operators
 
 \let\@pytexRuntime@bool@__abs__\@pytexRuntime@bool@__int__
+\let\@pytexRuntime@bool@__neg__\@pytexRuntime@int@__neg__
 \let\@pytexRuntime@bool@__pos__\@pytexRuntime@bool@__int__
 \let\@pytexRuntime@bool@__ceil__\@pytexRuntime@bool@__int__
 \let\@pytexRuntime@bool@__floor__\@pytexRuntime@bool@__int__
 \let\@pytexRuntime@bool@__trunc__\@pytexRuntime@bool@__int__
-\let\@pytexRuntime@bool@__round__\@pytexRuntime@bool@__int__
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Arithmetic operations
 
+\let\@pytexRuntime@bool@__add__\@pytexRuntime@int@__add__
+\let\@pytexRuntime@bool@__sub__\@pytexRuntime@int@__sub__
+\let\@pytexRuntime@bool@__mul__\@pytexRuntime@int@__mul__
+\let\@pytexRuntime@bool@__truediv__\@pytexRuntime@int@__truediv__
+\let\@pytexRuntime@bool@__floordiv__\@pytexRuntime@int@__floordiv__
+\let\@pytexRuntime@bool@__pow__\@pytexRuntime@int@__pow__
+\let\@pytexRuntime@bool@__mod__\@pytexRuntime@int@__mod__
+
+\let\@pytexRuntime@bool@__radd__\@pytexRuntime@int@__radd__
+\let\@pytexRuntime@bool@__rsub__\@pytexRuntime@int@__rsub__
+\let\@pytexRuntime@bool@__rmul__\@pytexRuntime@int@__rmul__
+\let\@pytexRuntime@bool@__rtruediv__\@pytexRuntime@int@__rtruediv__
+\let\@pytexRuntime@bool@__rfloordiv__\@pytexRuntime@int@__rfloordiv__
+\let\@pytexRuntime@bool@__rpow__\@pytexRuntime@int@__rpow__
+\let\@pytexRuntime@bool@__rmod__\@pytexRuntime@int@__rmod__
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Comparisons
+
+\let\@pytexRuntime@bool@__eq__\@pytexRuntime@int@__eq__
+\let\@pytexRuntime@bool@__ne__\@pytexRuntime@int@__ne__
+\let\@pytexRuntime@bool@__lt__\@pytexRuntime@int@__lt__
+\let\@pytexRuntime@bool@__le__\@pytexRuntime@int@__le__
+\let\@pytexRuntime@bool@__gt__\@pytexRuntime@int@__gt__
+\let\@pytexRuntime@bool@__ge__\@pytexRuntime@int@__ge__
 
 
 
@@ -61,33 +79,33 @@
 
 % # unary operators
 % '__pos__',		DONE
-% '__neg__',		TODO
+% '__neg__',		DONE
 % '__abs__',		DONE
 % '__ceil__',		DONE
 % '__floor__',		DONE
 % '__invert__',		TODO
 % '__trunc__',		DONE
-% '__round__',		DONE
+% '__round__',		TODO - takes 1 optional argument
 
 
 % # arithmetic operators
-% '__add__',		TODO
-% '__sub__',		TODO
-% '__mul__',		TODO
-% '__truediv__',	TODO
+% '__add__',		DONE
+% '__sub__',		DONE
+% '__mul__',		DONE
+% '__truediv__',	DONE
 % '__divmod__',		TODO
-% '__floordiv__',	TODO
-% '__mod__',		TODO
-% '__pow__',		TODO
+% '__floordiv__',	DONE
+% '__mod__',		DONE
+% '__pow__',		DONE
 
-% '__radd__',		TODO
-% '__rsub__',		TODO
-% '__rmul__',		TODO
-% '__rtruediv__',	TODO
+% '__radd__',		DONE
+% '__rsub__',		DONE
+% '__rmul__',		DONE
+% '__rtruediv__',	DONE
 % '__rdivmod__',	TODO
-% '__rfloordiv__',	TODO
-% '__rmod__',		TODO
-% '__rpow__',		TODO
+% '__rfloordiv__',	DONE
+% '__rmod__',		DONE
+% '__rpow__',		DONE
 
 
 % # bitwise operators
@@ -105,12 +123,12 @@
 
 
 % # comparisons
-% '__eq__',		TODO
-% '__ne__',		TODO
-% '__gt__',		TODO
-% '__ge__',		TODO
-% '__lt__',		TODO
-% '__le__',		TODO
+% '__eq__',		DONE
+% '__ne__',		DONE
+% '__gt__',		DONE
+% '__ge__',		DONE
+% '__lt__',		DONE
+% '__le__',		DONE
 
 
 % # other
