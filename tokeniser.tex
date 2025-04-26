@@ -176,7 +176,7 @@
 		\indentStack@popd
 		\indentStack@peek{\lastindent}
 		\ifnum\currentindent>\lastindent
-			ERROR: INCONSISTENT DEDENT
+			\@pytexError{IndentationError: unindent does not match any outer indentation level}
 		\fi
 		\@pytexTokeniser@dedent
 	\fi
@@ -382,20 +382,13 @@
 		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
 			\@pytexTokeniser@TokenList@push{\@pytexToken@Backslash}
 		\else
-		ERROR: unknown symbol(s): \@pytexTokeniser@buffer
+		\@pytexError{Tokeniser error: unknown symbol: \@pytexTokeniser@buffer}
 		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
 		\state=0
 		\gdef\@pytexTokeniser@buffer{}
 		\let\@pytexTMP@symbol\undefined
 	\fi
 }
-
-\def\@pytexTokeniser@letter#1{
-	\@pytexTokeniser@endindent
-	\@pytexTokeniser@endsymboltoken
-	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=1\else ERROR: starting to tokenise name when not in 0 state.\fi\fi	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-	\state=1
-\fi}
 
 \def\@pytexChar@a{\@pytexTokeniser@letter{a}}
 \def\@pytexChar@b{\@pytexTokeniser@letter{b}}
@@ -449,16 +442,12 @@
 \def\@pytexChar@X{\@pytexTokeniser@letter{X}}
 \def\@pytexChar@Y{\@pytexTokeniser@letter{Y}}
 \def\@pytexChar@Z{\@pytexTokeniser@letter{Z}}
-\catcode`_=11\def\@pytexChar@Underscore{\@pytexTokeniser@letter{_}}
-\def\@pytexTokeniser@number#1{
+\def\@pytexChar@Underscore{\@pytexTokeniser@letter{_}}
+\def\@pytexTokeniser@letter#1{
 	\@pytexTokeniser@endindent
 	\@pytexTokeniser@endsymboltoken
-	\ifnum\state=4\else	\ifnum\state=1
-		\@pytexTokeniser@letter{#1}
-	\else
-		\ifnum\state=0\else\ifnum\state=2\else ERROR: starting to tokenise number when not in 0 state.\fi\fi		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-		\state=2
-	\fi
+	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=1\else \@pytexError{Internal error: starting to tokenise name when not in 0 state.}\fi\fi	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
+	\state=1
 \fi}
 
 \def\@pytexChar@Zero{\@pytexTokeniser@number{0}}
@@ -471,12 +460,15 @@
 \def\@pytexChar@Seven{\@pytexTokeniser@number{7}}
 \def\@pytexChar@Eight{\@pytexTokeniser@number{8}}
 \def\@pytexChar@Nine{\@pytexTokeniser@number{9}}
-\def\@pytexTokeniser@symbol#1{
-	\@pytexTokeniser@endnametoken
-	\@pytexTokeniser@endnumbertoken
+\def\@pytexTokeniser@number#1{
 	\@pytexTokeniser@endindent
-	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=3\else ERROR: starting to tokenise symbols when not in 0 state.\fi\fi	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-	\state=3
+	\@pytexTokeniser@endsymboltoken
+	\ifnum\state=4\else	\ifnum\state=1
+		\@pytexTokeniser@letter{#1}
+	\else
+		\ifnum\state=0\else\ifnum\state=2\else \@pytexError{Internal error: starting to tokenise number when not in 0 state.}\fi\fi		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
+		\state=2
+	\fi
 \fi}
 
 \def\@pytexChar@ExclamationMark{\@pytexTokeniser@symbol{ExclamationMark}}
@@ -509,13 +501,20 @@
 \def\@pytexChar@Tilde{\@pytexTokeniser@symbol{Tilde}}
 \def\@pytexChar@Backslash{\@pytexTokeniser@symbol{Backslash}}
 \def\@pytexChar@Newline{\@pytexTokeniser@symbol{Newline}}
+\def\@pytexTokeniser@symbol#1{
+	\@pytexTokeniser@endnametoken
+	\@pytexTokeniser@endnumbertoken
+	\@pytexTokeniser@endindent
+	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=3\else \@pytexError{Internal error: starting to symbols name when not in 0 state.}\fi\fi	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
+	\state=3
+\fi}
 
 \def\@pytexChar@Newline{
     \@pytexTokeniser@endnametoken
     \@pytexTokeniser@endnumbertoken
     \@pytexTokeniser@endindent
     \@pytexTokeniser@endsymboltoken
-    \ifnum\state=0\else\ifnum\state=4\else ERROR: starting comment when not in 0 state.\fi\fi
+    \ifnum\state=0\else\ifnum\state=4\else \@pytexError{Internal error: starting to tokenise comment when not in 0 state.}\fi\fi
     \state=5
     \@pytexTokeniser@TokenList@push{\@pytexToken@Newline}
 }
@@ -544,8 +543,6 @@
     \@pytexTokeniser@endnumbertoken
     \@pytexTokeniser@endsymboltoken
     \@pytexTokeniser@endindent
-    \ifnum\state=0\else ERROR: starting comment when not in 0 state.\fi
+    \ifnum\state=0\else \@pytexError{Internal error: starting comment when not in 0 state.}\fi
     \state=4
 \fi}
-\def\@pytexChar@Dollar{\show\@pytexTokeniser@TokenList@end
-}
