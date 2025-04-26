@@ -102,10 +102,23 @@ of.write("}\n\n\n")
 
 of.write("\\@pytexThingamajig\n") # TODO: move this to \@pytexMakeAllActive 
 
+
+def alpha_number(x):
+    return ''.join([chr(ord(c)+17) for c in str(x)])
+
 # macro to set all characters as active
 of.write("\\def\\@pytexMakeAllActive{\n")
 #of.write("\t\\loggingall\n")
 #of.write("\t\\@pytexThingamajig\n")
 for char in string.printable:
     of.write("\t\\catcode"+str(ord(char))+"=13\n")
+for i in range(256):
+    of.write("\t\\edef\\@pytexPrevCatcode@"+alpha_number(i)+"{\\the\\catcode"+str(i)+"}\n")
 of.write("}\n")
+
+of.write("\\def\\@pytexResetCatcodes{\n")
+for i in range(256):
+    of.write("\t\\catcode"+str(i)+"=\\@pytexPrevCatcode@"+alpha_number(i)+"\n")
+    #of.write("\t\\edef\\@pytexPrevCatcode@"+str(i)+"{\\the\\catcode"+str(i)+"}\n")
+of.write("}\n")
+

@@ -6,25 +6,33 @@
 	\errmessage{#1}%
 }
 
+\loggingall
+
 \input{stack.tex}
 \input{list.tex}
 \input{active_chars.tex}
 \input{localvar.tex}
-\input{tokeniser.tex}
 \input{parser.tex}
+\input{tokeniser.tex}
 \input{runtime.tex}
 
 
-\def\@pytexChar@Backslash{\@pytexParser@parse}
-\let\@pytexChar@Dollar\bye
+%\def\@pytexChar@Backslash{\@pytexParser@parse}
+%\let\@pytexChar@Backslash\bye
 
 \def\@pytexChar@DoubleQuote{\relax}
 \def\@pytexChar@SingleQuote{\relax}
 
+\def\begin#1{
+	\@pytexMakeAllActive
+}
+\def\end#1{
+	\message{parsing!}
+	\@pytexResetCatcodes
+	\@pytexParser@parse
+}
 
-PROGRAM RESULT:
-
-\@pytexMakeAllActive
+\begin{python}
 
 # todo: function definitions
 # todo: class definitions
@@ -126,5 +134,6 @@ isFalse = False
 # len(str3)
 # 
 
-\$
+\end{python}
+
 \bye

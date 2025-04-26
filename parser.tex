@@ -83,6 +83,9 @@
 \enumnext{DEDENT}
 \enumnext{RPAREN}
 \enumnext{LPAREN}
+\enumnext{RBRACE}
+\enumnext{LBRACE}
+\enumnext{BACKSLASH}
 
 
 
@@ -125,6 +128,9 @@
 
 \def\@pytexToken@OpeningParenthesis{\edef\tokentype{\tokentypeLPAREN}}
 \def\@pytexToken@ClosingParenthesis{\edef\tokentype{\tokentypeRPAREN}}
+\def\@pytexToken@OpeningBrace{\edef\tokentype{\tokentypeLBRACE}}
+\def\@pytexToken@ClosingBrace{\edef\tokentype{\tokentypeRBRACE}}
+\def\@pytexToken@Backslash{\edef\tokentype{\tokentypeBACKSLASH}}
 
 
 
@@ -192,15 +198,15 @@
 
 % result ::= #1 | #2
 \def\@pytexParser@choice#1#2{%
-	\wrapif{#1}{%
+	#1%
 		\def\ifresult{1}%
-	}{%
+	\else%
 		\wrapif{#2}{%
 			\def\ifresult{1}%
 		}{%
 			\def\ifresult{0}%
 		}%
-	}%
+	\fi%
 	\ifnum\ifresult=1 %
 }
 

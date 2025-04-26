@@ -19,7 +19,7 @@ v: build/py.pdf
 build/active_chars.tex: gen_active.py
 	python3 gen_active.py
 
-build/tokeniser.tex: gen_token.py
+build/tokeniser.tex: gen_token.py tokeniser.tex
 	python3 gen_token.py
 
 build/%.tex: %.tex

@@ -2,7 +2,9 @@
 \def\@pytexList@new#1{%
 	\expandafter\def\csname #1@size\endcsname{0}%
 	\expandafter\def\csname #1@push\endcsname##1{\@pytexList@push{#1}{##1}}%
+	\expandafter\def\csname #1@popd\endcsname{\@pytexList@popd{#1}}%
 	\expandafter\def\csname #1@getim\endcsname##1{\@pytexList@getim{#1}{##1}}%
+	\expandafter\def\csname #1@getendim\endcsname##1{\@pytexList@getendim{#1}{##1}}%
 	\expandafter\def\csname #1@delete\endcsname{\@pytexList@delete{#1}}%
 }
 
@@ -12,8 +14,19 @@
 	\expandafter\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname+1}%
 }
 
+% #1 = list name
+\def\@pytexList@popd#1{%
+	\expandafter\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1}%
+	\expandafter\let\csname#1@\csname #1@size\endcsname\endcsname\undefined%
+}
+
 % #1 = list name, #2 = index
 \def\@pytexList@getim#1#2{\csname#1@#2\endcsname}
+
+% #1 = list name, #2 = index from end (0 = last, 1 = before last)
+\def\@pytexList@getendim#1#2{
+	\csname#1@\the\numexpr\csname#1@size\endcsname-1-#2\relax\endcsname
+}
 
 % #1 = list name
 \def\@pytexList@delete#1{%
@@ -24,8 +37,7 @@
 		\expandafter\let\csname #1@delete\endcsname\undefined%
 		\def\@pytexTMP{\relax}%
 	\else%
-		\expandafter\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1}%
-		\expandafter\let\csname#1@\csname #1@size\endcsname\endcsname\undefined%
+		\@pytexList@popd{#1}%
 		\def\@pytexTMP{\@pytexList@delete{#1}}%
 	\fi%
 	\@pytexTMP%
