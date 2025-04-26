@@ -1,3 +1,6 @@
-__pycache__
+__pycache__/
 *.pdf
 *.log
+build/*
+!build/tokeniser.tex
+!build/active_chars.tex

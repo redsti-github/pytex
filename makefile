@@ -1,25 +1,35 @@
+PARSER_TARGETS := arithmetic.tex  bitwise.tex  comparison.tex  compound_stmt.tex  expression.tex  primary.tex  simple_stmt.tex
+PARSER_TARGETS := $(addprefix parser/, $(PARSER_TARGETS))
 
-.PHONY: py.pdf
-py.pdf: py.tex active_chars.tex tokeniser.tex clean_macros.tex stack.tex parser.tex queue.tex
-	rm py.pdf -f
-	xetex py.tex
+RUNTIME_TARGETS := bool.tex  int.tex
+RUNTIME_TARGETS := $(addprefix runtime/, $(RUNTIME_TARGETS))
+
+TARGETS := py.tex active_chars.tex stack.tex queue.tex localvar.tex tokeniser.tex parser.tex $(PARSER_TARGETS) runtime.tex $(RUNTIME_TARGETS)
+TARGETS := $(addprefix build/, $(TARGETS))
+
+.PHONY: build/py.pdf
+build/py.pdf: $(TARGETS)
+	rm build/py.pdf -f
+	cd build && xetex py.tex
 
 .PHONY: v
-v: py.pdf
-	google-chrome-stable py.pdf
+v: build/py.pdf
+	xdg-open build/py.pdf
 
-active_chars.tex: gen_active.py
+build/active_chars.tex: gen_active.py
 	python3 gen_active.py
 
-tokeniser.tex: gen_token.py
+build/tokeniser.tex: gen_token.py
 	python3 gen_token.py
 
-#clean_macros.tex: scan.py active_chars.tex tokeniser.tex py.tex
-#	python3 scan.py
+build/%.tex: %.tex
+	@mkdir -p $(@D)
+	@cp $^ $@
 
 .PHONY: clean
 clean:
 	rm *.log *.pdf -f
 	rm out.* -f
-	rm -rf __pycache__
+	rm -rf build/
+	rm -rf __pycache__/
 	
