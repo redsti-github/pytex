@@ -26,12 +26,12 @@
 % target_list ::= target ("," target)* [","]
 \def\@pytexParser@tryTargetList{%
 	\@pytexParser@tryTargetListBare% target ("," target)*
-		\wrapif{\@pytexParser@tryToken{\tokentypeCOMMA}}{}{}% [","] % TODO: technically could mangle parserReturnValue, should use \joinOptional instead
+		\wrapif{\@pytexParser@tryToken{\tokentypeCOMMA}}{}{}% [","] % TODO: technically could mangle ParserReturn, should use \joinOptional instead
 }
 \def\@pytexParser@tryTargetListBare{%
 	\@pytexParser@joinOptional{\@pytexParser@tryTarget}%
 		{\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeCOMMA}}{\@pytexParser@tryTargetListBare}}%
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@targetList\e\e\et{\e\first\e}\e{\second}}}%
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e\@pytexOperator@targetList\e\e\et{\e\first\e}\e{\second}}}%
 }
 
 \def\@pytexParser@tryYieldExpr{\iffalse}% TODO
@@ -41,13 +41,13 @@
 	\@pytexParser@join%
 		{\@pytexParser@tryAsignmentList}%
 		{\@pytexParser@choice{\@pytexParser@tryStarExpression}{\@pytexParser@tryYieldExpr}}%
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@assignment\e\e\e{\e\first\e}\e{\second}}}%
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e\@pytexOperator@assignment\e\e\e{\e\first\e}\e{\second}}}%
 }
 \def\@pytexParser@tryAsignmentList{% (target_list "=")+
 	\@pytexParser@joinOptional%
 		{\@pytexParser@joinFirst{\@pytexParser@tryTargetList}{\@pytexParser@tryToken{\tokentypeASSIGN}}}% target_list "="
 		{\@pytexParser@tryAsignmentList}% repeat
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@assignmentList\e\e\et{\e\first\e}\e{\second}}}%
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e\@pytexOperator@assignmentList\e\e\et{\e\first\e}\e{\second}}}%
 }
 
 
@@ -69,7 +69,7 @@
 % pass_stmt ::= "pass"
 \def\@pytexParser@tryPassStmt{%
 	\@pytexParser@tryToken{\tokentypePASS}%
-		\def\@pytexTMP@parserReturnValue{}%
+		\def\@pytexParserReturn{}%
 }
 
 % del_stmt ::= "del" target_list
@@ -92,13 +92,13 @@
 % break_stmt ::= "break"
 \def\@pytexParser@tryBreakStmt{%
 	\@pytexParser@tryToken{\tokentypeBREAK}%
-		\def\@pytexTMP@parserReturnValue{\@pytexOperator@break}%
+		\def\@pytexParserReturn{\@pytexOperator@break}%
 }
 
 % continue_stmt ::= "continue"
 \def\@pytexParser@tryContinueStmt{%
 	\@pytexParser@tryToken{\tokentypeCONTINUE}%
-		\def\@pytexTMP@parserReturnValue{\@pytexOperator@continue}%
+		\def\@pytexParserReturn{\@pytexOperator@continue}%
 }
 
 %
@@ -201,7 +201,7 @@
 			{\@pytexParser@tryToken{\tokentypeSEMICOLON}}%
 			{\@pytexParser@trySimpleStmtsBare}%
 		}%
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\first\second}}%
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\first\second}}%
 }
 
 
@@ -285,8 +285,8 @@
 	\@pytexParser@joinOptionalDouble%
 		{\@pytexParser@tryToken{\tokentypeRETURN}}%
 		{\@pytexParser@tryStarExpressions}%
-		{\def\@pytexTMP@parserReturnValue{\@pytexOperator@return{None}}} % TODO: actually return None
-		{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@return\e{\second}}}%
+		{\def\@pytexParserReturn{\@pytexOperator@return{None}}} % TODO: actually return None
+		{\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@return\e{\second}}}%
 }
 
 

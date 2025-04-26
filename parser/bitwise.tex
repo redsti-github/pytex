@@ -5,14 +5,14 @@
 \def\@pytexParser@tryBitwiseOr{%
 	\@pytexParser@tryBitwiseXor%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		\@pytexParser@tryBitwiseOrNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\e\def\e\@pytexParserReturn\e{\current}%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryBitwiseOrNext{%
 	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEOR}}{\@pytexParser@tryBitwiseXor}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseor\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseor\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		\def\next{\@pytexParser@tryBitwiseOrNext}%
 	\else%
 		\def\next{\relax}%
@@ -28,14 +28,14 @@
 \def\@pytexParser@tryBitwiseXor{%
 	\@pytexParser@tryBitwiseAnd%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		\@pytexParser@tryBitwiseXorNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\e\def\e\@pytexParserReturn\e{\current}%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryBitwiseXorNext{%
 	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEXOR}}{\@pytexParser@tryBitwiseAnd}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwisexor\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwisexor\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		\def\next{\@pytexParser@tryBitwiseXorNext}%
 	\else%
 		\def\next{\relax}%
@@ -51,14 +51,14 @@
 \def\@pytexParser@tryBitwiseAnd{%
 	\@pytexParser@tryShiftExpr%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		\@pytexParser@tryBitwiseAndNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\e\def\e\@pytexParserReturn\e{\current}%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryBitwiseAndNext{%
 	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeBITWISEAND}}{\@pytexParser@tryShiftExpr}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseand\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@bitwiseand\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		\def\next{\@pytexParser@tryBitwiseAndNext}%
 	\else%
 		\def\next{\relax}%
@@ -75,19 +75,19 @@
 \def\@pytexParser@tryShiftExpr{%
 	\@pytexParser@trySum%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		\@pytexParser@tryShiftExprNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\e\def\e\@pytexParserReturn\e{\current}%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryShiftExprNext{%
 	\@pytexParser@choice%
 		{%
 		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSHIFTLEFT}}{\@pytexParser@trySum}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftleft\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftleft\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		}{%
 		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSHIFTRIGHT}}{\@pytexParser@trySum}%
-			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftright\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+			{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@shiftright\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		}%
 		\def\next{\@pytexParser@tryShiftExprNext}%
 	\else%

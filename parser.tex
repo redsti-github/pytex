@@ -4,11 +4,11 @@
 
 % try<thing> looks ahead and tries to parse <thing>.
 % if parsing was succesful:
-	% sets \@pytexTMP@parserReturnValue to the parsed construct
+	% sets \@pytexParserReturn to the parsed construct
 	% consumes the parsed tokens
 	% ends with \iftrue
 % else,
-	% leaves \@pytexTMP@parserReturnValue untouched
+	% leaves \@pytexParserReturn untouched
 	% leaves tokens untouched
 	% ends with \iffalse
 % use \wrapif{\try<thing>}{<iftrue>}{<iffalse>} to avoid problems with ifs
@@ -142,17 +142,17 @@
 
 
 \def\currentidx{0}
-\def\@pytexTMP@parserReturnValue{\undefined}
 \@pytexStack@new{idxsavestack}
 \@pytexStack@new{resultsavestack}
+\def\@pytexParserReturn{\relax}
 
 \def\savestate{%
 	\e\idxsavestack@push\e{\currentidx}%
-	\e\resultsavestack@push\e{\@pytexTMP@parserReturnValue}%
+	\e\resultsavestack@push\e{\@pytexParserReturn}%
 }
 \def\restorestate{%
 	\@pytexStack@pop{idxsavestack}{\currentidx}%
-	\@pytexStack@pop{resultsavestack}{\@pytexTMP@parserReturnValue}%
+	\@pytexStack@pop{resultsavestack}{\@pytexParserReturn}%
 }
 \def\commitstate{%
 	\@pytexStack@popd{idxsavestack}%
@@ -179,7 +179,7 @@
 	\fi %
 }
 
-% result ::= #1, parserReturnValue is left untouched
+% result ::= #1, ParserReturn is left untouched
 \def\@pytexParser@tryToken#1{%
 	\ifmatch{#1}%
 }
@@ -187,7 +187,7 @@
 % result ::= #1
 \def\@pytexParser@tryTokenValued#1{%
 	\ifmatch{#1}%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
+		\e\def\e\@pytexParserReturn\e{\tokenvalue}%
 }
 
 % result ::= #1 | #2
@@ -227,7 +227,7 @@
 
 \def\@pytexParser@tryIdentifier{%
 	\@pytexParser@tryToken{\tokentypeIDENTIFIER}%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\tokenvalue}%
+		\e\def\e\@pytexParserReturn\e{\tokenvalue}%
 }
 
 
@@ -238,8 +238,8 @@
 	\savestate%
 	\wrapif{#1}{%
 		\e\wrapifsw\e{%
-			\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
-			\let\second\@pytexTMP@parserReturnValue%
+			\e\def\e\first\e{\@pytexParserReturn}%
+			\let\second\@pytexParserReturn%
 			#3%
 			\def\ifresult{1}%
 			\commitstate%
@@ -254,11 +254,11 @@
 	\ifnum\ifresult=1 %
 }
 
-% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is automatically set to the return value of #1
+% similar to \@pytexParser@join, but \@pytexParserReturn is automatically set to the return value of #1
 \def\@pytexParser@joinFirst#1#2{%
 	\savestate%
 	\wrapif{#1}{%
-		\e\wrapifsw\e{\e\def\e\@pytexTMP@parserReturnValue\e{\@pytexTMP@parserReturnValue}%
+		\e\wrapifsw\e{\e\def\e\pytexParserReturn\e{\@pytexParserReturn}%
 			\commitstate%
 			\def\ifresult{1}%
 		}{#2}{%
@@ -272,10 +272,10 @@
 	\ifnum\ifresult=1 %
 }
 
-% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is automatically set to the return value of #2
+% similar to \@pytexParser@join, but \@pytexParserReturn is automatically set to the return value of #2
 \def\@pytexParser@joinSecond#1#2{%
 	\savestate%
-	\wrapif{#1}{% TODO: this could mangle parserReturnValue
+	\wrapif{#1}{% TODO: this could mangle ParserReturn
 		\wrapif{#2}{%
 			\commitstate%
 			\def\ifresult{1}%
@@ -290,12 +290,12 @@
 	\ifnum\ifresult=1 %
 }
 
-% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is set to #3 (given \@pytexTMP@parserReturnValue as result of #1)
+% similar to \@pytexParser@join, but \@pytexParserReturn is set to #3 (given \@pytexParserReturn as result of #1)
 \def\@pytexParser@joinFirstUnary#1#2#3{%
 	\savestate%
 	\wrapif{#1}{%
 		\e\wrapifsw\e{%
-			\e\def\e\@pytexTMP@parserReturnValue\e{\@pytexTMP@parserReturnValue}%
+			\e\def\e\@pytexParserReturn\e{\@pytexParserReturn}%
 			#3%
 			\commitstate%
 			\def\ifresult{1}%
@@ -310,7 +310,7 @@
 	\ifnum\ifresult=1 %
 }
 
-% similar to \@pytexParser@join, but \@pytexTMP@parserReturnValue is set to #3 (given \@pytexTMP@parserReturnValue as result of #2)
+% similar to \@pytexParser@join, but \@pytexParserReturn is set to #3 (given \@pytexParserReturn as result of #2)
 \def\@pytexParser@joinSecondUnary#1#2#3{%
 	\savestate%
 	\wrapif{#1}{%
@@ -335,8 +335,8 @@
 	\savestate%
 	\wrapif{#1}{%
 		\e\wrapifsw\e{%
-			\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
-			\let\second\@pytexTMP@parserReturnValue%
+			\e\def\e\first\e{\@pytexParserReturn}%
+			\let\second\@pytexParserReturn%
 			#3%
 			\def\ifresult{1}%
 			\commitstate%
@@ -358,10 +358,10 @@
 	\savestate%
 	\wrapif{#1}{%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		\wrapif{#2}{%
 			\let\first\current%
-			\let\second\@pytexTMP@parserReturnValue%
+			\let\second\@pytexParserReturn%
 			#4%
 			\def\ifresult{1}%
 			\commitstate%
@@ -425,12 +425,12 @@
 	\else %
 		\wrapif{\@pytexParser@tryStatement}{}%
 		{%
-			\let\@pytexTMP@parserReturnValue\undefined%
+			\let\@pytexParserReturn\undefined%
 			EXPECTED SOMETHING!
 		}%
 		%
-		%\show\@pytexTMP@parserReturnValue%
-		\@pytexTMP@parserReturnValue%
+		%\show\@pytexParserReturn%
+		\@pytexParserReturn%
 		%
 		\def\next{\@pytexParser@parseNext}%
 	\fi %
@@ -443,7 +443,7 @@
 	
 	\@pytexParser@parseNext%
 	
-	\let\@pytexTMP@parserReturnValue\undefined%
+	\let\@pytexParserReturn\undefined%
 	\@pytexTokenList@delete%
 }
 

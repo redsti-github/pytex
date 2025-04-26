@@ -4,7 +4,7 @@
 	\@pytexParser@joinOptional%
 		{\@pytexParser@tryStatement}%
 		{\@pytexParser@tryStatements}%
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\first\second}}%
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\first\second}}%
 }
 
 
@@ -104,17 +104,17 @@
 			{\@pytexParser@tryToken{\tokentypeCOLON}}% ':'
 			{\@pytexParser@tryBlock}%
 		}%
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e{\e\first\e}\e{\second}}} % format as macro arguments, to add \operatorIf or \operatorIfElse later
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e{\e\first\e}\e{\second}}} % format as macro arguments, to add \operatorIf or \operatorIfElse later
 		%
 		% test whether we have an if-else (or if-elif), or only if
-		\e\wrapifsw\e{\e\def\e\first\e{\@pytexTMP@parserReturnValue}%
+		\e\wrapifsw\e{\e\def\e\first\e{\@pytexParserReturn}%
 			% we have an if-else
-			\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@ifelse\e\first\e{\@pytexTMP@parserReturnValue}}%
+			\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e\@pytexOperator@ifelse\e\first\e{\@pytexParserReturn}}%
 		}%
 		{\@pytexParser@choice{\@pytexParser@tryElseBlock}{\@pytexParser@tryElifStmt}}%
 		{%
 			% we only have an if
-			\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@if\@pytexTMP@parserReturnValue}%
+			\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@if\@pytexParserReturn}%
 		}%
 }
 

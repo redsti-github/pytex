@@ -23,12 +23,12 @@
 	\@pytexParser@joinOptional%
 		{\@pytexParser@tryStarExpressionsBare}%
 		{\@pytexParser@tryToken{\tokentypeCOMMA}}%
-		{\e\def\e\@pytexTMP@parserReturnValue\e{\first}}%
+		{\e\def\e\@pytexParserReturn\e{\first}}%
 }
 \def\@pytexParser@tryStarExpressionsBare{%
 	\@pytexParser@joinOptional{\@pytexParser@tryStarExpression}%
 		{\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeCOMMA}}{\@pytexParser@tryStarExpressionsBare}}%
-		{\e\e\e\def\e\e\e\@pytexTMP@parserReturnValue\e\e\e{\e\e\e\@pytexOperator@starExpressionList\e\e\et{\e\first\e}\e{\second}}}%
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e\@pytexOperator@starExpressionList\e\e\et{\e\first\e}\e{\second}}}%
 }
 
 
@@ -40,7 +40,7 @@
 		{\@pytexParser@join%
 			{\@pytexParser@tryToken{\tokentypeMULTIPLY}}%
 			{\@pytexParser@tryBitwiseOr}%
-			{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@unpack\e{\second}}}%
+			{\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@unpack\e{\second}}}%
 		}%
 		{\@pytexParser@tryExpression}%
 }
@@ -75,16 +75,16 @@
 \def\@pytexParser@tryDisjunction{%
 	\@pytexParser@tryConjunction%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		%
 		\@pytexParser@tryDisjunctionNext%
 		%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\e\def\e\@pytexParserReturn\e{\current}%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryDisjunctionNext{%
 	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeOR}}{\@pytexParser@tryConjunction}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@or\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@or\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		\def\next{\@pytexParser@tryDisjunctionNext}%
 	\else%
 		\def\next{\relax}%
@@ -99,14 +99,14 @@
 \def\@pytexParser@tryConjunction{%
 	\@pytexParser@tryInversion
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexTMP@parserReturnValue}%
+		\e\def\e\current\e{\@pytexParserReturn}%
 		\@pytexParser@tryConjunctionNext%
-		\e\def\e\@pytexTMP@parserReturnValue\e{\current}%
+		\e\def\e\@pytexParserReturn\e{\current}%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryConjunctionNext{%
 	\@pytexParser@join{\@pytexParser@tryToken{\tokentypeAND}}{\@pytexParser@tryInversion}%
-		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@and\e\e\e{\e\current\e}\e{\@pytexTMP@parserReturnValue}}}%
+		{\e\e\e\def\e\e\e\current\e\e\e{\e\e\e\@pytexOperator@and\e\e\e{\e\current\e}\e{\@pytexParserReturn}}}%
 		\def\next{\@pytexParser@tryConjunctionNext}%
 	\else%
 		\def\next{\relax}%
@@ -123,6 +123,6 @@
 	\@pytexParser@choice{\@pytexParser@tryComparison}%
 		{%
 			\@pytexParser@join{\@pytexParser@tryToken{\tokentypeNOT}} {\@pytexParser@tryInversion}%
-				{\e\def\e\@pytexTMP@parserReturnValue\e{\e\@pytexOperator@not\e{\second}}}%
+				{\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@not\e{\second}}}%
 		}%
 }

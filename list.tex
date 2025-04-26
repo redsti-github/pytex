@@ -1,18 +1,15 @@
-
-
 % #1 = list name
 \def\@pytexList@new#1{%
-	\e\def\csname #1@size\endcsname{0}%
-	\e\def\csname #1@push\endcsname##1{\@pytexList@push{#1}{##1}}%
-	\e\def\csname #1@getim\endcsname##1{\@pytexList@getim{#1}{##1}}%
-	\e\def\csname #1@delete\endcsname{\@pytexList@delete{#1}}%
+	\expandafter\def\csname #1@size\endcsname{0}%
+	\expandafter\def\csname #1@push\endcsname##1{\@pytexList@push{#1}{##1}}%
+	\expandafter\def\csname #1@getim\endcsname##1{\@pytexList@getim{#1}{##1}}%
+	\expandafter\def\csname #1@delete\endcsname{\@pytexList@delete{#1}}%
 }
 
 % #1 = list name, #2 = item
 \def\@pytexList@push#1#2{%
-	\edef\@pytexTMP{#1@\csname #1@size\endcsname}%
-	\e\def\csname\@pytexTMP\endcsname{#2}%
-	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname+1}%
+	\expandafter\def\csname #1@\csname #1@size\endcsname\endcsname{#2}%
+	\expandafter\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname+1}%
 }
 
 % #1 = list name, #2 = index
@@ -21,16 +18,15 @@
 % #1 = list name
 \def\@pytexList@delete#1{%
 	\ifnum\csname #1@size\endcsname=0 %
-		\e\let\csname #1@size\endcsname\undefined%
-		\e\let\csname #1@push\endcsname\undefined%
-		\e\let\csname #1@getim\endcsname\undefined%
-		\e\let\csname #1@delete\endcsname\undefined%
-		\def\next{\relax}%
+		\expandafter\let\csname #1@size\endcsname\undefined%
+		\expandafter\let\csname #1@push\endcsname\undefined%
+		\expandafter\let\csname #1@getim\endcsname\undefined%
+		\expandafter\let\csname #1@delete\endcsname\undefined%
+		\def\@pytexTMP{\relax}%
 	\else%
-		\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1}%
-		\e\let\csname#1@\csname #1@size\endcsname\endcsname\undefined%
-		\def\next{\@pytexList@delete{#1}}%
+		\expandafter\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1}%
+		\expandafter\let\csname#1@\csname #1@size\endcsname\endcsname\undefined%
+		\def\@pytexTMP{\@pytexList@delete{#1}}%
 	\fi%
-	\next%
+	\@pytexTMP%
 }
-
