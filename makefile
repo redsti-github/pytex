@@ -4,7 +4,7 @@ PARSER_TARGETS := $(addprefix parser/, $(PARSER_TARGETS))
 RUNTIME_TARGETS := bool.tex  int.tex
 RUNTIME_TARGETS := $(addprefix runtime/, $(RUNTIME_TARGETS))
 
-TARGETS := py.tex active_chars.tex stack.tex queue.tex localvar.tex tokeniser.tex parser.tex $(PARSER_TARGETS) runtime.tex $(RUNTIME_TARGETS)
+TARGETS := py.tex active_chars.tex stack.tex list.tex localvar.tex tokeniser.tex parser.tex $(PARSER_TARGETS) runtime.tex $(RUNTIME_TARGETS)
 TARGETS := $(addprefix build/, $(TARGETS))
 
 .PHONY: build/py.pdf

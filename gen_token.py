@@ -19,7 +19,7 @@ of.write("\\newcount\\state\n")
 of.write("\\state="+str(INDENT_STATE)+"\n\n")
 
 of.write("\\def\\@pytexTokeniser@buffer{}\n")
-of.write("\\@pytexQueue@new{@pytexTokeniser@TokenList}\n\n")
+of.write("\\@pytexList@new{@pytexTokeniser@TokenList}\n\n")
 
 
 # INDENT STUFF
