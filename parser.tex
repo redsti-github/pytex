@@ -130,12 +130,12 @@
 
 
 \def\ifmatch#1{%
-	\e\@pytexTokeniser@TokenList@getim\e{\currentidx}%
+	\e\@pytexTokenList@getim\e{\currentidx}%
 	\ifnum \tokentype = #1 %
 		\edef\currentidx{\the\numexpr\currentidx+1}%
 }
 \def\ifpeek#1{%
-	\e\@pytexTokeniser@TokenList@getim\e{\currentidx}%
+	\e\@pytexTokenList@getim\e{\currentidx}%
 	\ifnum \tokentype = #1 %
 }
 
@@ -439,7 +439,7 @@
 
 \def\@pytexParser@parse{
 	\@pytexLocal@new{current}%
-	\e\@pytexTokeniser@TokenList@push\e{\edef\tokentype{\tokentypeEND}}%
+	\e\@pytexTokenList@push\e{\edef\tokentype{\tokentypeEND}}%
 	
 	\@pytexParser@parseNext%
 	

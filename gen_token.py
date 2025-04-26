@@ -19,7 +19,7 @@ of.write("\\newcount\\state\n")
 of.write("\\state="+str(INDENT_STATE)+"\n\n")
 
 of.write("\\def\\@pytexTokeniser@buffer{}\n")
-of.write("\\@pytexList@new{@pytexTokeniser@TokenList}\n\n")
+of.write("\\@pytexList@new{@pytexTokenList}\n\n")
 
 
 # INDENT STUFF
@@ -37,10 +37,10 @@ ficount = 0
 for kw in keyword.kwlist:
     of.write("\t\t\\def\\@pytexTMP@keyword{"+kw+"}\n")
     of.write("\t\t\\ifx\\@pytexTokeniser@buffer\\@pytexTMP@keyword\n")
-    of.write("\t\t\t\\@pytexTokeniser@TokenList@push{\\@pytexToken@"+kw+"}\n")
+    of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@"+kw+"}\n")
     of.write("\t\t\\else\n")
     ficount += 1
-of.write("\t\t\t\\e\\@pytexTokeniser@TokenList@push\\e{\\e\\@pytexToken@Identifier\\e{\\@pytexTokeniser@buffer}}")
+of.write("\t\t\t\\e\\@pytexTokenList@push\\e{\\e\\@pytexToken@Identifier\\e{\\@pytexTokeniser@buffer}}")
 of.write("\n\t\t")
 for _ in range(ficount):
     of.write("\\fi")
@@ -55,7 +55,7 @@ of.write("}\n\n")
 # END NUMBER TOKEN
 of.write("\\def\\@pytexTokeniser@endnumbertoken{\n")
 of.write("\t\\ifnum\\state="+str(NUMBER_STATE)+"\n")
-of.write("\t\t\\e\\@pytexTokeniser@TokenList@push\\e{\\e\\@pytexToken@Number\\e{\\@pytexTokeniser@buffer}}\n")
+of.write("\t\t\\e\\@pytexTokenList@push\\e{\\e\\@pytexToken@Number\\e{\\@pytexTokeniser@buffer}}\n")
 of.write("\t\t\\gdef\\@pytexTokeniser@buffer{}\n")
 of.write("\t\t\\state=0\n")
 of.write("\t\\fi\n")
@@ -65,7 +65,7 @@ of.write("}\n\n")
 # DEDENT
 of.write("\\def\\@pytexTokeniser@dedent{\n")
 of.write("\t\\ifnum\\currentindent<\\lastindent\n")
-of.write("\t\t\\@pytexTokeniser@TokenList@push{\\@pytexToken@Dedent}\n")
+of.write("\t\t\\@pytexTokenList@push{\\@pytexToken@Dedent}\n")
 of.write("\t\t\\indentStack@popd\n")
 of.write("\t\t\\indentStack@peek{\\lastindent}\n")
 of.write("\t\t\\ifnum\\currentindent>\\lastindent\n")
@@ -82,7 +82,7 @@ of.write("\t\t\\indentStack@peek{\\lastindent}\n")
 of.write("\t\t\\ifnum\\currentindent>\\lastindent\n")
 of.write("\t\t\t\\e\\indentStack@push\\e{\\the\\currentindent}\n")
 of.write("\t\t\t\\edef\\lastindent{\\the\\currentindent}\n")
-of.write("\t\t\t\\@pytexTokeniser@TokenList@push{\\@pytexToken@Indent}\n")
+of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@Indent}\n")
 of.write("\t\t\\fi\n")
 of.write("\t\t\\@pytexTokeniser@dedent\n")
 of.write("\t\t\\currentindent=0\n")
@@ -99,7 +99,7 @@ for sym in symbolnames:
     mangled_sym = "".join([specialcharnames[x] for x in sym])
     of.write("\t\t\\def\\@pytexTMP@symbol{"+mangled_sym+"}\n")
     of.write("\t\t\\ifx\\@pytexTokeniser@buffer\\@pytexTMP@symbol\n")
-    of.write("\t\t\t\\@pytexTokeniser@TokenList@push{\\@pytexToken@"+symbolnames[sym]+"}\n")
+    of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@"+symbolnames[sym]+"}\n")
     of.write("\t\t\\else\n")
     ficount += 1
 of.write("\t\t\\@pytexError{Tokeniser error: unknown symbol: \\@pytexTokeniser@buffer}\n")
@@ -177,7 +177,7 @@ of.write("""
     \\@pytexTokeniser@endsymboltoken
     \\ifnum\\state=0\\else\\ifnum\\state="""+str(COMMENT_STATE)+"""\\else \\@pytexError{Internal error: starting to tokenise comment when not in 0 state.}\\fi\\fi
     \\state="""+str(INDENT_STATE)+"""
-    \\@pytexTokeniser@TokenList@push{\\@pytexToken@Newline}
+    \\@pytexTokenList@push{\\@pytexToken@Newline}
 }
 
 \\def\\@pytexChar@Space{
