@@ -3,554 +3,663 @@
 
 \edef\@pytexTMP@prevTildaCatcode{\the\catcode126}
 \edef\@pytexTMP@prevCaretCatcode{\the\catcode94}
+\edef\@pytexTMP@prevMinusCatcode{\the\catcode45}
 \edef\@pytexTMP@prevStarCatcode{\the\catcode42}
 \catcode`~=13
 \catcode`^=13
 \catcode`*=13
-\let~\let
+\catcode`-=13
+\let~\def
+\let-\expandafter
 \let^\catcode
 
-\def*{\@pytexChar@a}
+\def*{\@pytexActive@a}
 ^97=13
-~a*
+-~*{a}
 ^97=11
 
-\def*{\@pytexChar@b}
+\def*{\@pytexActive@b}
 ^98=13
-~b*
+-~*{b}
 ^98=11
 
-\def*{\@pytexChar@c}
+\def*{\@pytexActive@c}
 ^99=13
-~c*
+-~*{c}
 ^99=11
 
-\def*{\@pytexChar@d}
+\def*{\@pytexActive@d}
 ^100=13
-~d*
+-~*{d}
 ^100=11
 
-\def*{\@pytexChar@e}
+\def*{\@pytexActive@e}
 ^101=13
-~e*
+-~*{e}
 ^101=11
 
-\def*{\@pytexChar@f}
+\def*{\@pytexActive@f}
 ^102=13
-~f*
+-~*{f}
 ^102=11
 
-\def*{\@pytexChar@g}
+\def*{\@pytexActive@g}
 ^103=13
-~g*
+-~*{g}
 ^103=11
 
-\def*{\@pytexChar@h}
+\def*{\@pytexActive@h}
 ^104=13
-~h*
+-~*{h}
 ^104=11
 
-\def*{\@pytexChar@i}
+\def*{\@pytexActive@i}
 ^105=13
-~i*
+-~*{i}
 ^105=11
 
-\def*{\@pytexChar@j}
+\def*{\@pytexActive@j}
 ^106=13
-~j*
+-~*{j}
 ^106=11
 
-\def*{\@pytexChar@k}
+\def*{\@pytexActive@k}
 ^107=13
-~k*
+-~*{k}
 ^107=11
 
-\def*{\@pytexChar@l}
+\def*{\@pytexActive@l}
 ^108=13
-~l*
+-~*{l}
 ^108=11
 
-\def*{\@pytexChar@m}
+\def*{\@pytexActive@m}
 ^109=13
-~m*
+-~*{m}
 ^109=11
 
-\def*{\@pytexChar@n}
+\def*{\@pytexActive@n}
 ^110=13
-~n*
+-~*{n}
 ^110=11
 
-\def*{\@pytexChar@o}
+\def*{\@pytexActive@o}
 ^111=13
-~o*
+-~*{o}
 ^111=11
 
-\def*{\@pytexChar@p}
+\def*{\@pytexActive@p}
 ^112=13
-~p*
+-~*{p}
 ^112=11
 
-\def*{\@pytexChar@q}
+\def*{\@pytexActive@q}
 ^113=13
-~q*
+-~*{q}
 ^113=11
 
-\def*{\@pytexChar@r}
+\def*{\@pytexActive@r}
 ^114=13
-~r*
+-~*{r}
 ^114=11
 
-\def*{\@pytexChar@s}
+\def*{\@pytexActive@s}
 ^115=13
-~s*
+-~*{s}
 ^115=11
 
-\def*{\@pytexChar@t}
+\def*{\@pytexActive@t}
 ^116=13
-~t*
+-~*{t}
 ^116=11
 
-\def*{\@pytexChar@u}
+\def*{\@pytexActive@u}
 ^117=13
-~u*
+-~*{u}
 ^117=11
 
-\def*{\@pytexChar@v}
+\def*{\@pytexActive@v}
 ^118=13
-~v*
+-~*{v}
 ^118=11
 
-\def*{\@pytexChar@w}
+\def*{\@pytexActive@w}
 ^119=13
-~w*
+-~*{w}
 ^119=11
 
-\def*{\@pytexChar@x}
+\def*{\@pytexActive@x}
 ^120=13
-~x*
+-~*{x}
 ^120=11
 
-\def*{\@pytexChar@y}
+\def*{\@pytexActive@y}
 ^121=13
-~y*
+-~*{y}
 ^121=11
 
-\def*{\@pytexChar@z}
+\def*{\@pytexActive@z}
 ^122=13
-~z*
+-~*{z}
 ^122=11
 
-\def*{\@pytexChar@A}
+\def*{\@pytexActive@A}
 ^65=13
-~A*
+-~*{A}
 ^65=11
 
-\def*{\@pytexChar@B}
+\def*{\@pytexActive@B}
 ^66=13
-~B*
+-~*{B}
 ^66=11
 
-\def*{\@pytexChar@C}
+\def*{\@pytexActive@C}
 ^67=13
-~C*
+-~*{C}
 ^67=11
 
-\def*{\@pytexChar@D}
+\def*{\@pytexActive@D}
 ^68=13
-~D*
+-~*{D}
 ^68=11
 
-\def*{\@pytexChar@E}
+\def*{\@pytexActive@E}
 ^69=13
-~E*
+-~*{E}
 ^69=11
 
-\def*{\@pytexChar@F}
+\def*{\@pytexActive@F}
 ^70=13
-~F*
+-~*{F}
 ^70=11
 
-\def*{\@pytexChar@G}
+\def*{\@pytexActive@G}
 ^71=13
-~G*
+-~*{G}
 ^71=11
 
-\def*{\@pytexChar@H}
+\def*{\@pytexActive@H}
 ^72=13
-~H*
+-~*{H}
 ^72=11
 
-\def*{\@pytexChar@I}
+\def*{\@pytexActive@I}
 ^73=13
-~I*
+-~*{I}
 ^73=11
 
-\def*{\@pytexChar@J}
+\def*{\@pytexActive@J}
 ^74=13
-~J*
+-~*{J}
 ^74=11
 
-\def*{\@pytexChar@K}
+\def*{\@pytexActive@K}
 ^75=13
-~K*
+-~*{K}
 ^75=11
 
-\def*{\@pytexChar@L}
+\def*{\@pytexActive@L}
 ^76=13
-~L*
+-~*{L}
 ^76=11
 
-\def*{\@pytexChar@M}
+\def*{\@pytexActive@M}
 ^77=13
-~M*
+-~*{M}
 ^77=11
 
-\def*{\@pytexChar@N}
+\def*{\@pytexActive@N}
 ^78=13
-~N*
+-~*{N}
 ^78=11
 
-\def*{\@pytexChar@O}
+\def*{\@pytexActive@O}
 ^79=13
-~O*
+-~*{O}
 ^79=11
 
-\def*{\@pytexChar@P}
+\def*{\@pytexActive@P}
 ^80=13
-~P*
+-~*{P}
 ^80=11
 
-\def*{\@pytexChar@Q}
+\def*{\@pytexActive@Q}
 ^81=13
-~Q*
+-~*{Q}
 ^81=11
 
-\def*{\@pytexChar@R}
+\def*{\@pytexActive@R}
 ^82=13
-~R*
+-~*{R}
 ^82=11
 
-\def*{\@pytexChar@S}
+\def*{\@pytexActive@S}
 ^83=13
-~S*
+-~*{S}
 ^83=11
 
-\def*{\@pytexChar@T}
+\def*{\@pytexActive@T}
 ^84=13
-~T*
+-~*{T}
 ^84=11
 
-\def*{\@pytexChar@U}
+\def*{\@pytexActive@U}
 ^85=13
-~U*
+-~*{U}
 ^85=11
 
-\def*{\@pytexChar@V}
+\def*{\@pytexActive@V}
 ^86=13
-~V*
+-~*{V}
 ^86=11
 
-\def*{\@pytexChar@W}
+\def*{\@pytexActive@W}
 ^87=13
-~W*
+-~*{W}
 ^87=11
 
-\def*{\@pytexChar@X}
+\def*{\@pytexActive@X}
 ^88=13
-~X*
+-~*{X}
 ^88=11
 
-\def*{\@pytexChar@Y}
+\def*{\@pytexActive@Y}
 ^89=13
-~Y*
+-~*{Y}
 ^89=11
 
-\def*{\@pytexChar@Z}
+\def*{\@pytexActive@Z}
 ^90=13
-~Z*
+-~*{Z}
 ^90=11
 
 \edef\@pytexTMP@prevcatcode{\the\catcode48}
 \def\@pytexTMP@resetcatcode{\catcode48=\@pytexTMP@prevcatcode}
 \catcode48=13
-\def0{\@pytexChar@Zero}
+\def\@pytexActive@Zero{0}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode49}
 \def\@pytexTMP@resetcatcode{\catcode49=\@pytexTMP@prevcatcode}
 \catcode49=13
-\def1{\@pytexChar@One}
+\def\@pytexActive@One{1}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode50}
 \def\@pytexTMP@resetcatcode{\catcode50=\@pytexTMP@prevcatcode}
 \catcode50=13
-\def2{\@pytexChar@Two}
+\def\@pytexActive@Two{2}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode51}
 \def\@pytexTMP@resetcatcode{\catcode51=\@pytexTMP@prevcatcode}
 \catcode51=13
-\def3{\@pytexChar@Three}
+\def\@pytexActive@Three{3}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode52}
 \def\@pytexTMP@resetcatcode{\catcode52=\@pytexTMP@prevcatcode}
 \catcode52=13
-\def4{\@pytexChar@Four}
+\def\@pytexActive@Four{4}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode53}
 \def\@pytexTMP@resetcatcode{\catcode53=\@pytexTMP@prevcatcode}
 \catcode53=13
-\def5{\@pytexChar@Five}
+\def\@pytexActive@Five{5}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode54}
 \def\@pytexTMP@resetcatcode{\catcode54=\@pytexTMP@prevcatcode}
 \catcode54=13
-\def6{\@pytexChar@Six}
+\def\@pytexActive@Six{6}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode55}
 \def\@pytexTMP@resetcatcode{\catcode55=\@pytexTMP@prevcatcode}
 \catcode55=13
-\def7{\@pytexChar@Seven}
+\def\@pytexActive@Seven{7}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode56}
 \def\@pytexTMP@resetcatcode{\catcode56=\@pytexTMP@prevcatcode}
 \catcode56=13
-\def8{\@pytexChar@Eight}
+\def\@pytexActive@Eight{8}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode57}
 \def\@pytexTMP@resetcatcode{\catcode57=\@pytexTMP@prevcatcode}
 \catcode57=13
-\def9{\@pytexChar@Nine}
+\def\@pytexActive@Nine{9}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode32}
 \def\@pytexTMP@resetcatcode{\catcode32=\@pytexTMP@prevcatcode}
 \catcode32=13
-\def {\@pytexChar@Space}
+\def\@pytexActive@Space{ }
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode33}
 \def\@pytexTMP@resetcatcode{\catcode33=\@pytexTMP@prevcatcode}
 \catcode33=13
-\def!{\@pytexChar@ExclamationMark}
+\def\@pytexActive@ExclamationMark{!}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode34}
 \def\@pytexTMP@resetcatcode{\catcode34=\@pytexTMP@prevcatcode}
 \catcode34=13
-\def"{\@pytexChar@DoubleQuote}
+\def\@pytexActive@DoubleQuote{"}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode35}
 \def\@pytexTMP@resetcatcode{\catcode35=\@pytexTMP@prevcatcode}
 \catcode35=13
-\def#{\@pytexChar@Hash}
+\def\@pytexActive@Hash{#}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode36}
 \def\@pytexTMP@resetcatcode{\catcode36=\@pytexTMP@prevcatcode}
 \catcode36=13
-\def${\@pytexChar@Dollar}
+\def\@pytexActive@Dollar{$}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode37}
 \def\@pytexTMP@resetcatcode{\catcode37=\@pytexTMP@prevcatcode}
 \catcode37=13
-\def%{\@pytexChar@Percent}
+\def\@pytexActive@Percent{%}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode38}
 \def\@pytexTMP@resetcatcode{\catcode38=\@pytexTMP@prevcatcode}
 \catcode38=13
-\def&{\@pytexChar@Ampersand}
+\def\@pytexActive@Ampersand{&}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode39}
 \def\@pytexTMP@resetcatcode{\catcode39=\@pytexTMP@prevcatcode}
 \catcode39=13
-\def'{\@pytexChar@SingleQuote}
+\def\@pytexActive@SingleQuote{'}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode40}
 \def\@pytexTMP@resetcatcode{\catcode40=\@pytexTMP@prevcatcode}
 \catcode40=13
-\def({\@pytexChar@OpenParen}
+\def\@pytexActive@OpenParen{(}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode41}
 \def\@pytexTMP@resetcatcode{\catcode41=\@pytexTMP@prevcatcode}
 \catcode41=13
-\def){\@pytexChar@CloseParen}
+\def\@pytexActive@CloseParen{)}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode42}
 \def\@pytexTMP@resetcatcode{\catcode42=\@pytexTMP@prevcatcode}
 \catcode42=13
-\def*{\@pytexChar@Asterisk}
+\def\@pytexActive@Asterisk{*}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode43}
 \def\@pytexTMP@resetcatcode{\catcode43=\@pytexTMP@prevcatcode}
 \catcode43=13
-\def+{\@pytexChar@Plus}
+\def\@pytexActive@Plus{+}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode44}
 \def\@pytexTMP@resetcatcode{\catcode44=\@pytexTMP@prevcatcode}
 \catcode44=13
-\def,{\@pytexChar@Comma}
+\def\@pytexActive@Comma{,}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode45}
 \def\@pytexTMP@resetcatcode{\catcode45=\@pytexTMP@prevcatcode}
 \catcode45=13
-\def-{\@pytexChar@Minus}
+\def\@pytexActive@Minus{-}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode46}
 \def\@pytexTMP@resetcatcode{\catcode46=\@pytexTMP@prevcatcode}
 \catcode46=13
-\def.{\@pytexChar@Dot}
+\def\@pytexActive@Dot{.}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode47}
 \def\@pytexTMP@resetcatcode{\catcode47=\@pytexTMP@prevcatcode}
 \catcode47=13
-\def/{\@pytexChar@ForwardSlash}
+\def\@pytexActive@ForwardSlash{/}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode58}
 \def\@pytexTMP@resetcatcode{\catcode58=\@pytexTMP@prevcatcode}
 \catcode58=13
-\def:{\@pytexChar@Colon}
+\def\@pytexActive@Colon{:}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode59}
 \def\@pytexTMP@resetcatcode{\catcode59=\@pytexTMP@prevcatcode}
 \catcode59=13
-\def;{\@pytexChar@Semicolon}
+\def\@pytexActive@Semicolon{;}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode60}
 \def\@pytexTMP@resetcatcode{\catcode60=\@pytexTMP@prevcatcode}
 \catcode60=13
-\def<{\@pytexChar@LessThan}
+\def\@pytexActive@LessThan{<}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode61}
 \def\@pytexTMP@resetcatcode{\catcode61=\@pytexTMP@prevcatcode}
 \catcode61=13
-\def={\@pytexChar@Equals}
+\def\@pytexActive@Equals{=}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode62}
 \def\@pytexTMP@resetcatcode{\catcode62=\@pytexTMP@prevcatcode}
 \catcode62=13
-\def>{\@pytexChar@GreaterThan}
+\def\@pytexActive@GreaterThan{>}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode63}
 \def\@pytexTMP@resetcatcode{\catcode63=\@pytexTMP@prevcatcode}
 \catcode63=13
-\def?{\@pytexChar@QuestionMark}
+\def\@pytexActive@QuestionMark{?}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode91}
 \def\@pytexTMP@resetcatcode{\catcode91=\@pytexTMP@prevcatcode}
 \catcode91=13
-\def[{\@pytexChar@OpenBracket}
+\def\@pytexActive@OpenBracket{[}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode93}
 \def\@pytexTMP@resetcatcode{\catcode93=\@pytexTMP@prevcatcode}
 \catcode93=13
-\def]{\@pytexChar@CloseBracket}
+\def\@pytexActive@CloseBracket{]}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode94}
 \def\@pytexTMP@resetcatcode{\catcode94=\@pytexTMP@prevcatcode}
 \catcode94=13
-\def^{\@pytexChar@Caret}
+\def\@pytexActive@Caret{^}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode95}
 \def\@pytexTMP@resetcatcode{\catcode95=\@pytexTMP@prevcatcode}
 \catcode95=13
-\def_{\@pytexChar@Underscore}
+\def\@pytexActive@Underscore{_}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode96}
 \def\@pytexTMP@resetcatcode{\catcode96=\@pytexTMP@prevcatcode}
 \catcode96=13
-\def`{\@pytexChar@Backtick}
+\def\@pytexActive@Backtick{`}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode124}
 \def\@pytexTMP@resetcatcode{\catcode124=\@pytexTMP@prevcatcode}
 \catcode124=13
-\def|{\@pytexChar@Pipe}
+\def\@pytexActive@Pipe{|}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode126}
 \def\@pytexTMP@resetcatcode{\catcode126=\@pytexTMP@prevcatcode}
 \catcode126=13
-\def~{\@pytexChar@Tilde}
+\def\@pytexActive@Tilde{~}
 \@pytexTMP@resetcatcode
 
 \edef\@pytexTMP@prevcatcode{\the\catcode9}
 \def\@pytexTMP@resetcatcode{\catcode9=\@pytexTMP@prevcatcode}
 \catcode9=13
-\def	{\@pytexChar@Tab}
+\def\@pytexActive@Tab{	}
 \@pytexTMP@resetcatcode
 
-\def\@pytexTMP@macro{\@pytexChar@OpenBrace}\edef\@pytexTMP@prevcatcode{\the\catcode123}
+\catcode`~=1
+\catcode`-=2
+\edef\@pytexTMP@prevcatcode{\the\catcode123}
 \def\@pytexTMP@resetcatcode{\catcode123=\@pytexTMP@prevcatcode}
 \catcode123=13
-\let{\@pytexTMP@macro
+\def\@pytexActive@OpenBrace~{-
 \@pytexTMP@resetcatcode
 
-\def\@pytexTMP@macro{\@pytexChar@CloseBrace}\edef\@pytexTMP@prevcatcode{\the\catcode125}
+\edef\@pytexTMP@prevcatcode{\the\catcode125}
 \def\@pytexTMP@resetcatcode{\catcode125=\@pytexTMP@prevcatcode}
 \catcode125=13
-\let}\@pytexTMP@macro
+\def\@pytexActive@CloseBrace~}-
 \@pytexTMP@resetcatcode
 
-\def\@pytexTMP@macro{\@pytexChar@Backslash}
-\edef\@pytexTMP@prevcatcode{\the\catcode126}
-\def\@pytexTMP@resetcatcode{\catcode126=\@pytexTMP@prevcatcode\catcode92=0}
-\catcode126=0
+\catcode`~=13
+\let~\let
+\edef\@pytexTMP@prevcatcode{\the\catcode92}
+\def\@pytexTMP@resetcatcode{\catcode92=\@pytexTMP@prevcatcode}
+\catcode`~=0
 \catcode92=13
-~let\~@pytexTMP@macro
+~def~@pytexActive@Backslash{\}
 ~@pytexTMP@resetcatcode
 
-\def\@pytexTMP@macro{\@pytexChar@Newline}
+\catcode126=13
 \edef\@pytexTMP@prevcatcode{\the\catcode13}
 \def\@pytexTMP@resetcatcode{\catcode13=\@pytexTMP@prevcatcode}%
 \catcode13=13%
-\let
-\@pytexTMP@macro%
-\catcode13=5 %
+\def\@pytexActive@Newline{
+}%
+\catcode13=5%
 
 \catcode`~=\@pytexTMP@prevTildaCatcode
 \catcode`^=\@pytexTMP@prevCaretCatcode
+\catcode`-=\@pytexTMP@prevMinusCatcode
 \catcode`*=\@pytexTMP@prevStarCatcode
 
 \let\@pytexTMP@macro\undefined
 \let\@pytexTMP@prevcatcode\undefined
 \let\@pytexTMP@prevTildaCatcode\undefined
 \let\@pytexTMP@prevCaretCatcode\undefined
+\let\@pytexTMP@prevMinusCatcode\undefined
 \let\@pytexTMP@prevStarCatcode\undefined
 \let\@pytexTMP@resetcatcode\undefined
 
 
-\def\@pytexCatcodes@setallactive{
+\def\@pytexThingamajig{
+	\expandafter\def\@pytexActive@a{\@pytexChar@a}
+	\expandafter\def\@pytexActive@b{\@pytexChar@b}
+	\expandafter\def\@pytexActive@c{\@pytexChar@c}
+	\expandafter\def\@pytexActive@d{\@pytexChar@d}
+	\expandafter\def\@pytexActive@e{\@pytexChar@e}
+	\expandafter\def\@pytexActive@f{\@pytexChar@f}
+	\expandafter\def\@pytexActive@g{\@pytexChar@g}
+	\expandafter\def\@pytexActive@h{\@pytexChar@h}
+	\expandafter\def\@pytexActive@i{\@pytexChar@i}
+	\expandafter\def\@pytexActive@j{\@pytexChar@j}
+	\expandafter\def\@pytexActive@k{\@pytexChar@k}
+	\expandafter\def\@pytexActive@l{\@pytexChar@l}
+	\expandafter\def\@pytexActive@m{\@pytexChar@m}
+	\expandafter\def\@pytexActive@n{\@pytexChar@n}
+	\expandafter\def\@pytexActive@o{\@pytexChar@o}
+	\expandafter\def\@pytexActive@p{\@pytexChar@p}
+	\expandafter\def\@pytexActive@q{\@pytexChar@q}
+	\expandafter\def\@pytexActive@r{\@pytexChar@r}
+	\expandafter\def\@pytexActive@s{\@pytexChar@s}
+	\expandafter\def\@pytexActive@t{\@pytexChar@t}
+	\expandafter\def\@pytexActive@u{\@pytexChar@u}
+	\expandafter\def\@pytexActive@v{\@pytexChar@v}
+	\expandafter\def\@pytexActive@w{\@pytexChar@w}
+	\expandafter\def\@pytexActive@x{\@pytexChar@x}
+	\expandafter\def\@pytexActive@y{\@pytexChar@y}
+	\expandafter\def\@pytexActive@z{\@pytexChar@z}
+	\expandafter\def\@pytexActive@A{\@pytexChar@A}
+	\expandafter\def\@pytexActive@B{\@pytexChar@B}
+	\expandafter\def\@pytexActive@C{\@pytexChar@C}
+	\expandafter\def\@pytexActive@D{\@pytexChar@D}
+	\expandafter\def\@pytexActive@E{\@pytexChar@E}
+	\expandafter\def\@pytexActive@F{\@pytexChar@F}
+	\expandafter\def\@pytexActive@G{\@pytexChar@G}
+	\expandafter\def\@pytexActive@H{\@pytexChar@H}
+	\expandafter\def\@pytexActive@I{\@pytexChar@I}
+	\expandafter\def\@pytexActive@J{\@pytexChar@J}
+	\expandafter\def\@pytexActive@K{\@pytexChar@K}
+	\expandafter\def\@pytexActive@L{\@pytexChar@L}
+	\expandafter\def\@pytexActive@M{\@pytexChar@M}
+	\expandafter\def\@pytexActive@N{\@pytexChar@N}
+	\expandafter\def\@pytexActive@O{\@pytexChar@O}
+	\expandafter\def\@pytexActive@P{\@pytexChar@P}
+	\expandafter\def\@pytexActive@Q{\@pytexChar@Q}
+	\expandafter\def\@pytexActive@R{\@pytexChar@R}
+	\expandafter\def\@pytexActive@S{\@pytexChar@S}
+	\expandafter\def\@pytexActive@T{\@pytexChar@T}
+	\expandafter\def\@pytexActive@U{\@pytexChar@U}
+	\expandafter\def\@pytexActive@V{\@pytexChar@V}
+	\expandafter\def\@pytexActive@W{\@pytexChar@W}
+	\expandafter\def\@pytexActive@X{\@pytexChar@X}
+	\expandafter\def\@pytexActive@Y{\@pytexChar@Y}
+	\expandafter\def\@pytexActive@Z{\@pytexChar@Z}
+	\expandafter\def\@pytexActive@Zero{\@pytexChar@Zero}
+	\expandafter\def\@pytexActive@One{\@pytexChar@One}
+	\expandafter\def\@pytexActive@Two{\@pytexChar@Two}
+	\expandafter\def\@pytexActive@Three{\@pytexChar@Three}
+	\expandafter\def\@pytexActive@Four{\@pytexChar@Four}
+	\expandafter\def\@pytexActive@Five{\@pytexChar@Five}
+	\expandafter\def\@pytexActive@Six{\@pytexChar@Six}
+	\expandafter\def\@pytexActive@Seven{\@pytexChar@Seven}
+	\expandafter\def\@pytexActive@Eight{\@pytexChar@Eight}
+	\expandafter\def\@pytexActive@Nine{\@pytexChar@Nine}
+	\expandafter\def\@pytexActive@Space{\@pytexChar@Space}
+	\expandafter\def\@pytexActive@ExclamationMark{\@pytexChar@ExclamationMark}
+	\expandafter\def\@pytexActive@DoubleQuote{\@pytexChar@DoubleQuote}
+	\expandafter\def\@pytexActive@Hash{\@pytexChar@Hash}
+	\expandafter\def\@pytexActive@Dollar{\@pytexChar@Dollar}
+	\expandafter\def\@pytexActive@Percent{\@pytexChar@Percent}
+	\expandafter\def\@pytexActive@Ampersand{\@pytexChar@Ampersand}
+	\expandafter\def\@pytexActive@SingleQuote{\@pytexChar@SingleQuote}
+	\expandafter\def\@pytexActive@OpenParen{\@pytexChar@OpenParen}
+	\expandafter\def\@pytexActive@CloseParen{\@pytexChar@CloseParen}
+	\expandafter\def\@pytexActive@Asterisk{\@pytexChar@Asterisk}
+	\expandafter\def\@pytexActive@Plus{\@pytexChar@Plus}
+	\expandafter\def\@pytexActive@Comma{\@pytexChar@Comma}
+	\expandafter\def\@pytexActive@Minus{\@pytexChar@Minus}
+	\expandafter\def\@pytexActive@Dot{\@pytexChar@Dot}
+	\expandafter\def\@pytexActive@ForwardSlash{\@pytexChar@ForwardSlash}
+	\expandafter\def\@pytexActive@Colon{\@pytexChar@Colon}
+	\expandafter\def\@pytexActive@Semicolon{\@pytexChar@Semicolon}
+	\expandafter\def\@pytexActive@LessThan{\@pytexChar@LessThan}
+	\expandafter\def\@pytexActive@Equals{\@pytexChar@Equals}
+	\expandafter\def\@pytexActive@GreaterThan{\@pytexChar@GreaterThan}
+	\expandafter\def\@pytexActive@QuestionMark{\@pytexChar@QuestionMark}
+	\expandafter\def\@pytexActive@OpenBracket{\@pytexChar@OpenBracket}
+	\expandafter\def\@pytexActive@CloseBracket{\@pytexChar@CloseBracket}
+	\expandafter\def\@pytexActive@Caret{\@pytexChar@Caret}
+	\expandafter\def\@pytexActive@Underscore{\@pytexChar@Underscore}
+	\expandafter\def\@pytexActive@Backtick{\@pytexChar@Backtick}
+	\expandafter\def\@pytexActive@OpenBrace{\@pytexChar@OpenBrace}
+	\expandafter\def\@pytexActive@Pipe{\@pytexChar@Pipe}
+	\expandafter\def\@pytexActive@CloseBrace{\@pytexChar@CloseBrace}
+	\expandafter\def\@pytexActive@Tilde{\@pytexChar@Tilde}
+	\expandafter\def\@pytexActive@Backslash{\@pytexChar@Backslash}
+	\expandafter\def\@pytexActive@Tab{\@pytexChar@Tab}
+	\expandafter\def\@pytexActive@Newline{\@pytexChar@Newline}
+}
+
+
+\@pytexThingamajig
+\def\@pytexMakeAllActive{
 	\catcode48=13
 	\catcode49=13
 	\catcode50=13
