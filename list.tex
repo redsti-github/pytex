@@ -1,33 +1,36 @@
 
 
-% #1 = queue name to create
+% #1 = list name
 \def\@pytexList@new#1{%
 	\e\def\csname #1@size\endcsname{0}%
 	\e\def\csname #1@push\endcsname##1{\@pytexList@push{#1}{##1}}%
 	\e\def\csname #1@getim\endcsname##1{\@pytexList@getim{#1}{##1}}%
-	\e\def\csname #1@delete\endcsname{\@pytexList@clear{#1}}%
+	\e\def\csname #1@delete\endcsname{\@pytexList@delete{#1}}%
 }
 
-% #1 = queue name, #2 = item
+% #1 = list name, #2 = item
 \def\@pytexList@push#1#2{%
 	\edef\@pytexTMP{#1@\csname #1@size\endcsname}%
 	\e\def\csname\@pytexTMP\endcsname{#2}%
 	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname+1}%
 }
 
-% #1 = queue name, #2 = index
+% #1 = list name, #2 = index
 \def\@pytexList@getim#1#2{\csname#1@#2\endcsname}
 
-% #1 = queue name
-\def\@pytexList@delete#1{% TODO: test
+% #1 = list name
+\def\@pytexList@delete#1{%
 	\ifnum\csname #1@size\endcsname=0 %
 		\e\let\csname #1@size\endcsname\undefined%
 		\e\let\csname #1@push\endcsname\undefined%
 		\e\let\csname #1@getim\endcsname\undefined%
 		\e\let\csname #1@delete\endcsname\undefined%
+		\def\next{\relax}%
 	\else%
-		\e\e\e\let\csname #1@\csname #1@size\endcsname\endscname\undefined%
 		\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1}%
+		\e\let\csname#1@\csname #1@size\endcsname\endcsname\undefined%
+		\def\next{\@pytexList@delete{#1}}%
 	\fi%
+	\next%
 }
 
