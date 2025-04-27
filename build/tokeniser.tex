@@ -4,20 +4,36 @@
 % --- BEGIN tokeniser.tex copy ---
 
 \newcount\state
-\state=5
-
-\def\@pytexTokeniser@buffer{}
-\@pytexList@new{@pytexTokenList}
-
 \newcount\currentindent
-\currentindent=0
-\@pytexStack@new{indentStack}
-\indentStack@push{0}
-
 
 \def\STR_python{python}
 \def\STR_CloseBrace{CloseBrace}
 \def\STR_end{end}
+
+\def\@pytexTokeniser@begin{%
+	\@pytexMakeAllActive%
+	\@pytexDefAll%
+
+	\def\@pytexTokeniser@buffer{}%
+	\@pytexList@new{@pytexTokenList}%
+	\@pytexStack@new{indentStack}%
+	\indentStack@push{0}%
+	\currentindent=0 %
+	\state=5 %
+}
+
+\def\@pytexTokeniser@end{%
+	\let\@pytexTokeniser@buffer\undefined%
+	\@pytexList@new{@pytexTokenList}%
+	\@pytexStack@delete{indentStack}%
+
+	\@pytexResetCatcodes%
+	\@pytexRelaxAll%
+	\expandafter\def\@pytexActive@Newline{\@pytexResetAll}%
+	\@pytexParser@parse%
+
+	\@pytexTokenList@delete%
+}
 
 \def\@pytexTokeniser@checkEnd{%
 	\@pytexTokenList@getendim{0}%
@@ -41,8 +57,9 @@
 								\@pytexTokenList@popd% {
 								\@pytexTokenList@popd% end
 								\@pytexTokenList@popd% \
+								\@pytexTokenList@push{\edef\tokentype{\tokentypeEND}}%
 
-								\end{python}%
+								\@pytexTokeniser@end%
 							\fi%
 						\fi%
 					\fi%

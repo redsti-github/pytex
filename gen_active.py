@@ -90,17 +90,37 @@ of.write("\\let\\@pytexTMP@resetcatcode\\undefined\n\n\n")
 
 
 
-
-of.write("\\def\\@pytexThingamajig{\n")
+# set all active character definitions to \@pytexChar@<char>
+of.write("\\def\\@pytexDefAll{\n")
 for char in string.ascii_lowercase + string.ascii_uppercase + ''.join(specialcharnames.keys()):
     if char == "@": # TODO
         continue
     if char in specialcharnames:
         char = specialcharnames[char]
+    of.write("\t\\expandafter\\let\\expandafter\\@pytexPrevmacro@"+char+"\\@pytexActive@"+char+"\n")
     of.write("\t\\expandafter\\def\\@pytexActive@"+char+"{\\@pytexChar@"+char+"}\n")
-of.write("}\n\n\n")
+of.write("}\n")
 
-of.write("\\@pytexThingamajig\n") # TODO: move this to \@pytexMakeAllActive 
+# set all active character definitions to \relax
+of.write("\\def\\@pytexRelaxAll{\n")
+for char in string.ascii_lowercase + string.ascii_uppercase + ''.join(specialcharnames.keys()):
+    if char == "@": # TODO
+        continue
+    if char in specialcharnames:
+        char = specialcharnames[char]
+    of.write("\t\\expandafter\\let\\@pytexActive@"+char+"\\relax\n")
+of.write("}\n")
+
+# resets all active character definitions
+of.write("\\def\\@pytexResetAll{\n")
+for char in string.ascii_lowercase + string.ascii_uppercase + ''.join(specialcharnames.keys()):
+    if char == "@": # TODO
+        continue
+    if char in specialcharnames:
+        char = specialcharnames[char]
+    of.write("\t\\expandafter\\let\\@pytexActive@"+char+"\\@pytexPrevmacro@"+char+"\n")
+    of.write("\t\\let\\@pytexPrevmacro@"+char+"\\undefined\n")
+of.write("}\n")
 
 
 def alpha_number(x):
@@ -108,17 +128,16 @@ def alpha_number(x):
 
 # macro to set all characters as active
 of.write("\\def\\@pytexMakeAllActive{\n")
-#of.write("\t\\loggingall\n")
-#of.write("\t\\@pytexThingamajig\n")
-for char in string.printable:
-    of.write("\t\\catcode"+str(ord(char))+"=13\n")
 for i in range(256):
     of.write("\t\\edef\\@pytexPrevCatcode@"+alpha_number(i)+"{\\the\\catcode"+str(i)+"}\n")
+for char in string.printable:
+    of.write("\t\\catcode"+str(ord(char))+"=13\n")
 of.write("}\n")
 
+# reset all character catcodes
 of.write("\\def\\@pytexResetCatcodes{\n")
 for i in range(256):
     of.write("\t\\catcode"+str(i)+"=\\@pytexPrevCatcode@"+alpha_number(i)+"\n")
-    #of.write("\t\\edef\\@pytexPrevCatcode@"+str(i)+"{\\the\\catcode"+str(i)+"}\n")
+    of.write("\t\\let\\@pytexPrevCatcode@"+alpha_number(i)+"\\undefined\n")
 of.write("}\n")
 

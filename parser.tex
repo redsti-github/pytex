@@ -145,13 +145,6 @@
 	\ifnum \tokentype = #1 %
 }
 
-
-
-\def\currentidx{0}
-\@pytexStack@new{idxsavestack}
-\@pytexStack@new{resultsavestack}
-\def\@pytexParserReturn{\relax}
-
 \def\savestate{%
 	\e\idxsavestack@push\e{\currentidx}%
 	\e\resultsavestack@push\e{\@pytexParserReturn}%
@@ -445,11 +438,16 @@
 
 \def\@pytexParser@parse{
 	\@pytexLocal@new{current}%
-	\e\@pytexTokenList@push\e{\edef\tokentype{\tokentypeEND}}%
-	
+	\@pytexStack@new{idxsavestack}%
+	\@pytexStack@new{resultsavestack}%
+	\def\currentidx{0}%
+	\def\@pytexParserReturn{\relax}%
+	%
 	\@pytexParser@parseNext%
-	
+	%
 	\let\@pytexParserReturn\undefined%
-	\@pytexTokenList@delete%
+	\@pytexLocal@delete{current}%
+	\@pytexStack@delete{idxsavestack}%
+	\@pytexStack@delete{resultsavestack}%
 }
 

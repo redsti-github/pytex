@@ -558,208 +558,493 @@
 \let\@pytexTMP@resetcatcode\undefined
 
 
-\def\@pytexThingamajig{
+\def\@pytexDefAll{
+	\expandafter\let\expandafter\@pytexPrevmacro@a\@pytexActive@a
 	\expandafter\def\@pytexActive@a{\@pytexChar@a}
+	\expandafter\let\expandafter\@pytexPrevmacro@b\@pytexActive@b
 	\expandafter\def\@pytexActive@b{\@pytexChar@b}
+	\expandafter\let\expandafter\@pytexPrevmacro@c\@pytexActive@c
 	\expandafter\def\@pytexActive@c{\@pytexChar@c}
+	\expandafter\let\expandafter\@pytexPrevmacro@d\@pytexActive@d
 	\expandafter\def\@pytexActive@d{\@pytexChar@d}
+	\expandafter\let\expandafter\@pytexPrevmacro@e\@pytexActive@e
 	\expandafter\def\@pytexActive@e{\@pytexChar@e}
+	\expandafter\let\expandafter\@pytexPrevmacro@f\@pytexActive@f
 	\expandafter\def\@pytexActive@f{\@pytexChar@f}
+	\expandafter\let\expandafter\@pytexPrevmacro@g\@pytexActive@g
 	\expandafter\def\@pytexActive@g{\@pytexChar@g}
+	\expandafter\let\expandafter\@pytexPrevmacro@h\@pytexActive@h
 	\expandafter\def\@pytexActive@h{\@pytexChar@h}
+	\expandafter\let\expandafter\@pytexPrevmacro@i\@pytexActive@i
 	\expandafter\def\@pytexActive@i{\@pytexChar@i}
+	\expandafter\let\expandafter\@pytexPrevmacro@j\@pytexActive@j
 	\expandafter\def\@pytexActive@j{\@pytexChar@j}
+	\expandafter\let\expandafter\@pytexPrevmacro@k\@pytexActive@k
 	\expandafter\def\@pytexActive@k{\@pytexChar@k}
+	\expandafter\let\expandafter\@pytexPrevmacro@l\@pytexActive@l
 	\expandafter\def\@pytexActive@l{\@pytexChar@l}
+	\expandafter\let\expandafter\@pytexPrevmacro@m\@pytexActive@m
 	\expandafter\def\@pytexActive@m{\@pytexChar@m}
+	\expandafter\let\expandafter\@pytexPrevmacro@n\@pytexActive@n
 	\expandafter\def\@pytexActive@n{\@pytexChar@n}
+	\expandafter\let\expandafter\@pytexPrevmacro@o\@pytexActive@o
 	\expandafter\def\@pytexActive@o{\@pytexChar@o}
+	\expandafter\let\expandafter\@pytexPrevmacro@p\@pytexActive@p
 	\expandafter\def\@pytexActive@p{\@pytexChar@p}
+	\expandafter\let\expandafter\@pytexPrevmacro@q\@pytexActive@q
 	\expandafter\def\@pytexActive@q{\@pytexChar@q}
+	\expandafter\let\expandafter\@pytexPrevmacro@r\@pytexActive@r
 	\expandafter\def\@pytexActive@r{\@pytexChar@r}
+	\expandafter\let\expandafter\@pytexPrevmacro@s\@pytexActive@s
 	\expandafter\def\@pytexActive@s{\@pytexChar@s}
+	\expandafter\let\expandafter\@pytexPrevmacro@t\@pytexActive@t
 	\expandafter\def\@pytexActive@t{\@pytexChar@t}
+	\expandafter\let\expandafter\@pytexPrevmacro@u\@pytexActive@u
 	\expandafter\def\@pytexActive@u{\@pytexChar@u}
+	\expandafter\let\expandafter\@pytexPrevmacro@v\@pytexActive@v
 	\expandafter\def\@pytexActive@v{\@pytexChar@v}
+	\expandafter\let\expandafter\@pytexPrevmacro@w\@pytexActive@w
 	\expandafter\def\@pytexActive@w{\@pytexChar@w}
+	\expandafter\let\expandafter\@pytexPrevmacro@x\@pytexActive@x
 	\expandafter\def\@pytexActive@x{\@pytexChar@x}
+	\expandafter\let\expandafter\@pytexPrevmacro@y\@pytexActive@y
 	\expandafter\def\@pytexActive@y{\@pytexChar@y}
+	\expandafter\let\expandafter\@pytexPrevmacro@z\@pytexActive@z
 	\expandafter\def\@pytexActive@z{\@pytexChar@z}
+	\expandafter\let\expandafter\@pytexPrevmacro@A\@pytexActive@A
 	\expandafter\def\@pytexActive@A{\@pytexChar@A}
+	\expandafter\let\expandafter\@pytexPrevmacro@B\@pytexActive@B
 	\expandafter\def\@pytexActive@B{\@pytexChar@B}
+	\expandafter\let\expandafter\@pytexPrevmacro@C\@pytexActive@C
 	\expandafter\def\@pytexActive@C{\@pytexChar@C}
+	\expandafter\let\expandafter\@pytexPrevmacro@D\@pytexActive@D
 	\expandafter\def\@pytexActive@D{\@pytexChar@D}
+	\expandafter\let\expandafter\@pytexPrevmacro@E\@pytexActive@E
 	\expandafter\def\@pytexActive@E{\@pytexChar@E}
+	\expandafter\let\expandafter\@pytexPrevmacro@F\@pytexActive@F
 	\expandafter\def\@pytexActive@F{\@pytexChar@F}
+	\expandafter\let\expandafter\@pytexPrevmacro@G\@pytexActive@G
 	\expandafter\def\@pytexActive@G{\@pytexChar@G}
+	\expandafter\let\expandafter\@pytexPrevmacro@H\@pytexActive@H
 	\expandafter\def\@pytexActive@H{\@pytexChar@H}
+	\expandafter\let\expandafter\@pytexPrevmacro@I\@pytexActive@I
 	\expandafter\def\@pytexActive@I{\@pytexChar@I}
+	\expandafter\let\expandafter\@pytexPrevmacro@J\@pytexActive@J
 	\expandafter\def\@pytexActive@J{\@pytexChar@J}
+	\expandafter\let\expandafter\@pytexPrevmacro@K\@pytexActive@K
 	\expandafter\def\@pytexActive@K{\@pytexChar@K}
+	\expandafter\let\expandafter\@pytexPrevmacro@L\@pytexActive@L
 	\expandafter\def\@pytexActive@L{\@pytexChar@L}
+	\expandafter\let\expandafter\@pytexPrevmacro@M\@pytexActive@M
 	\expandafter\def\@pytexActive@M{\@pytexChar@M}
+	\expandafter\let\expandafter\@pytexPrevmacro@N\@pytexActive@N
 	\expandafter\def\@pytexActive@N{\@pytexChar@N}
+	\expandafter\let\expandafter\@pytexPrevmacro@O\@pytexActive@O
 	\expandafter\def\@pytexActive@O{\@pytexChar@O}
+	\expandafter\let\expandafter\@pytexPrevmacro@P\@pytexActive@P
 	\expandafter\def\@pytexActive@P{\@pytexChar@P}
+	\expandafter\let\expandafter\@pytexPrevmacro@Q\@pytexActive@Q
 	\expandafter\def\@pytexActive@Q{\@pytexChar@Q}
+	\expandafter\let\expandafter\@pytexPrevmacro@R\@pytexActive@R
 	\expandafter\def\@pytexActive@R{\@pytexChar@R}
+	\expandafter\let\expandafter\@pytexPrevmacro@S\@pytexActive@S
 	\expandafter\def\@pytexActive@S{\@pytexChar@S}
+	\expandafter\let\expandafter\@pytexPrevmacro@T\@pytexActive@T
 	\expandafter\def\@pytexActive@T{\@pytexChar@T}
+	\expandafter\let\expandafter\@pytexPrevmacro@U\@pytexActive@U
 	\expandafter\def\@pytexActive@U{\@pytexChar@U}
+	\expandafter\let\expandafter\@pytexPrevmacro@V\@pytexActive@V
 	\expandafter\def\@pytexActive@V{\@pytexChar@V}
+	\expandafter\let\expandafter\@pytexPrevmacro@W\@pytexActive@W
 	\expandafter\def\@pytexActive@W{\@pytexChar@W}
+	\expandafter\let\expandafter\@pytexPrevmacro@X\@pytexActive@X
 	\expandafter\def\@pytexActive@X{\@pytexChar@X}
+	\expandafter\let\expandafter\@pytexPrevmacro@Y\@pytexActive@Y
 	\expandafter\def\@pytexActive@Y{\@pytexChar@Y}
+	\expandafter\let\expandafter\@pytexPrevmacro@Z\@pytexActive@Z
 	\expandafter\def\@pytexActive@Z{\@pytexChar@Z}
+	\expandafter\let\expandafter\@pytexPrevmacro@Zero\@pytexActive@Zero
 	\expandafter\def\@pytexActive@Zero{\@pytexChar@Zero}
+	\expandafter\let\expandafter\@pytexPrevmacro@One\@pytexActive@One
 	\expandafter\def\@pytexActive@One{\@pytexChar@One}
+	\expandafter\let\expandafter\@pytexPrevmacro@Two\@pytexActive@Two
 	\expandafter\def\@pytexActive@Two{\@pytexChar@Two}
+	\expandafter\let\expandafter\@pytexPrevmacro@Three\@pytexActive@Three
 	\expandafter\def\@pytexActive@Three{\@pytexChar@Three}
+	\expandafter\let\expandafter\@pytexPrevmacro@Four\@pytexActive@Four
 	\expandafter\def\@pytexActive@Four{\@pytexChar@Four}
+	\expandafter\let\expandafter\@pytexPrevmacro@Five\@pytexActive@Five
 	\expandafter\def\@pytexActive@Five{\@pytexChar@Five}
+	\expandafter\let\expandafter\@pytexPrevmacro@Six\@pytexActive@Six
 	\expandafter\def\@pytexActive@Six{\@pytexChar@Six}
+	\expandafter\let\expandafter\@pytexPrevmacro@Seven\@pytexActive@Seven
 	\expandafter\def\@pytexActive@Seven{\@pytexChar@Seven}
+	\expandafter\let\expandafter\@pytexPrevmacro@Eight\@pytexActive@Eight
 	\expandafter\def\@pytexActive@Eight{\@pytexChar@Eight}
+	\expandafter\let\expandafter\@pytexPrevmacro@Nine\@pytexActive@Nine
 	\expandafter\def\@pytexActive@Nine{\@pytexChar@Nine}
+	\expandafter\let\expandafter\@pytexPrevmacro@Space\@pytexActive@Space
 	\expandafter\def\@pytexActive@Space{\@pytexChar@Space}
+	\expandafter\let\expandafter\@pytexPrevmacro@ExclamationMark\@pytexActive@ExclamationMark
 	\expandafter\def\@pytexActive@ExclamationMark{\@pytexChar@ExclamationMark}
+	\expandafter\let\expandafter\@pytexPrevmacro@DoubleQuote\@pytexActive@DoubleQuote
 	\expandafter\def\@pytexActive@DoubleQuote{\@pytexChar@DoubleQuote}
+	\expandafter\let\expandafter\@pytexPrevmacro@Hash\@pytexActive@Hash
 	\expandafter\def\@pytexActive@Hash{\@pytexChar@Hash}
+	\expandafter\let\expandafter\@pytexPrevmacro@Dollar\@pytexActive@Dollar
 	\expandafter\def\@pytexActive@Dollar{\@pytexChar@Dollar}
+	\expandafter\let\expandafter\@pytexPrevmacro@Percent\@pytexActive@Percent
 	\expandafter\def\@pytexActive@Percent{\@pytexChar@Percent}
+	\expandafter\let\expandafter\@pytexPrevmacro@Ampersand\@pytexActive@Ampersand
 	\expandafter\def\@pytexActive@Ampersand{\@pytexChar@Ampersand}
+	\expandafter\let\expandafter\@pytexPrevmacro@SingleQuote\@pytexActive@SingleQuote
 	\expandafter\def\@pytexActive@SingleQuote{\@pytexChar@SingleQuote}
+	\expandafter\let\expandafter\@pytexPrevmacro@OpenParen\@pytexActive@OpenParen
 	\expandafter\def\@pytexActive@OpenParen{\@pytexChar@OpenParen}
+	\expandafter\let\expandafter\@pytexPrevmacro@CloseParen\@pytexActive@CloseParen
 	\expandafter\def\@pytexActive@CloseParen{\@pytexChar@CloseParen}
+	\expandafter\let\expandafter\@pytexPrevmacro@Asterisk\@pytexActive@Asterisk
 	\expandafter\def\@pytexActive@Asterisk{\@pytexChar@Asterisk}
+	\expandafter\let\expandafter\@pytexPrevmacro@Plus\@pytexActive@Plus
 	\expandafter\def\@pytexActive@Plus{\@pytexChar@Plus}
+	\expandafter\let\expandafter\@pytexPrevmacro@Comma\@pytexActive@Comma
 	\expandafter\def\@pytexActive@Comma{\@pytexChar@Comma}
+	\expandafter\let\expandafter\@pytexPrevmacro@Minus\@pytexActive@Minus
 	\expandafter\def\@pytexActive@Minus{\@pytexChar@Minus}
+	\expandafter\let\expandafter\@pytexPrevmacro@Dot\@pytexActive@Dot
 	\expandafter\def\@pytexActive@Dot{\@pytexChar@Dot}
+	\expandafter\let\expandafter\@pytexPrevmacro@ForwardSlash\@pytexActive@ForwardSlash
 	\expandafter\def\@pytexActive@ForwardSlash{\@pytexChar@ForwardSlash}
+	\expandafter\let\expandafter\@pytexPrevmacro@Colon\@pytexActive@Colon
 	\expandafter\def\@pytexActive@Colon{\@pytexChar@Colon}
+	\expandafter\let\expandafter\@pytexPrevmacro@Semicolon\@pytexActive@Semicolon
 	\expandafter\def\@pytexActive@Semicolon{\@pytexChar@Semicolon}
+	\expandafter\let\expandafter\@pytexPrevmacro@LessThan\@pytexActive@LessThan
 	\expandafter\def\@pytexActive@LessThan{\@pytexChar@LessThan}
+	\expandafter\let\expandafter\@pytexPrevmacro@Equals\@pytexActive@Equals
 	\expandafter\def\@pytexActive@Equals{\@pytexChar@Equals}
+	\expandafter\let\expandafter\@pytexPrevmacro@GreaterThan\@pytexActive@GreaterThan
 	\expandafter\def\@pytexActive@GreaterThan{\@pytexChar@GreaterThan}
+	\expandafter\let\expandafter\@pytexPrevmacro@QuestionMark\@pytexActive@QuestionMark
 	\expandafter\def\@pytexActive@QuestionMark{\@pytexChar@QuestionMark}
+	\expandafter\let\expandafter\@pytexPrevmacro@OpenBracket\@pytexActive@OpenBracket
 	\expandafter\def\@pytexActive@OpenBracket{\@pytexChar@OpenBracket}
+	\expandafter\let\expandafter\@pytexPrevmacro@CloseBracket\@pytexActive@CloseBracket
 	\expandafter\def\@pytexActive@CloseBracket{\@pytexChar@CloseBracket}
+	\expandafter\let\expandafter\@pytexPrevmacro@Caret\@pytexActive@Caret
 	\expandafter\def\@pytexActive@Caret{\@pytexChar@Caret}
+	\expandafter\let\expandafter\@pytexPrevmacro@Underscore\@pytexActive@Underscore
 	\expandafter\def\@pytexActive@Underscore{\@pytexChar@Underscore}
+	\expandafter\let\expandafter\@pytexPrevmacro@Backtick\@pytexActive@Backtick
 	\expandafter\def\@pytexActive@Backtick{\@pytexChar@Backtick}
+	\expandafter\let\expandafter\@pytexPrevmacro@OpenBrace\@pytexActive@OpenBrace
 	\expandafter\def\@pytexActive@OpenBrace{\@pytexChar@OpenBrace}
+	\expandafter\let\expandafter\@pytexPrevmacro@Pipe\@pytexActive@Pipe
 	\expandafter\def\@pytexActive@Pipe{\@pytexChar@Pipe}
+	\expandafter\let\expandafter\@pytexPrevmacro@CloseBrace\@pytexActive@CloseBrace
 	\expandafter\def\@pytexActive@CloseBrace{\@pytexChar@CloseBrace}
+	\expandafter\let\expandafter\@pytexPrevmacro@Tilde\@pytexActive@Tilde
 	\expandafter\def\@pytexActive@Tilde{\@pytexChar@Tilde}
+	\expandafter\let\expandafter\@pytexPrevmacro@Backslash\@pytexActive@Backslash
 	\expandafter\def\@pytexActive@Backslash{\@pytexChar@Backslash}
+	\expandafter\let\expandafter\@pytexPrevmacro@Tab\@pytexActive@Tab
 	\expandafter\def\@pytexActive@Tab{\@pytexChar@Tab}
+	\expandafter\let\expandafter\@pytexPrevmacro@Newline\@pytexActive@Newline
 	\expandafter\def\@pytexActive@Newline{\@pytexChar@Newline}
 }
-
-
-\@pytexThingamajig
+\def\@pytexRelaxAll{
+	\expandafter\let\@pytexActive@a\relax
+	\expandafter\let\@pytexActive@b\relax
+	\expandafter\let\@pytexActive@c\relax
+	\expandafter\let\@pytexActive@d\relax
+	\expandafter\let\@pytexActive@e\relax
+	\expandafter\let\@pytexActive@f\relax
+	\expandafter\let\@pytexActive@g\relax
+	\expandafter\let\@pytexActive@h\relax
+	\expandafter\let\@pytexActive@i\relax
+	\expandafter\let\@pytexActive@j\relax
+	\expandafter\let\@pytexActive@k\relax
+	\expandafter\let\@pytexActive@l\relax
+	\expandafter\let\@pytexActive@m\relax
+	\expandafter\let\@pytexActive@n\relax
+	\expandafter\let\@pytexActive@o\relax
+	\expandafter\let\@pytexActive@p\relax
+	\expandafter\let\@pytexActive@q\relax
+	\expandafter\let\@pytexActive@r\relax
+	\expandafter\let\@pytexActive@s\relax
+	\expandafter\let\@pytexActive@t\relax
+	\expandafter\let\@pytexActive@u\relax
+	\expandafter\let\@pytexActive@v\relax
+	\expandafter\let\@pytexActive@w\relax
+	\expandafter\let\@pytexActive@x\relax
+	\expandafter\let\@pytexActive@y\relax
+	\expandafter\let\@pytexActive@z\relax
+	\expandafter\let\@pytexActive@A\relax
+	\expandafter\let\@pytexActive@B\relax
+	\expandafter\let\@pytexActive@C\relax
+	\expandafter\let\@pytexActive@D\relax
+	\expandafter\let\@pytexActive@E\relax
+	\expandafter\let\@pytexActive@F\relax
+	\expandafter\let\@pytexActive@G\relax
+	\expandafter\let\@pytexActive@H\relax
+	\expandafter\let\@pytexActive@I\relax
+	\expandafter\let\@pytexActive@J\relax
+	\expandafter\let\@pytexActive@K\relax
+	\expandafter\let\@pytexActive@L\relax
+	\expandafter\let\@pytexActive@M\relax
+	\expandafter\let\@pytexActive@N\relax
+	\expandafter\let\@pytexActive@O\relax
+	\expandafter\let\@pytexActive@P\relax
+	\expandafter\let\@pytexActive@Q\relax
+	\expandafter\let\@pytexActive@R\relax
+	\expandafter\let\@pytexActive@S\relax
+	\expandafter\let\@pytexActive@T\relax
+	\expandafter\let\@pytexActive@U\relax
+	\expandafter\let\@pytexActive@V\relax
+	\expandafter\let\@pytexActive@W\relax
+	\expandafter\let\@pytexActive@X\relax
+	\expandafter\let\@pytexActive@Y\relax
+	\expandafter\let\@pytexActive@Z\relax
+	\expandafter\let\@pytexActive@Zero\relax
+	\expandafter\let\@pytexActive@One\relax
+	\expandafter\let\@pytexActive@Two\relax
+	\expandafter\let\@pytexActive@Three\relax
+	\expandafter\let\@pytexActive@Four\relax
+	\expandafter\let\@pytexActive@Five\relax
+	\expandafter\let\@pytexActive@Six\relax
+	\expandafter\let\@pytexActive@Seven\relax
+	\expandafter\let\@pytexActive@Eight\relax
+	\expandafter\let\@pytexActive@Nine\relax
+	\expandafter\let\@pytexActive@Space\relax
+	\expandafter\let\@pytexActive@ExclamationMark\relax
+	\expandafter\let\@pytexActive@DoubleQuote\relax
+	\expandafter\let\@pytexActive@Hash\relax
+	\expandafter\let\@pytexActive@Dollar\relax
+	\expandafter\let\@pytexActive@Percent\relax
+	\expandafter\let\@pytexActive@Ampersand\relax
+	\expandafter\let\@pytexActive@SingleQuote\relax
+	\expandafter\let\@pytexActive@OpenParen\relax
+	\expandafter\let\@pytexActive@CloseParen\relax
+	\expandafter\let\@pytexActive@Asterisk\relax
+	\expandafter\let\@pytexActive@Plus\relax
+	\expandafter\let\@pytexActive@Comma\relax
+	\expandafter\let\@pytexActive@Minus\relax
+	\expandafter\let\@pytexActive@Dot\relax
+	\expandafter\let\@pytexActive@ForwardSlash\relax
+	\expandafter\let\@pytexActive@Colon\relax
+	\expandafter\let\@pytexActive@Semicolon\relax
+	\expandafter\let\@pytexActive@LessThan\relax
+	\expandafter\let\@pytexActive@Equals\relax
+	\expandafter\let\@pytexActive@GreaterThan\relax
+	\expandafter\let\@pytexActive@QuestionMark\relax
+	\expandafter\let\@pytexActive@OpenBracket\relax
+	\expandafter\let\@pytexActive@CloseBracket\relax
+	\expandafter\let\@pytexActive@Caret\relax
+	\expandafter\let\@pytexActive@Underscore\relax
+	\expandafter\let\@pytexActive@Backtick\relax
+	\expandafter\let\@pytexActive@OpenBrace\relax
+	\expandafter\let\@pytexActive@Pipe\relax
+	\expandafter\let\@pytexActive@CloseBrace\relax
+	\expandafter\let\@pytexActive@Tilde\relax
+	\expandafter\let\@pytexActive@Backslash\relax
+	\expandafter\let\@pytexActive@Tab\relax
+	\expandafter\let\@pytexActive@Newline\relax
+}
+\def\@pytexResetAll{
+	\expandafter\let\@pytexActive@a\@pytexPrevmacro@a
+	\let\@pytexPrevmacro@a\undefined
+	\expandafter\let\@pytexActive@b\@pytexPrevmacro@b
+	\let\@pytexPrevmacro@b\undefined
+	\expandafter\let\@pytexActive@c\@pytexPrevmacro@c
+	\let\@pytexPrevmacro@c\undefined
+	\expandafter\let\@pytexActive@d\@pytexPrevmacro@d
+	\let\@pytexPrevmacro@d\undefined
+	\expandafter\let\@pytexActive@e\@pytexPrevmacro@e
+	\let\@pytexPrevmacro@e\undefined
+	\expandafter\let\@pytexActive@f\@pytexPrevmacro@f
+	\let\@pytexPrevmacro@f\undefined
+	\expandafter\let\@pytexActive@g\@pytexPrevmacro@g
+	\let\@pytexPrevmacro@g\undefined
+	\expandafter\let\@pytexActive@h\@pytexPrevmacro@h
+	\let\@pytexPrevmacro@h\undefined
+	\expandafter\let\@pytexActive@i\@pytexPrevmacro@i
+	\let\@pytexPrevmacro@i\undefined
+	\expandafter\let\@pytexActive@j\@pytexPrevmacro@j
+	\let\@pytexPrevmacro@j\undefined
+	\expandafter\let\@pytexActive@k\@pytexPrevmacro@k
+	\let\@pytexPrevmacro@k\undefined
+	\expandafter\let\@pytexActive@l\@pytexPrevmacro@l
+	\let\@pytexPrevmacro@l\undefined
+	\expandafter\let\@pytexActive@m\@pytexPrevmacro@m
+	\let\@pytexPrevmacro@m\undefined
+	\expandafter\let\@pytexActive@n\@pytexPrevmacro@n
+	\let\@pytexPrevmacro@n\undefined
+	\expandafter\let\@pytexActive@o\@pytexPrevmacro@o
+	\let\@pytexPrevmacro@o\undefined
+	\expandafter\let\@pytexActive@p\@pytexPrevmacro@p
+	\let\@pytexPrevmacro@p\undefined
+	\expandafter\let\@pytexActive@q\@pytexPrevmacro@q
+	\let\@pytexPrevmacro@q\undefined
+	\expandafter\let\@pytexActive@r\@pytexPrevmacro@r
+	\let\@pytexPrevmacro@r\undefined
+	\expandafter\let\@pytexActive@s\@pytexPrevmacro@s
+	\let\@pytexPrevmacro@s\undefined
+	\expandafter\let\@pytexActive@t\@pytexPrevmacro@t
+	\let\@pytexPrevmacro@t\undefined
+	\expandafter\let\@pytexActive@u\@pytexPrevmacro@u
+	\let\@pytexPrevmacro@u\undefined
+	\expandafter\let\@pytexActive@v\@pytexPrevmacro@v
+	\let\@pytexPrevmacro@v\undefined
+	\expandafter\let\@pytexActive@w\@pytexPrevmacro@w
+	\let\@pytexPrevmacro@w\undefined
+	\expandafter\let\@pytexActive@x\@pytexPrevmacro@x
+	\let\@pytexPrevmacro@x\undefined
+	\expandafter\let\@pytexActive@y\@pytexPrevmacro@y
+	\let\@pytexPrevmacro@y\undefined
+	\expandafter\let\@pytexActive@z\@pytexPrevmacro@z
+	\let\@pytexPrevmacro@z\undefined
+	\expandafter\let\@pytexActive@A\@pytexPrevmacro@A
+	\let\@pytexPrevmacro@A\undefined
+	\expandafter\let\@pytexActive@B\@pytexPrevmacro@B
+	\let\@pytexPrevmacro@B\undefined
+	\expandafter\let\@pytexActive@C\@pytexPrevmacro@C
+	\let\@pytexPrevmacro@C\undefined
+	\expandafter\let\@pytexActive@D\@pytexPrevmacro@D
+	\let\@pytexPrevmacro@D\undefined
+	\expandafter\let\@pytexActive@E\@pytexPrevmacro@E
+	\let\@pytexPrevmacro@E\undefined
+	\expandafter\let\@pytexActive@F\@pytexPrevmacro@F
+	\let\@pytexPrevmacro@F\undefined
+	\expandafter\let\@pytexActive@G\@pytexPrevmacro@G
+	\let\@pytexPrevmacro@G\undefined
+	\expandafter\let\@pytexActive@H\@pytexPrevmacro@H
+	\let\@pytexPrevmacro@H\undefined
+	\expandafter\let\@pytexActive@I\@pytexPrevmacro@I
+	\let\@pytexPrevmacro@I\undefined
+	\expandafter\let\@pytexActive@J\@pytexPrevmacro@J
+	\let\@pytexPrevmacro@J\undefined
+	\expandafter\let\@pytexActive@K\@pytexPrevmacro@K
+	\let\@pytexPrevmacro@K\undefined
+	\expandafter\let\@pytexActive@L\@pytexPrevmacro@L
+	\let\@pytexPrevmacro@L\undefined
+	\expandafter\let\@pytexActive@M\@pytexPrevmacro@M
+	\let\@pytexPrevmacro@M\undefined
+	\expandafter\let\@pytexActive@N\@pytexPrevmacro@N
+	\let\@pytexPrevmacro@N\undefined
+	\expandafter\let\@pytexActive@O\@pytexPrevmacro@O
+	\let\@pytexPrevmacro@O\undefined
+	\expandafter\let\@pytexActive@P\@pytexPrevmacro@P
+	\let\@pytexPrevmacro@P\undefined
+	\expandafter\let\@pytexActive@Q\@pytexPrevmacro@Q
+	\let\@pytexPrevmacro@Q\undefined
+	\expandafter\let\@pytexActive@R\@pytexPrevmacro@R
+	\let\@pytexPrevmacro@R\undefined
+	\expandafter\let\@pytexActive@S\@pytexPrevmacro@S
+	\let\@pytexPrevmacro@S\undefined
+	\expandafter\let\@pytexActive@T\@pytexPrevmacro@T
+	\let\@pytexPrevmacro@T\undefined
+	\expandafter\let\@pytexActive@U\@pytexPrevmacro@U
+	\let\@pytexPrevmacro@U\undefined
+	\expandafter\let\@pytexActive@V\@pytexPrevmacro@V
+	\let\@pytexPrevmacro@V\undefined
+	\expandafter\let\@pytexActive@W\@pytexPrevmacro@W
+	\let\@pytexPrevmacro@W\undefined
+	\expandafter\let\@pytexActive@X\@pytexPrevmacro@X
+	\let\@pytexPrevmacro@X\undefined
+	\expandafter\let\@pytexActive@Y\@pytexPrevmacro@Y
+	\let\@pytexPrevmacro@Y\undefined
+	\expandafter\let\@pytexActive@Z\@pytexPrevmacro@Z
+	\let\@pytexPrevmacro@Z\undefined
+	\expandafter\let\@pytexActive@Zero\@pytexPrevmacro@Zero
+	\let\@pytexPrevmacro@Zero\undefined
+	\expandafter\let\@pytexActive@One\@pytexPrevmacro@One
+	\let\@pytexPrevmacro@One\undefined
+	\expandafter\let\@pytexActive@Two\@pytexPrevmacro@Two
+	\let\@pytexPrevmacro@Two\undefined
+	\expandafter\let\@pytexActive@Three\@pytexPrevmacro@Three
+	\let\@pytexPrevmacro@Three\undefined
+	\expandafter\let\@pytexActive@Four\@pytexPrevmacro@Four
+	\let\@pytexPrevmacro@Four\undefined
+	\expandafter\let\@pytexActive@Five\@pytexPrevmacro@Five
+	\let\@pytexPrevmacro@Five\undefined
+	\expandafter\let\@pytexActive@Six\@pytexPrevmacro@Six
+	\let\@pytexPrevmacro@Six\undefined
+	\expandafter\let\@pytexActive@Seven\@pytexPrevmacro@Seven
+	\let\@pytexPrevmacro@Seven\undefined
+	\expandafter\let\@pytexActive@Eight\@pytexPrevmacro@Eight
+	\let\@pytexPrevmacro@Eight\undefined
+	\expandafter\let\@pytexActive@Nine\@pytexPrevmacro@Nine
+	\let\@pytexPrevmacro@Nine\undefined
+	\expandafter\let\@pytexActive@Space\@pytexPrevmacro@Space
+	\let\@pytexPrevmacro@Space\undefined
+	\expandafter\let\@pytexActive@ExclamationMark\@pytexPrevmacro@ExclamationMark
+	\let\@pytexPrevmacro@ExclamationMark\undefined
+	\expandafter\let\@pytexActive@DoubleQuote\@pytexPrevmacro@DoubleQuote
+	\let\@pytexPrevmacro@DoubleQuote\undefined
+	\expandafter\let\@pytexActive@Hash\@pytexPrevmacro@Hash
+	\let\@pytexPrevmacro@Hash\undefined
+	\expandafter\let\@pytexActive@Dollar\@pytexPrevmacro@Dollar
+	\let\@pytexPrevmacro@Dollar\undefined
+	\expandafter\let\@pytexActive@Percent\@pytexPrevmacro@Percent
+	\let\@pytexPrevmacro@Percent\undefined
+	\expandafter\let\@pytexActive@Ampersand\@pytexPrevmacro@Ampersand
+	\let\@pytexPrevmacro@Ampersand\undefined
+	\expandafter\let\@pytexActive@SingleQuote\@pytexPrevmacro@SingleQuote
+	\let\@pytexPrevmacro@SingleQuote\undefined
+	\expandafter\let\@pytexActive@OpenParen\@pytexPrevmacro@OpenParen
+	\let\@pytexPrevmacro@OpenParen\undefined
+	\expandafter\let\@pytexActive@CloseParen\@pytexPrevmacro@CloseParen
+	\let\@pytexPrevmacro@CloseParen\undefined
+	\expandafter\let\@pytexActive@Asterisk\@pytexPrevmacro@Asterisk
+	\let\@pytexPrevmacro@Asterisk\undefined
+	\expandafter\let\@pytexActive@Plus\@pytexPrevmacro@Plus
+	\let\@pytexPrevmacro@Plus\undefined
+	\expandafter\let\@pytexActive@Comma\@pytexPrevmacro@Comma
+	\let\@pytexPrevmacro@Comma\undefined
+	\expandafter\let\@pytexActive@Minus\@pytexPrevmacro@Minus
+	\let\@pytexPrevmacro@Minus\undefined
+	\expandafter\let\@pytexActive@Dot\@pytexPrevmacro@Dot
+	\let\@pytexPrevmacro@Dot\undefined
+	\expandafter\let\@pytexActive@ForwardSlash\@pytexPrevmacro@ForwardSlash
+	\let\@pytexPrevmacro@ForwardSlash\undefined
+	\expandafter\let\@pytexActive@Colon\@pytexPrevmacro@Colon
+	\let\@pytexPrevmacro@Colon\undefined
+	\expandafter\let\@pytexActive@Semicolon\@pytexPrevmacro@Semicolon
+	\let\@pytexPrevmacro@Semicolon\undefined
+	\expandafter\let\@pytexActive@LessThan\@pytexPrevmacro@LessThan
+	\let\@pytexPrevmacro@LessThan\undefined
+	\expandafter\let\@pytexActive@Equals\@pytexPrevmacro@Equals
+	\let\@pytexPrevmacro@Equals\undefined
+	\expandafter\let\@pytexActive@GreaterThan\@pytexPrevmacro@GreaterThan
+	\let\@pytexPrevmacro@GreaterThan\undefined
+	\expandafter\let\@pytexActive@QuestionMark\@pytexPrevmacro@QuestionMark
+	\let\@pytexPrevmacro@QuestionMark\undefined
+	\expandafter\let\@pytexActive@OpenBracket\@pytexPrevmacro@OpenBracket
+	\let\@pytexPrevmacro@OpenBracket\undefined
+	\expandafter\let\@pytexActive@CloseBracket\@pytexPrevmacro@CloseBracket
+	\let\@pytexPrevmacro@CloseBracket\undefined
+	\expandafter\let\@pytexActive@Caret\@pytexPrevmacro@Caret
+	\let\@pytexPrevmacro@Caret\undefined
+	\expandafter\let\@pytexActive@Underscore\@pytexPrevmacro@Underscore
+	\let\@pytexPrevmacro@Underscore\undefined
+	\expandafter\let\@pytexActive@Backtick\@pytexPrevmacro@Backtick
+	\let\@pytexPrevmacro@Backtick\undefined
+	\expandafter\let\@pytexActive@OpenBrace\@pytexPrevmacro@OpenBrace
+	\let\@pytexPrevmacro@OpenBrace\undefined
+	\expandafter\let\@pytexActive@Pipe\@pytexPrevmacro@Pipe
+	\let\@pytexPrevmacro@Pipe\undefined
+	\expandafter\let\@pytexActive@CloseBrace\@pytexPrevmacro@CloseBrace
+	\let\@pytexPrevmacro@CloseBrace\undefined
+	\expandafter\let\@pytexActive@Tilde\@pytexPrevmacro@Tilde
+	\let\@pytexPrevmacro@Tilde\undefined
+	\expandafter\let\@pytexActive@Backslash\@pytexPrevmacro@Backslash
+	\let\@pytexPrevmacro@Backslash\undefined
+	\expandafter\let\@pytexActive@Tab\@pytexPrevmacro@Tab
+	\let\@pytexPrevmacro@Tab\undefined
+	\expandafter\let\@pytexActive@Newline\@pytexPrevmacro@Newline
+	\let\@pytexPrevmacro@Newline\undefined
+}
 \def\@pytexMakeAllActive{
-	\catcode48=13
-	\catcode49=13
-	\catcode50=13
-	\catcode51=13
-	\catcode52=13
-	\catcode53=13
-	\catcode54=13
-	\catcode55=13
-	\catcode56=13
-	\catcode57=13
-	\catcode97=13
-	\catcode98=13
-	\catcode99=13
-	\catcode100=13
-	\catcode101=13
-	\catcode102=13
-	\catcode103=13
-	\catcode104=13
-	\catcode105=13
-	\catcode106=13
-	\catcode107=13
-	\catcode108=13
-	\catcode109=13
-	\catcode110=13
-	\catcode111=13
-	\catcode112=13
-	\catcode113=13
-	\catcode114=13
-	\catcode115=13
-	\catcode116=13
-	\catcode117=13
-	\catcode118=13
-	\catcode119=13
-	\catcode120=13
-	\catcode121=13
-	\catcode122=13
-	\catcode65=13
-	\catcode66=13
-	\catcode67=13
-	\catcode68=13
-	\catcode69=13
-	\catcode70=13
-	\catcode71=13
-	\catcode72=13
-	\catcode73=13
-	\catcode74=13
-	\catcode75=13
-	\catcode76=13
-	\catcode77=13
-	\catcode78=13
-	\catcode79=13
-	\catcode80=13
-	\catcode81=13
-	\catcode82=13
-	\catcode83=13
-	\catcode84=13
-	\catcode85=13
-	\catcode86=13
-	\catcode87=13
-	\catcode88=13
-	\catcode89=13
-	\catcode90=13
-	\catcode33=13
-	\catcode34=13
-	\catcode35=13
-	\catcode36=13
-	\catcode37=13
-	\catcode38=13
-	\catcode39=13
-	\catcode40=13
-	\catcode41=13
-	\catcode42=13
-	\catcode43=13
-	\catcode44=13
-	\catcode45=13
-	\catcode46=13
-	\catcode47=13
-	\catcode58=13
-	\catcode59=13
-	\catcode60=13
-	\catcode61=13
-	\catcode62=13
-	\catcode63=13
-	\catcode64=13
-	\catcode91=13
-	\catcode92=13
-	\catcode93=13
-	\catcode94=13
-	\catcode95=13
-	\catcode96=13
-	\catcode123=13
-	\catcode124=13
-	\catcode125=13
-	\catcode126=13
-	\catcode32=13
-	\catcode9=13
-	\catcode10=13
-	\catcode13=13
-	\catcode11=13
-	\catcode12=13
 	\edef\@pytexPrevCatcode@A{\the\catcode0}
 	\edef\@pytexPrevCatcode@B{\the\catcode1}
 	\edef\@pytexPrevCatcode@C{\the\catcode2}
@@ -1016,262 +1301,618 @@
 	\edef\@pytexPrevCatcode@CFD{\the\catcode253}
 	\edef\@pytexPrevCatcode@CFE{\the\catcode254}
 	\edef\@pytexPrevCatcode@CFF{\the\catcode255}
+	\catcode48=13
+	\catcode49=13
+	\catcode50=13
+	\catcode51=13
+	\catcode52=13
+	\catcode53=13
+	\catcode54=13
+	\catcode55=13
+	\catcode56=13
+	\catcode57=13
+	\catcode97=13
+	\catcode98=13
+	\catcode99=13
+	\catcode100=13
+	\catcode101=13
+	\catcode102=13
+	\catcode103=13
+	\catcode104=13
+	\catcode105=13
+	\catcode106=13
+	\catcode107=13
+	\catcode108=13
+	\catcode109=13
+	\catcode110=13
+	\catcode111=13
+	\catcode112=13
+	\catcode113=13
+	\catcode114=13
+	\catcode115=13
+	\catcode116=13
+	\catcode117=13
+	\catcode118=13
+	\catcode119=13
+	\catcode120=13
+	\catcode121=13
+	\catcode122=13
+	\catcode65=13
+	\catcode66=13
+	\catcode67=13
+	\catcode68=13
+	\catcode69=13
+	\catcode70=13
+	\catcode71=13
+	\catcode72=13
+	\catcode73=13
+	\catcode74=13
+	\catcode75=13
+	\catcode76=13
+	\catcode77=13
+	\catcode78=13
+	\catcode79=13
+	\catcode80=13
+	\catcode81=13
+	\catcode82=13
+	\catcode83=13
+	\catcode84=13
+	\catcode85=13
+	\catcode86=13
+	\catcode87=13
+	\catcode88=13
+	\catcode89=13
+	\catcode90=13
+	\catcode33=13
+	\catcode34=13
+	\catcode35=13
+	\catcode36=13
+	\catcode37=13
+	\catcode38=13
+	\catcode39=13
+	\catcode40=13
+	\catcode41=13
+	\catcode42=13
+	\catcode43=13
+	\catcode44=13
+	\catcode45=13
+	\catcode46=13
+	\catcode47=13
+	\catcode58=13
+	\catcode59=13
+	\catcode60=13
+	\catcode61=13
+	\catcode62=13
+	\catcode63=13
+	\catcode64=13
+	\catcode91=13
+	\catcode92=13
+	\catcode93=13
+	\catcode94=13
+	\catcode95=13
+	\catcode96=13
+	\catcode123=13
+	\catcode124=13
+	\catcode125=13
+	\catcode126=13
+	\catcode32=13
+	\catcode9=13
+	\catcode10=13
+	\catcode13=13
+	\catcode11=13
+	\catcode12=13
 }
 \def\@pytexResetCatcodes{
 	\catcode0=\@pytexPrevCatcode@A
+	\let\@pytexPrevCatcode@A\undefined
 	\catcode1=\@pytexPrevCatcode@B
+	\let\@pytexPrevCatcode@B\undefined
 	\catcode2=\@pytexPrevCatcode@C
+	\let\@pytexPrevCatcode@C\undefined
 	\catcode3=\@pytexPrevCatcode@D
+	\let\@pytexPrevCatcode@D\undefined
 	\catcode4=\@pytexPrevCatcode@E
+	\let\@pytexPrevCatcode@E\undefined
 	\catcode5=\@pytexPrevCatcode@F
+	\let\@pytexPrevCatcode@F\undefined
 	\catcode6=\@pytexPrevCatcode@G
+	\let\@pytexPrevCatcode@G\undefined
 	\catcode7=\@pytexPrevCatcode@H
+	\let\@pytexPrevCatcode@H\undefined
 	\catcode8=\@pytexPrevCatcode@I
+	\let\@pytexPrevCatcode@I\undefined
 	\catcode9=\@pytexPrevCatcode@J
+	\let\@pytexPrevCatcode@J\undefined
 	\catcode10=\@pytexPrevCatcode@BA
+	\let\@pytexPrevCatcode@BA\undefined
 	\catcode11=\@pytexPrevCatcode@BB
+	\let\@pytexPrevCatcode@BB\undefined
 	\catcode12=\@pytexPrevCatcode@BC
+	\let\@pytexPrevCatcode@BC\undefined
 	\catcode13=\@pytexPrevCatcode@BD
+	\let\@pytexPrevCatcode@BD\undefined
 	\catcode14=\@pytexPrevCatcode@BE
+	\let\@pytexPrevCatcode@BE\undefined
 	\catcode15=\@pytexPrevCatcode@BF
+	\let\@pytexPrevCatcode@BF\undefined
 	\catcode16=\@pytexPrevCatcode@BG
+	\let\@pytexPrevCatcode@BG\undefined
 	\catcode17=\@pytexPrevCatcode@BH
+	\let\@pytexPrevCatcode@BH\undefined
 	\catcode18=\@pytexPrevCatcode@BI
+	\let\@pytexPrevCatcode@BI\undefined
 	\catcode19=\@pytexPrevCatcode@BJ
+	\let\@pytexPrevCatcode@BJ\undefined
 	\catcode20=\@pytexPrevCatcode@CA
+	\let\@pytexPrevCatcode@CA\undefined
 	\catcode21=\@pytexPrevCatcode@CB
+	\let\@pytexPrevCatcode@CB\undefined
 	\catcode22=\@pytexPrevCatcode@CC
+	\let\@pytexPrevCatcode@CC\undefined
 	\catcode23=\@pytexPrevCatcode@CD
+	\let\@pytexPrevCatcode@CD\undefined
 	\catcode24=\@pytexPrevCatcode@CE
+	\let\@pytexPrevCatcode@CE\undefined
 	\catcode25=\@pytexPrevCatcode@CF
+	\let\@pytexPrevCatcode@CF\undefined
 	\catcode26=\@pytexPrevCatcode@CG
+	\let\@pytexPrevCatcode@CG\undefined
 	\catcode27=\@pytexPrevCatcode@CH
+	\let\@pytexPrevCatcode@CH\undefined
 	\catcode28=\@pytexPrevCatcode@CI
+	\let\@pytexPrevCatcode@CI\undefined
 	\catcode29=\@pytexPrevCatcode@CJ
+	\let\@pytexPrevCatcode@CJ\undefined
 	\catcode30=\@pytexPrevCatcode@DA
+	\let\@pytexPrevCatcode@DA\undefined
 	\catcode31=\@pytexPrevCatcode@DB
+	\let\@pytexPrevCatcode@DB\undefined
 	\catcode32=\@pytexPrevCatcode@DC
+	\let\@pytexPrevCatcode@DC\undefined
 	\catcode33=\@pytexPrevCatcode@DD
+	\let\@pytexPrevCatcode@DD\undefined
 	\catcode34=\@pytexPrevCatcode@DE
+	\let\@pytexPrevCatcode@DE\undefined
 	\catcode35=\@pytexPrevCatcode@DF
+	\let\@pytexPrevCatcode@DF\undefined
 	\catcode36=\@pytexPrevCatcode@DG
+	\let\@pytexPrevCatcode@DG\undefined
 	\catcode37=\@pytexPrevCatcode@DH
+	\let\@pytexPrevCatcode@DH\undefined
 	\catcode38=\@pytexPrevCatcode@DI
+	\let\@pytexPrevCatcode@DI\undefined
 	\catcode39=\@pytexPrevCatcode@DJ
+	\let\@pytexPrevCatcode@DJ\undefined
 	\catcode40=\@pytexPrevCatcode@EA
+	\let\@pytexPrevCatcode@EA\undefined
 	\catcode41=\@pytexPrevCatcode@EB
+	\let\@pytexPrevCatcode@EB\undefined
 	\catcode42=\@pytexPrevCatcode@EC
+	\let\@pytexPrevCatcode@EC\undefined
 	\catcode43=\@pytexPrevCatcode@ED
+	\let\@pytexPrevCatcode@ED\undefined
 	\catcode44=\@pytexPrevCatcode@EE
+	\let\@pytexPrevCatcode@EE\undefined
 	\catcode45=\@pytexPrevCatcode@EF
+	\let\@pytexPrevCatcode@EF\undefined
 	\catcode46=\@pytexPrevCatcode@EG
+	\let\@pytexPrevCatcode@EG\undefined
 	\catcode47=\@pytexPrevCatcode@EH
+	\let\@pytexPrevCatcode@EH\undefined
 	\catcode48=\@pytexPrevCatcode@EI
+	\let\@pytexPrevCatcode@EI\undefined
 	\catcode49=\@pytexPrevCatcode@EJ
+	\let\@pytexPrevCatcode@EJ\undefined
 	\catcode50=\@pytexPrevCatcode@FA
+	\let\@pytexPrevCatcode@FA\undefined
 	\catcode51=\@pytexPrevCatcode@FB
+	\let\@pytexPrevCatcode@FB\undefined
 	\catcode52=\@pytexPrevCatcode@FC
+	\let\@pytexPrevCatcode@FC\undefined
 	\catcode53=\@pytexPrevCatcode@FD
+	\let\@pytexPrevCatcode@FD\undefined
 	\catcode54=\@pytexPrevCatcode@FE
+	\let\@pytexPrevCatcode@FE\undefined
 	\catcode55=\@pytexPrevCatcode@FF
+	\let\@pytexPrevCatcode@FF\undefined
 	\catcode56=\@pytexPrevCatcode@FG
+	\let\@pytexPrevCatcode@FG\undefined
 	\catcode57=\@pytexPrevCatcode@FH
+	\let\@pytexPrevCatcode@FH\undefined
 	\catcode58=\@pytexPrevCatcode@FI
+	\let\@pytexPrevCatcode@FI\undefined
 	\catcode59=\@pytexPrevCatcode@FJ
+	\let\@pytexPrevCatcode@FJ\undefined
 	\catcode60=\@pytexPrevCatcode@GA
+	\let\@pytexPrevCatcode@GA\undefined
 	\catcode61=\@pytexPrevCatcode@GB
+	\let\@pytexPrevCatcode@GB\undefined
 	\catcode62=\@pytexPrevCatcode@GC
+	\let\@pytexPrevCatcode@GC\undefined
 	\catcode63=\@pytexPrevCatcode@GD
+	\let\@pytexPrevCatcode@GD\undefined
 	\catcode64=\@pytexPrevCatcode@GE
+	\let\@pytexPrevCatcode@GE\undefined
 	\catcode65=\@pytexPrevCatcode@GF
+	\let\@pytexPrevCatcode@GF\undefined
 	\catcode66=\@pytexPrevCatcode@GG
+	\let\@pytexPrevCatcode@GG\undefined
 	\catcode67=\@pytexPrevCatcode@GH
+	\let\@pytexPrevCatcode@GH\undefined
 	\catcode68=\@pytexPrevCatcode@GI
+	\let\@pytexPrevCatcode@GI\undefined
 	\catcode69=\@pytexPrevCatcode@GJ
+	\let\@pytexPrevCatcode@GJ\undefined
 	\catcode70=\@pytexPrevCatcode@HA
+	\let\@pytexPrevCatcode@HA\undefined
 	\catcode71=\@pytexPrevCatcode@HB
+	\let\@pytexPrevCatcode@HB\undefined
 	\catcode72=\@pytexPrevCatcode@HC
+	\let\@pytexPrevCatcode@HC\undefined
 	\catcode73=\@pytexPrevCatcode@HD
+	\let\@pytexPrevCatcode@HD\undefined
 	\catcode74=\@pytexPrevCatcode@HE
+	\let\@pytexPrevCatcode@HE\undefined
 	\catcode75=\@pytexPrevCatcode@HF
+	\let\@pytexPrevCatcode@HF\undefined
 	\catcode76=\@pytexPrevCatcode@HG
+	\let\@pytexPrevCatcode@HG\undefined
 	\catcode77=\@pytexPrevCatcode@HH
+	\let\@pytexPrevCatcode@HH\undefined
 	\catcode78=\@pytexPrevCatcode@HI
+	\let\@pytexPrevCatcode@HI\undefined
 	\catcode79=\@pytexPrevCatcode@HJ
+	\let\@pytexPrevCatcode@HJ\undefined
 	\catcode80=\@pytexPrevCatcode@IA
+	\let\@pytexPrevCatcode@IA\undefined
 	\catcode81=\@pytexPrevCatcode@IB
+	\let\@pytexPrevCatcode@IB\undefined
 	\catcode82=\@pytexPrevCatcode@IC
+	\let\@pytexPrevCatcode@IC\undefined
 	\catcode83=\@pytexPrevCatcode@ID
+	\let\@pytexPrevCatcode@ID\undefined
 	\catcode84=\@pytexPrevCatcode@IE
+	\let\@pytexPrevCatcode@IE\undefined
 	\catcode85=\@pytexPrevCatcode@IF
+	\let\@pytexPrevCatcode@IF\undefined
 	\catcode86=\@pytexPrevCatcode@IG
+	\let\@pytexPrevCatcode@IG\undefined
 	\catcode87=\@pytexPrevCatcode@IH
+	\let\@pytexPrevCatcode@IH\undefined
 	\catcode88=\@pytexPrevCatcode@II
+	\let\@pytexPrevCatcode@II\undefined
 	\catcode89=\@pytexPrevCatcode@IJ
+	\let\@pytexPrevCatcode@IJ\undefined
 	\catcode90=\@pytexPrevCatcode@JA
+	\let\@pytexPrevCatcode@JA\undefined
 	\catcode91=\@pytexPrevCatcode@JB
+	\let\@pytexPrevCatcode@JB\undefined
 	\catcode92=\@pytexPrevCatcode@JC
+	\let\@pytexPrevCatcode@JC\undefined
 	\catcode93=\@pytexPrevCatcode@JD
+	\let\@pytexPrevCatcode@JD\undefined
 	\catcode94=\@pytexPrevCatcode@JE
+	\let\@pytexPrevCatcode@JE\undefined
 	\catcode95=\@pytexPrevCatcode@JF
+	\let\@pytexPrevCatcode@JF\undefined
 	\catcode96=\@pytexPrevCatcode@JG
+	\let\@pytexPrevCatcode@JG\undefined
 	\catcode97=\@pytexPrevCatcode@JH
+	\let\@pytexPrevCatcode@JH\undefined
 	\catcode98=\@pytexPrevCatcode@JI
+	\let\@pytexPrevCatcode@JI\undefined
 	\catcode99=\@pytexPrevCatcode@JJ
+	\let\@pytexPrevCatcode@JJ\undefined
 	\catcode100=\@pytexPrevCatcode@BAA
+	\let\@pytexPrevCatcode@BAA\undefined
 	\catcode101=\@pytexPrevCatcode@BAB
+	\let\@pytexPrevCatcode@BAB\undefined
 	\catcode102=\@pytexPrevCatcode@BAC
+	\let\@pytexPrevCatcode@BAC\undefined
 	\catcode103=\@pytexPrevCatcode@BAD
+	\let\@pytexPrevCatcode@BAD\undefined
 	\catcode104=\@pytexPrevCatcode@BAE
+	\let\@pytexPrevCatcode@BAE\undefined
 	\catcode105=\@pytexPrevCatcode@BAF
+	\let\@pytexPrevCatcode@BAF\undefined
 	\catcode106=\@pytexPrevCatcode@BAG
+	\let\@pytexPrevCatcode@BAG\undefined
 	\catcode107=\@pytexPrevCatcode@BAH
+	\let\@pytexPrevCatcode@BAH\undefined
 	\catcode108=\@pytexPrevCatcode@BAI
+	\let\@pytexPrevCatcode@BAI\undefined
 	\catcode109=\@pytexPrevCatcode@BAJ
+	\let\@pytexPrevCatcode@BAJ\undefined
 	\catcode110=\@pytexPrevCatcode@BBA
+	\let\@pytexPrevCatcode@BBA\undefined
 	\catcode111=\@pytexPrevCatcode@BBB
+	\let\@pytexPrevCatcode@BBB\undefined
 	\catcode112=\@pytexPrevCatcode@BBC
+	\let\@pytexPrevCatcode@BBC\undefined
 	\catcode113=\@pytexPrevCatcode@BBD
+	\let\@pytexPrevCatcode@BBD\undefined
 	\catcode114=\@pytexPrevCatcode@BBE
+	\let\@pytexPrevCatcode@BBE\undefined
 	\catcode115=\@pytexPrevCatcode@BBF
+	\let\@pytexPrevCatcode@BBF\undefined
 	\catcode116=\@pytexPrevCatcode@BBG
+	\let\@pytexPrevCatcode@BBG\undefined
 	\catcode117=\@pytexPrevCatcode@BBH
+	\let\@pytexPrevCatcode@BBH\undefined
 	\catcode118=\@pytexPrevCatcode@BBI
+	\let\@pytexPrevCatcode@BBI\undefined
 	\catcode119=\@pytexPrevCatcode@BBJ
+	\let\@pytexPrevCatcode@BBJ\undefined
 	\catcode120=\@pytexPrevCatcode@BCA
+	\let\@pytexPrevCatcode@BCA\undefined
 	\catcode121=\@pytexPrevCatcode@BCB
+	\let\@pytexPrevCatcode@BCB\undefined
 	\catcode122=\@pytexPrevCatcode@BCC
+	\let\@pytexPrevCatcode@BCC\undefined
 	\catcode123=\@pytexPrevCatcode@BCD
+	\let\@pytexPrevCatcode@BCD\undefined
 	\catcode124=\@pytexPrevCatcode@BCE
+	\let\@pytexPrevCatcode@BCE\undefined
 	\catcode125=\@pytexPrevCatcode@BCF
+	\let\@pytexPrevCatcode@BCF\undefined
 	\catcode126=\@pytexPrevCatcode@BCG
+	\let\@pytexPrevCatcode@BCG\undefined
 	\catcode127=\@pytexPrevCatcode@BCH
+	\let\@pytexPrevCatcode@BCH\undefined
 	\catcode128=\@pytexPrevCatcode@BCI
+	\let\@pytexPrevCatcode@BCI\undefined
 	\catcode129=\@pytexPrevCatcode@BCJ
+	\let\@pytexPrevCatcode@BCJ\undefined
 	\catcode130=\@pytexPrevCatcode@BDA
+	\let\@pytexPrevCatcode@BDA\undefined
 	\catcode131=\@pytexPrevCatcode@BDB
+	\let\@pytexPrevCatcode@BDB\undefined
 	\catcode132=\@pytexPrevCatcode@BDC
+	\let\@pytexPrevCatcode@BDC\undefined
 	\catcode133=\@pytexPrevCatcode@BDD
+	\let\@pytexPrevCatcode@BDD\undefined
 	\catcode134=\@pytexPrevCatcode@BDE
+	\let\@pytexPrevCatcode@BDE\undefined
 	\catcode135=\@pytexPrevCatcode@BDF
+	\let\@pytexPrevCatcode@BDF\undefined
 	\catcode136=\@pytexPrevCatcode@BDG
+	\let\@pytexPrevCatcode@BDG\undefined
 	\catcode137=\@pytexPrevCatcode@BDH
+	\let\@pytexPrevCatcode@BDH\undefined
 	\catcode138=\@pytexPrevCatcode@BDI
+	\let\@pytexPrevCatcode@BDI\undefined
 	\catcode139=\@pytexPrevCatcode@BDJ
+	\let\@pytexPrevCatcode@BDJ\undefined
 	\catcode140=\@pytexPrevCatcode@BEA
+	\let\@pytexPrevCatcode@BEA\undefined
 	\catcode141=\@pytexPrevCatcode@BEB
+	\let\@pytexPrevCatcode@BEB\undefined
 	\catcode142=\@pytexPrevCatcode@BEC
+	\let\@pytexPrevCatcode@BEC\undefined
 	\catcode143=\@pytexPrevCatcode@BED
+	\let\@pytexPrevCatcode@BED\undefined
 	\catcode144=\@pytexPrevCatcode@BEE
+	\let\@pytexPrevCatcode@BEE\undefined
 	\catcode145=\@pytexPrevCatcode@BEF
+	\let\@pytexPrevCatcode@BEF\undefined
 	\catcode146=\@pytexPrevCatcode@BEG
+	\let\@pytexPrevCatcode@BEG\undefined
 	\catcode147=\@pytexPrevCatcode@BEH
+	\let\@pytexPrevCatcode@BEH\undefined
 	\catcode148=\@pytexPrevCatcode@BEI
+	\let\@pytexPrevCatcode@BEI\undefined
 	\catcode149=\@pytexPrevCatcode@BEJ
+	\let\@pytexPrevCatcode@BEJ\undefined
 	\catcode150=\@pytexPrevCatcode@BFA
+	\let\@pytexPrevCatcode@BFA\undefined
 	\catcode151=\@pytexPrevCatcode@BFB
+	\let\@pytexPrevCatcode@BFB\undefined
 	\catcode152=\@pytexPrevCatcode@BFC
+	\let\@pytexPrevCatcode@BFC\undefined
 	\catcode153=\@pytexPrevCatcode@BFD
+	\let\@pytexPrevCatcode@BFD\undefined
 	\catcode154=\@pytexPrevCatcode@BFE
+	\let\@pytexPrevCatcode@BFE\undefined
 	\catcode155=\@pytexPrevCatcode@BFF
+	\let\@pytexPrevCatcode@BFF\undefined
 	\catcode156=\@pytexPrevCatcode@BFG
+	\let\@pytexPrevCatcode@BFG\undefined
 	\catcode157=\@pytexPrevCatcode@BFH
+	\let\@pytexPrevCatcode@BFH\undefined
 	\catcode158=\@pytexPrevCatcode@BFI
+	\let\@pytexPrevCatcode@BFI\undefined
 	\catcode159=\@pytexPrevCatcode@BFJ
+	\let\@pytexPrevCatcode@BFJ\undefined
 	\catcode160=\@pytexPrevCatcode@BGA
+	\let\@pytexPrevCatcode@BGA\undefined
 	\catcode161=\@pytexPrevCatcode@BGB
+	\let\@pytexPrevCatcode@BGB\undefined
 	\catcode162=\@pytexPrevCatcode@BGC
+	\let\@pytexPrevCatcode@BGC\undefined
 	\catcode163=\@pytexPrevCatcode@BGD
+	\let\@pytexPrevCatcode@BGD\undefined
 	\catcode164=\@pytexPrevCatcode@BGE
+	\let\@pytexPrevCatcode@BGE\undefined
 	\catcode165=\@pytexPrevCatcode@BGF
+	\let\@pytexPrevCatcode@BGF\undefined
 	\catcode166=\@pytexPrevCatcode@BGG
+	\let\@pytexPrevCatcode@BGG\undefined
 	\catcode167=\@pytexPrevCatcode@BGH
+	\let\@pytexPrevCatcode@BGH\undefined
 	\catcode168=\@pytexPrevCatcode@BGI
+	\let\@pytexPrevCatcode@BGI\undefined
 	\catcode169=\@pytexPrevCatcode@BGJ
+	\let\@pytexPrevCatcode@BGJ\undefined
 	\catcode170=\@pytexPrevCatcode@BHA
+	\let\@pytexPrevCatcode@BHA\undefined
 	\catcode171=\@pytexPrevCatcode@BHB
+	\let\@pytexPrevCatcode@BHB\undefined
 	\catcode172=\@pytexPrevCatcode@BHC
+	\let\@pytexPrevCatcode@BHC\undefined
 	\catcode173=\@pytexPrevCatcode@BHD
+	\let\@pytexPrevCatcode@BHD\undefined
 	\catcode174=\@pytexPrevCatcode@BHE
+	\let\@pytexPrevCatcode@BHE\undefined
 	\catcode175=\@pytexPrevCatcode@BHF
+	\let\@pytexPrevCatcode@BHF\undefined
 	\catcode176=\@pytexPrevCatcode@BHG
+	\let\@pytexPrevCatcode@BHG\undefined
 	\catcode177=\@pytexPrevCatcode@BHH
+	\let\@pytexPrevCatcode@BHH\undefined
 	\catcode178=\@pytexPrevCatcode@BHI
+	\let\@pytexPrevCatcode@BHI\undefined
 	\catcode179=\@pytexPrevCatcode@BHJ
+	\let\@pytexPrevCatcode@BHJ\undefined
 	\catcode180=\@pytexPrevCatcode@BIA
+	\let\@pytexPrevCatcode@BIA\undefined
 	\catcode181=\@pytexPrevCatcode@BIB
+	\let\@pytexPrevCatcode@BIB\undefined
 	\catcode182=\@pytexPrevCatcode@BIC
+	\let\@pytexPrevCatcode@BIC\undefined
 	\catcode183=\@pytexPrevCatcode@BID
+	\let\@pytexPrevCatcode@BID\undefined
 	\catcode184=\@pytexPrevCatcode@BIE
+	\let\@pytexPrevCatcode@BIE\undefined
 	\catcode185=\@pytexPrevCatcode@BIF
+	\let\@pytexPrevCatcode@BIF\undefined
 	\catcode186=\@pytexPrevCatcode@BIG
+	\let\@pytexPrevCatcode@BIG\undefined
 	\catcode187=\@pytexPrevCatcode@BIH
+	\let\@pytexPrevCatcode@BIH\undefined
 	\catcode188=\@pytexPrevCatcode@BII
+	\let\@pytexPrevCatcode@BII\undefined
 	\catcode189=\@pytexPrevCatcode@BIJ
+	\let\@pytexPrevCatcode@BIJ\undefined
 	\catcode190=\@pytexPrevCatcode@BJA
+	\let\@pytexPrevCatcode@BJA\undefined
 	\catcode191=\@pytexPrevCatcode@BJB
+	\let\@pytexPrevCatcode@BJB\undefined
 	\catcode192=\@pytexPrevCatcode@BJC
+	\let\@pytexPrevCatcode@BJC\undefined
 	\catcode193=\@pytexPrevCatcode@BJD
+	\let\@pytexPrevCatcode@BJD\undefined
 	\catcode194=\@pytexPrevCatcode@BJE
+	\let\@pytexPrevCatcode@BJE\undefined
 	\catcode195=\@pytexPrevCatcode@BJF
+	\let\@pytexPrevCatcode@BJF\undefined
 	\catcode196=\@pytexPrevCatcode@BJG
+	\let\@pytexPrevCatcode@BJG\undefined
 	\catcode197=\@pytexPrevCatcode@BJH
+	\let\@pytexPrevCatcode@BJH\undefined
 	\catcode198=\@pytexPrevCatcode@BJI
+	\let\@pytexPrevCatcode@BJI\undefined
 	\catcode199=\@pytexPrevCatcode@BJJ
+	\let\@pytexPrevCatcode@BJJ\undefined
 	\catcode200=\@pytexPrevCatcode@CAA
+	\let\@pytexPrevCatcode@CAA\undefined
 	\catcode201=\@pytexPrevCatcode@CAB
+	\let\@pytexPrevCatcode@CAB\undefined
 	\catcode202=\@pytexPrevCatcode@CAC
+	\let\@pytexPrevCatcode@CAC\undefined
 	\catcode203=\@pytexPrevCatcode@CAD
+	\let\@pytexPrevCatcode@CAD\undefined
 	\catcode204=\@pytexPrevCatcode@CAE
+	\let\@pytexPrevCatcode@CAE\undefined
 	\catcode205=\@pytexPrevCatcode@CAF
+	\let\@pytexPrevCatcode@CAF\undefined
 	\catcode206=\@pytexPrevCatcode@CAG
+	\let\@pytexPrevCatcode@CAG\undefined
 	\catcode207=\@pytexPrevCatcode@CAH
+	\let\@pytexPrevCatcode@CAH\undefined
 	\catcode208=\@pytexPrevCatcode@CAI
+	\let\@pytexPrevCatcode@CAI\undefined
 	\catcode209=\@pytexPrevCatcode@CAJ
+	\let\@pytexPrevCatcode@CAJ\undefined
 	\catcode210=\@pytexPrevCatcode@CBA
+	\let\@pytexPrevCatcode@CBA\undefined
 	\catcode211=\@pytexPrevCatcode@CBB
+	\let\@pytexPrevCatcode@CBB\undefined
 	\catcode212=\@pytexPrevCatcode@CBC
+	\let\@pytexPrevCatcode@CBC\undefined
 	\catcode213=\@pytexPrevCatcode@CBD
+	\let\@pytexPrevCatcode@CBD\undefined
 	\catcode214=\@pytexPrevCatcode@CBE
+	\let\@pytexPrevCatcode@CBE\undefined
 	\catcode215=\@pytexPrevCatcode@CBF
+	\let\@pytexPrevCatcode@CBF\undefined
 	\catcode216=\@pytexPrevCatcode@CBG
+	\let\@pytexPrevCatcode@CBG\undefined
 	\catcode217=\@pytexPrevCatcode@CBH
+	\let\@pytexPrevCatcode@CBH\undefined
 	\catcode218=\@pytexPrevCatcode@CBI
+	\let\@pytexPrevCatcode@CBI\undefined
 	\catcode219=\@pytexPrevCatcode@CBJ
+	\let\@pytexPrevCatcode@CBJ\undefined
 	\catcode220=\@pytexPrevCatcode@CCA
+	\let\@pytexPrevCatcode@CCA\undefined
 	\catcode221=\@pytexPrevCatcode@CCB
+	\let\@pytexPrevCatcode@CCB\undefined
 	\catcode222=\@pytexPrevCatcode@CCC
+	\let\@pytexPrevCatcode@CCC\undefined
 	\catcode223=\@pytexPrevCatcode@CCD
+	\let\@pytexPrevCatcode@CCD\undefined
 	\catcode224=\@pytexPrevCatcode@CCE
+	\let\@pytexPrevCatcode@CCE\undefined
 	\catcode225=\@pytexPrevCatcode@CCF
+	\let\@pytexPrevCatcode@CCF\undefined
 	\catcode226=\@pytexPrevCatcode@CCG
+	\let\@pytexPrevCatcode@CCG\undefined
 	\catcode227=\@pytexPrevCatcode@CCH
+	\let\@pytexPrevCatcode@CCH\undefined
 	\catcode228=\@pytexPrevCatcode@CCI
+	\let\@pytexPrevCatcode@CCI\undefined
 	\catcode229=\@pytexPrevCatcode@CCJ
+	\let\@pytexPrevCatcode@CCJ\undefined
 	\catcode230=\@pytexPrevCatcode@CDA
+	\let\@pytexPrevCatcode@CDA\undefined
 	\catcode231=\@pytexPrevCatcode@CDB
+	\let\@pytexPrevCatcode@CDB\undefined
 	\catcode232=\@pytexPrevCatcode@CDC
+	\let\@pytexPrevCatcode@CDC\undefined
 	\catcode233=\@pytexPrevCatcode@CDD
+	\let\@pytexPrevCatcode@CDD\undefined
 	\catcode234=\@pytexPrevCatcode@CDE
+	\let\@pytexPrevCatcode@CDE\undefined
 	\catcode235=\@pytexPrevCatcode@CDF
+	\let\@pytexPrevCatcode@CDF\undefined
 	\catcode236=\@pytexPrevCatcode@CDG
+	\let\@pytexPrevCatcode@CDG\undefined
 	\catcode237=\@pytexPrevCatcode@CDH
+	\let\@pytexPrevCatcode@CDH\undefined
 	\catcode238=\@pytexPrevCatcode@CDI
+	\let\@pytexPrevCatcode@CDI\undefined
 	\catcode239=\@pytexPrevCatcode@CDJ
+	\let\@pytexPrevCatcode@CDJ\undefined
 	\catcode240=\@pytexPrevCatcode@CEA
+	\let\@pytexPrevCatcode@CEA\undefined
 	\catcode241=\@pytexPrevCatcode@CEB
+	\let\@pytexPrevCatcode@CEB\undefined
 	\catcode242=\@pytexPrevCatcode@CEC
+	\let\@pytexPrevCatcode@CEC\undefined
 	\catcode243=\@pytexPrevCatcode@CED
+	\let\@pytexPrevCatcode@CED\undefined
 	\catcode244=\@pytexPrevCatcode@CEE
+	\let\@pytexPrevCatcode@CEE\undefined
 	\catcode245=\@pytexPrevCatcode@CEF
+	\let\@pytexPrevCatcode@CEF\undefined
 	\catcode246=\@pytexPrevCatcode@CEG
+	\let\@pytexPrevCatcode@CEG\undefined
 	\catcode247=\@pytexPrevCatcode@CEH
+	\let\@pytexPrevCatcode@CEH\undefined
 	\catcode248=\@pytexPrevCatcode@CEI
+	\let\@pytexPrevCatcode@CEI\undefined
 	\catcode249=\@pytexPrevCatcode@CEJ
+	\let\@pytexPrevCatcode@CEJ\undefined
 	\catcode250=\@pytexPrevCatcode@CFA
+	\let\@pytexPrevCatcode@CFA\undefined
 	\catcode251=\@pytexPrevCatcode@CFB
+	\let\@pytexPrevCatcode@CFB\undefined
 	\catcode252=\@pytexPrevCatcode@CFC
+	\let\@pytexPrevCatcode@CFC\undefined
 	\catcode253=\@pytexPrevCatcode@CFD
+	\let\@pytexPrevCatcode@CFD\undefined
 	\catcode254=\@pytexPrevCatcode@CFE
+	\let\@pytexPrevCatcode@CFE\undefined
 	\catcode255=\@pytexPrevCatcode@CFF
+	\let\@pytexPrevCatcode@CFF\undefined
 }

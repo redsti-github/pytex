@@ -9,6 +9,10 @@
 	\@pytexStack@new{#1@stack}%
 }
 
+\def\@pytexLocal@delete#1{%
+	\@pytexStack@delete{#1@stack}%
+}
+
 % allocate a new variable
 \def\@pytexLocal@begin#1{%
 	\e\let\e\@pytexTMP@localvar\csname#1\endcsname%

@@ -10,8 +10,7 @@
 
 % #1 = stack name, #2 = item
 \def\@pytexStack@push#1#2{%
-	\edef\@pytexTMP@stackElement{#1@\csname #1@size\endcsname}%
-	\e\def\csname\@pytexTMP@stackElement\endcsname{#2}%
+	\e\def\csname#1@\csname #1@size\endcsname\endcsname{#2}%
 	\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname+1\relax}%
 }
 
@@ -43,6 +42,16 @@
 
 % #1 = stack name
 \def\@pytexStack@delete#1{% TODO: test
-	\@pytexStack@clear{#1}%
-	\e\let\csname #1@size\endcsname\undefined%
+	\ifnum\csname #1@size\endcsname=0 %
+		\expandafter\let\csname #1@size\endcsname\undefined%
+		\expandafter\let\csname #1@push\endcsname\undefined%
+		\expandafter\let\csname #1@pop\endcsname\undefined%
+		\expandafter\let\csname #1@popd\endcsname\undefined%
+		\expandafter\let\csname #1@peek\endcsname\undefined%
+		\def\@pytexTMP{\relax}%
+	\else%
+		\@pytexStack@popd{#1}%
+		\def\@pytexTMP{\@pytexList@delete{#1}}%
+	\fi%
+	\@pytexTMP%
 }
