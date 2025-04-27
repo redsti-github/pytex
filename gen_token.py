@@ -3,6 +3,8 @@ import string
 from specialcharnames import *
 from symbolnames import *
 
+keyword.kwlist.append("print") # TODO: implement function calls properly
+
 DEFAULT_STATE = 0
 NAME_STATE = 1
 NUMBER_STATE = 2
@@ -20,47 +22,47 @@ of.write(open("tokeniser.tex", "r").read().split('\n',1)[1])
 of.write("% --- END tokeniser.tex copy ---\n\n")
 
 # END NAME TOKEN
-of.write("\\def\\@pytexTokeniser@endnametoken{\n\t")
-of.write("\t\\ifnum\\state="+str(NAME_STATE)+"\n")
+of.write("\\def\\@pytexTokeniser@endnametoken{%\n\t")
+of.write("\t\\ifnum\\state="+str(NAME_STATE)+"%\n")
 ficount = 0
 for kw in keyword.kwlist:
-    of.write("\t\t\\def\\@pytexTMP@keyword{"+kw+"}\n")
-    of.write("\t\t\\ifx\\@pytexTokeniser@buffer\\@pytexTMP@keyword\n")
-    of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@"+kw+"}\n")
-    of.write("\t\t\\else\n")
+    of.write("\t\t\\def\\@pytexTMP@keyword{"+kw+"}%\n")
+    of.write("\t\t\\ifx\\@pytexTokeniser@buffer\\@pytexTMP@keyword%\n")
+    of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@"+kw+"}%\n")
+    of.write("\t\t\\else%\n")
     ficount += 1
-of.write("\t\t\t\\e\\@pytexTokenList@push\\e{\\e\\@pytexToken@Identifier\\e{\\@pytexTokeniser@buffer}}")
-of.write("\n\t\t")
+of.write("\t\t\t\\e\\@pytexTokenList@push\\e{\\e\\@pytexToken@Identifier\\e{\\@pytexTokeniser@buffer}}%\n")
+of.write("\t\t")
 for _ in range(ficount):
     of.write("\\fi")
-of.write("\n")
-of.write("\t\t\\state=0\n")
-of.write("\t\t\\gdef\\@pytexTokeniser@buffer{}\n")
-of.write("\t\t\\let\\@pytexTMP@keyword\\undefined\n")
-of.write("\t\\fi\n")
+of.write("%\n")
+of.write("\t\t\\state=0%\n")
+of.write("\t\t\\gdef\\@pytexTokeniser@buffer{}%\n")
+of.write("\t\t\\let\\@pytexTMP@keyword\\undefined%\n")
+of.write("\t\\fi%\n")
 of.write("}\n\n")
 
 
 # END SYMBOL
-of.write("\\def\\@pytexTokeniser@endsymboltoken{\n")
-of.write("\t\\ifnum\\state="+str(SYMBOL_STATE)+"\n")
+of.write("\\def\\@pytexTokeniser@endsymboltoken{%\n")
+of.write("\t\\ifnum\\state="+str(SYMBOL_STATE)+"%\n")
 ficount = 0
 for sym in symbolnames:
     mangled_sym = "".join([specialcharnames[x] for x in sym])
-    of.write("\t\t\\def\\@pytexTMP@symbol{"+mangled_sym+"}\n")
-    of.write("\t\t\\ifx\\@pytexTokeniser@buffer\\@pytexTMP@symbol\n")
-    of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@"+symbolnames[sym]+"}\n")
-    of.write("\t\t\\else\n")
+    of.write("\t\t\\def\\@pytexTMP@symbol{"+mangled_sym+"}%\n")
+    of.write("\t\t\\ifx\\@pytexTokeniser@buffer\\@pytexTMP@symbol%\n")
+    of.write("\t\t\t\\@pytexTokenList@push{\\@pytexToken@"+symbolnames[sym]+"}%\n")
+    of.write("\t\t\\else%\n")
     ficount += 1
-of.write("\t\t\\@pytexError{Tokeniser error: unknown symbol: \\@pytexTokeniser@buffer}\n")
+of.write("\t\t\\@pytexError{Tokeniser error: unknown symbol: \\@pytexTokeniser@buffer}%\n")
 of.write("\t\t")
 for _ in range(ficount):
     of.write("\\fi")
-of.write("\n")
-of.write("\t\t\\state=0\n")
-of.write("\t\t\\gdef\\@pytexTokeniser@buffer{}\n")
-of.write("\t\t\\let\\@pytexTMP@symbol\\undefined\n")
-of.write("\t\\fi\n")
+of.write("%\n")
+of.write("\t\t\\state=0%\n")
+of.write("\t\t\\gdef\\@pytexTokeniser@buffer{}%\n")
+of.write("\t\t\\let\\@pytexTMP@symbol\\undefined%\n")
+of.write("\t\\fi%\n")
 of.write("}\n\n")
 
 

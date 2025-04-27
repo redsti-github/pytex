@@ -35,7 +35,7 @@
 				{%
 					\@pytexParser@joinSecond{\@pytexParser@tryToken{\tokentypeINDENT}}%
 						{%
-							\@pytexParser@joinFirst{\@pytexParser@tryStatements}{\@pytexParser@tryToken{\tokentypeDEDENT}}	%
+							\@pytexParser@joinFirst{\@pytexParser@tryStatements}{\@pytexParser@tryToken{\tokentypeDEDENT}}%
 						}%
 				}%
 		}%
@@ -79,7 +79,7 @@
 %     | 'def' NAME [type_params] '(' [params] ')' ['->' expression ] ':' [func_type_comment] block 
 %     | 'async' 'def' NAME [type_params] '(' [params] ')' ['->' expression ] ':' [func_type_comment] block 
 \def\@pytexParser@tryFunctionDefRaw{%
-	\iffalse % TODO
+	\iffalse% TODO
 }
 
 
@@ -104,7 +104,7 @@
 			{\@pytexParser@tryToken{\tokentypeCOLON}}% ':'
 			{\@pytexParser@tryBlock}%
 		}%
-		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e{\e\first\e}\e{\second}}} % format as macro arguments, to add \operatorIf or \operatorIfElse later
+		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e{\e\first\e}\e{\second}}}% format as macro arguments, to add \operatorIf or \operatorIfElse later
 		%
 		% test whether we have an if-else (or if-elif), or only if
 		\e\wrapifsw\e{\e\def\e\first\e{\@pytexParserReturn}%
@@ -137,11 +137,3 @@
 			{\@pytexParser@tryBlock}%
 		}%
 }
-
-
-
-
-
-
-
-

@@ -13,7 +13,7 @@
 \def\@pytexTokeniser@begin{%
 	\@pytexMakeAllActive%
 	\@pytexDefAll%
-
+	%
 	\def\@pytexTokeniser@buffer{}%
 	\@pytexList@new{@pytexTokenList}%
 	\@pytexStack@new{indentStack}%
@@ -26,12 +26,12 @@
 	\let\@pytexTokeniser@buffer\undefined%
 	\@pytexList@new{@pytexTokenList}%
 	\@pytexStack@delete{indentStack}%
-
+	%
 	\@pytexResetCatcodes%
 	\@pytexRelaxAll%
 	\expandafter\def\@pytexActive@Newline{\@pytexResetAll}%
 	\@pytexParser@parse%
-
+	%
 	\@pytexTokenList@delete%
 }
 
@@ -39,17 +39,17 @@
 	\@pytexTokenList@getendim{0}%
 	\ifnum\tokentype=\tokentypeIDENTIFIER% python
 		\ifx\tokenvalue\STR_python%
-		
+			%
 			\@pytexTokenList@getendim{1}%
 			\ifnum\tokentype=\tokentypeLBRACE% {
-			
+				%
 				\@pytexTokenList@getendim{2}%
 				\ifnum\tokentype=\tokentypeIDENTIFIER% end
 					\ifx\tokenvalue\STR_end%
-					
+						%
 						\@pytexTokenList@getendim{3}%
 						\ifnum\tokentype=\tokentypeBACKSLASH% \
-						
+							%
 							\ifx\@pytexTokeniser@buffer\STR_CloseBrace% }
 								\@pytexTokeniser@endsymboltoken%
 								\@pytexTokenList@popd% }
@@ -58,7 +58,7 @@
 								\@pytexTokenList@popd% end
 								\@pytexTokenList@popd% \
 								\@pytexTokenList@push{\edef\tokentype{\tokentypeEND}}%
-
+								%
 								\@pytexTokeniser@end%
 							\fi%
 						\fi%
@@ -70,458 +70,462 @@
 }
 
 
-\def\@pytexTokeniser@endnumbertoken{
-	\ifnum\state=2
-		\e\@pytexTokenList@push\e{\e\@pytexToken@Number\e{\@pytexTokeniser@buffer}}
-		\gdef\@pytexTokeniser@buffer{}
-		\state=0
-	\fi
+\def\@pytexTokeniser@endnumbertoken{%
+	\ifnum\state=2 %
+		\e\@pytexTokenList@push\e{\e\@pytexToken@Number\e{\@pytexTokeniser@buffer}}%
+		\gdef\@pytexTokeniser@buffer{}%
+		\state=0 %
+	\fi%
 }
 
-\def\@pytexTokeniser@dedent{
-	\ifnum\currentindent<\lastindent
-		\@pytexTokenList@push{\@pytexToken@Dedent}
-		\indentStack@popd
-		\indentStack@peek{\lastindent}
-		\ifnum\currentindent>\lastindent
-			\@pytexError{IndentationError: unindent does not match any outer indentation level}
-		\fi
-		\@pytexTokeniser@dedent
-	\fi
+\def\@pytexTokeniser@dedent{%
+	\ifnum\currentindent<\lastindent%
+		\@pytexTokenList@push{\@pytexToken@Dedent}%
+		\indentStack@popd%
+		\indentStack@peek{\lastindent}%
+		\ifnum\currentindent>\lastindent%
+			\@pytexError{IndentationError: unindent does not match any outer indentation level}%
+		\fi%
+		\@pytexTokeniser@dedent%
+	\fi%
 }
 
-\def\@pytexTokeniser@endindent{
-	\ifnum\state=5
-		\indentStack@peek{\lastindent}
-		\ifnum\currentindent>\lastindent
-			\e\indentStack@push\e{\the\currentindent}
-			\edef\lastindent{\the\currentindent}
-			\@pytexTokenList@push{\@pytexToken@Indent}
-		\fi
-		\@pytexTokeniser@dedent
-		\currentindent=0
-		\state=0
-	\fi
+\def\@pytexTokeniser@endindent{%
+	\ifnum\state=5%
+		\indentStack@peek{\lastindent}%
+		\ifnum\currentindent>\lastindent%
+			\e\indentStack@push\e{\the\currentindent}%
+			\edef\lastindent{\the\currentindent}%
+			\@pytexTokenList@push{\@pytexToken@Indent}%
+		\fi%
+		\@pytexTokeniser@dedent%
+		\currentindent=0 %
+		\state=0 %
+	\fi%
 }
 
 
 
-\def\@pytexTokeniser@letter#1{
-	\@pytexTokeniser@endindent
-	\@pytexTokeniser@endsymboltoken
-	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=1\else \@pytexError{Internal error: starting to tokenise name when not in 0 state.}\fi\fi
-		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-		\state=1
-	\fi
+\def\@pytexTokeniser@letter#1{%
+	\@pytexTokeniser@endindent%
+	\@pytexTokeniser@endsymboltoken%
+	\ifnum\state=4\else\ifnum\state=0\else\ifnum\state=1\else\@pytexError{Internal error: starting to tokenise name when not in 0 state.}\fi\fi%
+		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}%
+		\state=1 %
+	\fi%
 }
 
-\def\@pytexTokeniser@number#1{
-	\@pytexTokeniser@endindent
-	\@pytexTokeniser@endsymboltoken
-	\ifnum\state=4\else	\ifnum\state=1
-		\@pytexTokeniser@letter{#1}
-	\else
-		\ifnum\state=0\else\ifnum\state=2\else \@pytexError{Internal error: starting to tokenise number when not in 0 state.}\fi\fi
-		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-		\state=2
-	\fi
+\def\@pytexTokeniser@number#1{%
+	\@pytexTokeniser@endindent%
+	\@pytexTokeniser@endsymboltoken%
+	\ifnum\state=4\else\ifnum\state=1%
+		\@pytexTokeniser@letter{#1}%
+	\else%
+		\ifnum\state=0\else\ifnum\state=2\else\@pytexError{Internal error: starting to tokenise number when not in 0 state.}\fi\fi%
+		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}%
+		\state=2 %
+	\fi%
 \fi}
 
-\def\@pytexTokeniser@symbol#1{
-	\@pytexTokeniser@endnametoken
-	\@pytexTokeniser@endnumbertoken
-	\@pytexTokeniser@endindent
-	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=3\else \@pytexError{Internal error: starting to symbols name when not in 0 state.}\fi\fi
-	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-	\state=3
-	\fi
+\def\@pytexTokeniser@symbol#1{%
+	\@pytexTokeniser@endnametoken%
+	\@pytexTokeniser@endnumbertoken%
+	\@pytexTokeniser@endindent%
+	\ifnum\state=4\else\ifnum\state=0\else\ifnum\state=3\else\@pytexError{Internal error: starting to symbols name when not in 0 state.}\fi\fi%
+	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}%
+	\state=3 %
+	\fi%
 }
 
 
 
 
-\def\@pytexChar@Newline{
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endindent
-    \@pytexTokeniser@endsymboltoken
-    \ifnum\state=0\else\ifnum\state=4\else \@pytexError{Internal error: starting to tokenise comment when not in 0 state.}\fi\fi
-    \state=5
-    \@pytexTokenList@push{\@pytexToken@Newline}
+\def\@pytexChar@Newline{%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endindent%
+    \@pytexTokeniser@endsymboltoken%
+    \ifnum\state=0\else\ifnum\state=4\else \@pytexError{Internal error: starting to tokenise comment when not in 0 state.}\fi\fi%
+    \state=5 %
+    \@pytexTokenList@push{\@pytexToken@Newline}%
 }
 
-\def\@pytexChar@Space{
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endsymboltoken
-    \ifnum\state=5
-        \advance\currentindent by 1
-    \fi
+\def\@pytexChar@Space{%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endsymboltoken%
+    \ifnum\state=5 %
+        \advance\currentindent by 1%
+    \fi%
 }
 
-\def\@pytexChar@Tab{
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endsymboltoken
-    \ifnum\state=5
-        \advance\currentindent by 1
-	\fi
+\def\@pytexChar@Tab{%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endsymboltoken%
+    \ifnum\state=5 %
+        \advance\currentindent by 1%
+	\fi%
 }
 
-\def\@pytexChar@Hash{
-\ifnum\state=4\else
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endsymboltoken
-    \@pytexTokeniser@endindent
-    \ifnum\state=0\else \@pytexError{Internal error: starting comment when not in 0 state.}\fi
-    \state=4
-\fi
+\def\@pytexChar@Hash{%
+\ifnum\state=4\else%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endsymboltoken%
+    \@pytexTokeniser@endindent%
+    \ifnum\state=0\else \@pytexError{Internal error: starting comment when not in 0 state.}\fi%
+    \state=4 %
+\fi%
 }
 % --- END tokeniser.tex copy ---
 
-\def\@pytexTokeniser@endnametoken{
-		\ifnum\state=1
-		\def\@pytexTMP@keyword{False}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@False}
-		\else
-		\def\@pytexTMP@keyword{None}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@None}
-		\else
-		\def\@pytexTMP@keyword{True}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@True}
-		\else
-		\def\@pytexTMP@keyword{and}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@and}
-		\else
-		\def\@pytexTMP@keyword{as}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@as}
-		\else
-		\def\@pytexTMP@keyword{assert}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@assert}
-		\else
-		\def\@pytexTMP@keyword{async}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@async}
-		\else
-		\def\@pytexTMP@keyword{await}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@await}
-		\else
-		\def\@pytexTMP@keyword{break}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@break}
-		\else
-		\def\@pytexTMP@keyword{class}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@class}
-		\else
-		\def\@pytexTMP@keyword{continue}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@continue}
-		\else
-		\def\@pytexTMP@keyword{def}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@def}
-		\else
-		\def\@pytexTMP@keyword{del}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@del}
-		\else
-		\def\@pytexTMP@keyword{elif}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@elif}
-		\else
-		\def\@pytexTMP@keyword{else}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@else}
-		\else
-		\def\@pytexTMP@keyword{except}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@except}
-		\else
-		\def\@pytexTMP@keyword{finally}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@finally}
-		\else
-		\def\@pytexTMP@keyword{for}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@for}
-		\else
-		\def\@pytexTMP@keyword{from}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@from}
-		\else
-		\def\@pytexTMP@keyword{global}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@global}
-		\else
-		\def\@pytexTMP@keyword{if}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@if}
-		\else
-		\def\@pytexTMP@keyword{import}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@import}
-		\else
-		\def\@pytexTMP@keyword{in}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@in}
-		\else
-		\def\@pytexTMP@keyword{is}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@is}
-		\else
-		\def\@pytexTMP@keyword{lambda}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@lambda}
-		\else
-		\def\@pytexTMP@keyword{nonlocal}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@nonlocal}
-		\else
-		\def\@pytexTMP@keyword{not}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@not}
-		\else
-		\def\@pytexTMP@keyword{or}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@or}
-		\else
-		\def\@pytexTMP@keyword{pass}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@pass}
-		\else
-		\def\@pytexTMP@keyword{raise}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@raise}
-		\else
-		\def\@pytexTMP@keyword{return}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@return}
-		\else
-		\def\@pytexTMP@keyword{try}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@try}
-		\else
-		\def\@pytexTMP@keyword{while}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@while}
-		\else
-		\def\@pytexTMP@keyword{with}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@with}
-		\else
-		\def\@pytexTMP@keyword{yield}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword
-			\@pytexTokenList@push{\@pytexToken@yield}
-		\else
-			\e\@pytexTokenList@push\e{\e\@pytexToken@Identifier\e{\@pytexTokeniser@buffer}}
-		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
-		\state=0
-		\gdef\@pytexTokeniser@buffer{}
-		\let\@pytexTMP@keyword\undefined
-	\fi
+\def\@pytexTokeniser@endnametoken{%
+		\ifnum\state=1%
+		\def\@pytexTMP@keyword{False}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@False}%
+		\else%
+		\def\@pytexTMP@keyword{None}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@None}%
+		\else%
+		\def\@pytexTMP@keyword{True}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@True}%
+		\else%
+		\def\@pytexTMP@keyword{and}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@and}%
+		\else%
+		\def\@pytexTMP@keyword{as}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@as}%
+		\else%
+		\def\@pytexTMP@keyword{assert}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@assert}%
+		\else%
+		\def\@pytexTMP@keyword{async}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@async}%
+		\else%
+		\def\@pytexTMP@keyword{await}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@await}%
+		\else%
+		\def\@pytexTMP@keyword{break}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@break}%
+		\else%
+		\def\@pytexTMP@keyword{class}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@class}%
+		\else%
+		\def\@pytexTMP@keyword{continue}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@continue}%
+		\else%
+		\def\@pytexTMP@keyword{def}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@def}%
+		\else%
+		\def\@pytexTMP@keyword{del}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@del}%
+		\else%
+		\def\@pytexTMP@keyword{elif}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@elif}%
+		\else%
+		\def\@pytexTMP@keyword{else}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@else}%
+		\else%
+		\def\@pytexTMP@keyword{except}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@except}%
+		\else%
+		\def\@pytexTMP@keyword{finally}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@finally}%
+		\else%
+		\def\@pytexTMP@keyword{for}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@for}%
+		\else%
+		\def\@pytexTMP@keyword{from}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@from}%
+		\else%
+		\def\@pytexTMP@keyword{global}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@global}%
+		\else%
+		\def\@pytexTMP@keyword{if}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@if}%
+		\else%
+		\def\@pytexTMP@keyword{import}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@import}%
+		\else%
+		\def\@pytexTMP@keyword{in}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@in}%
+		\else%
+		\def\@pytexTMP@keyword{is}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@is}%
+		\else%
+		\def\@pytexTMP@keyword{lambda}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@lambda}%
+		\else%
+		\def\@pytexTMP@keyword{nonlocal}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@nonlocal}%
+		\else%
+		\def\@pytexTMP@keyword{not}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@not}%
+		\else%
+		\def\@pytexTMP@keyword{or}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@or}%
+		\else%
+		\def\@pytexTMP@keyword{pass}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@pass}%
+		\else%
+		\def\@pytexTMP@keyword{raise}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@raise}%
+		\else%
+		\def\@pytexTMP@keyword{return}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@return}%
+		\else%
+		\def\@pytexTMP@keyword{try}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@try}%
+		\else%
+		\def\@pytexTMP@keyword{while}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@while}%
+		\else%
+		\def\@pytexTMP@keyword{with}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@with}%
+		\else%
+		\def\@pytexTMP@keyword{yield}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@yield}%
+		\else%
+		\def\@pytexTMP@keyword{print}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@keyword%
+			\@pytexTokenList@push{\@pytexToken@print}%
+		\else%
+			\e\@pytexTokenList@push\e{\e\@pytexToken@Identifier\e{\@pytexTokeniser@buffer}}%
+		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi%
+		\state=0%
+		\gdef\@pytexTokeniser@buffer{}%
+		\let\@pytexTMP@keyword\undefined%
+	\fi%
 }
 
-\def\@pytexTokeniser@endsymboltoken{
-	\ifnum\state=3
-		\def\@pytexTMP@symbol{Plus}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Addition}
-		\else
-		\def\@pytexTMP@symbol{Minus}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Subtraction}
-		\else
-		\def\@pytexTMP@symbol{Asterisk}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Multiplication}
-		\else
-		\def\@pytexTMP@symbol{ForwardSlash}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Division}
-		\else
-		\def\@pytexTMP@symbol{ForwardSlashForwardSlash}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@FloorDivision}
-		\else
-		\def\@pytexTMP@symbol{Percent}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Modulo}
-		\else
-		\def\@pytexTMP@symbol{AsteriskAsterisk}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Exponentiation}
-		\else
-		\def\@pytexTMP@symbol{EqualsEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@EqualTo}
-		\else
-		\def\@pytexTMP@symbol{ExclamationMarkEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@NotEqualTo}
-		\else
-		\def\@pytexTMP@symbol{GreaterThan}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@GreaterThan}
-		\else
-		\def\@pytexTMP@symbol{LessThan}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@LessThan}
-		\else
-		\def\@pytexTMP@symbol{GreaterThanEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@GreaterThanOrEqualTo}
-		\else
-		\def\@pytexTMP@symbol{LessThanEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@LessThanOrEqualTo}
-		\else
-		\def\@pytexTMP@symbol{Ampersand}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseAnd}
-		\else
-		\def\@pytexTMP@symbol{Pipe}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseOr}
-		\else
-		\def\@pytexTMP@symbol{Caret}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseXor}
-		\else
-		\def\@pytexTMP@symbol{Tilde}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseNot}
-		\else
-		\def\@pytexTMP@symbol{LessThanLessThan}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@LeftShift}
-		\else
-		\def\@pytexTMP@symbol{GreaterThanGreaterThan}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@RightShift}
-		\else
-		\def\@pytexTMP@symbol{Equals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Assignment}
-		\else
-		\def\@pytexTMP@symbol{PlusEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@AddAssign}
-		\else
-		\def\@pytexTMP@symbol{MinusEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@SubAssign}
-		\else
-		\def\@pytexTMP@symbol{AsteriskEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@MultAssign}
-		\else
-		\def\@pytexTMP@symbol{ForwardSlashEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@DivAssign}
-		\else
-		\def\@pytexTMP@symbol{ForwardSlashForwardSlashEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@FloorDivAssign}
-		\else
-		\def\@pytexTMP@symbol{PercentEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@ModuloAssign}
-		\else
-		\def\@pytexTMP@symbol{AsteriskAsteriskEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@ExpoAssign}
-		\else
-		\def\@pytexTMP@symbol{AmpersandEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseAndAssign}
-		\else
-		\def\@pytexTMP@symbol{PipeEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseOrAssign}
-		\else
-		\def\@pytexTMP@symbol{CaretEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@BitwiseXorAssign}
-		\else
-		\def\@pytexTMP@symbol{LessThanLessThanEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@LeftShiftAssign}
-		\else
-		\def\@pytexTMP@symbol{GreaterThanGreaterThanEquals}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@RightShiftAssign}
-		\else
-		\def\@pytexTMP@symbol{Colon}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Colon}
-		\else
-		\def\@pytexTMP@symbol{Comma}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Comma}
-		\else
-		\def\@pytexTMP@symbol{Dot}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Dot}
-		\else
-		\def\@pytexTMP@symbol{OpenParen}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@OpeningParenthesis}
-		\else
-		\def\@pytexTMP@symbol{CloseParen}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@ClosingParenthesis}
-		\else
-		\def\@pytexTMP@symbol{OpenBracket}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@OpeningBracket}
-		\else
-		\def\@pytexTMP@symbol{CloseBracket}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@ClosingBracket}
-		\else
-		\def\@pytexTMP@symbol{OpenBrace}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@OpeningBrace}
-		\else
-		\def\@pytexTMP@symbol{CloseBrace}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@ClosingBrace}
-		\else
-		\def\@pytexTMP@symbol{SingleQuote}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@SingleQuote}
-		\else
-		\def\@pytexTMP@symbol{DoubleQuote}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@DoubleQuote}
-		\else
-		\def\@pytexTMP@symbol{Hash}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Comment}
-		\else
-		\def\@pytexTMP@symbol{Semicolon}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Semicolon}
-		\else
-		\def\@pytexTMP@symbol{Backslash}
-		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol
-			\@pytexTokenList@push{\@pytexToken@Backslash}
-		\else
-		\@pytexError{Tokeniser error: unknown symbol: \@pytexTokeniser@buffer}
-		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
-		\state=0
-		\gdef\@pytexTokeniser@buffer{}
-		\let\@pytexTMP@symbol\undefined
-	\fi
+\def\@pytexTokeniser@endsymboltoken{%
+	\ifnum\state=3%
+		\def\@pytexTMP@symbol{Plus}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Addition}%
+		\else%
+		\def\@pytexTMP@symbol{Minus}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Subtraction}%
+		\else%
+		\def\@pytexTMP@symbol{Asterisk}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Multiplication}%
+		\else%
+		\def\@pytexTMP@symbol{ForwardSlash}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Division}%
+		\else%
+		\def\@pytexTMP@symbol{ForwardSlashForwardSlash}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@FloorDivision}%
+		\else%
+		\def\@pytexTMP@symbol{Percent}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Modulo}%
+		\else%
+		\def\@pytexTMP@symbol{AsteriskAsterisk}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Exponentiation}%
+		\else%
+		\def\@pytexTMP@symbol{EqualsEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@EqualTo}%
+		\else%
+		\def\@pytexTMP@symbol{ExclamationMarkEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@NotEqualTo}%
+		\else%
+		\def\@pytexTMP@symbol{GreaterThan}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@GreaterThan}%
+		\else%
+		\def\@pytexTMP@symbol{LessThan}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@LessThan}%
+		\else%
+		\def\@pytexTMP@symbol{GreaterThanEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@GreaterThanOrEqualTo}%
+		\else%
+		\def\@pytexTMP@symbol{LessThanEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@LessThanOrEqualTo}%
+		\else%
+		\def\@pytexTMP@symbol{Ampersand}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseAnd}%
+		\else%
+		\def\@pytexTMP@symbol{Pipe}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseOr}%
+		\else%
+		\def\@pytexTMP@symbol{Caret}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseXor}%
+		\else%
+		\def\@pytexTMP@symbol{Tilde}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseNot}%
+		\else%
+		\def\@pytexTMP@symbol{LessThanLessThan}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@LeftShift}%
+		\else%
+		\def\@pytexTMP@symbol{GreaterThanGreaterThan}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@RightShift}%
+		\else%
+		\def\@pytexTMP@symbol{Equals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Assignment}%
+		\else%
+		\def\@pytexTMP@symbol{PlusEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@AddAssign}%
+		\else%
+		\def\@pytexTMP@symbol{MinusEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@SubAssign}%
+		\else%
+		\def\@pytexTMP@symbol{AsteriskEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@MultAssign}%
+		\else%
+		\def\@pytexTMP@symbol{ForwardSlashEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@DivAssign}%
+		\else%
+		\def\@pytexTMP@symbol{ForwardSlashForwardSlashEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@FloorDivAssign}%
+		\else%
+		\def\@pytexTMP@symbol{PercentEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@ModuloAssign}%
+		\else%
+		\def\@pytexTMP@symbol{AsteriskAsteriskEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@ExpoAssign}%
+		\else%
+		\def\@pytexTMP@symbol{AmpersandEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseAndAssign}%
+		\else%
+		\def\@pytexTMP@symbol{PipeEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseOrAssign}%
+		\else%
+		\def\@pytexTMP@symbol{CaretEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@BitwiseXorAssign}%
+		\else%
+		\def\@pytexTMP@symbol{LessThanLessThanEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@LeftShiftAssign}%
+		\else%
+		\def\@pytexTMP@symbol{GreaterThanGreaterThanEquals}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@RightShiftAssign}%
+		\else%
+		\def\@pytexTMP@symbol{Colon}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Colon}%
+		\else%
+		\def\@pytexTMP@symbol{Comma}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Comma}%
+		\else%
+		\def\@pytexTMP@symbol{Dot}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Dot}%
+		\else%
+		\def\@pytexTMP@symbol{OpenParen}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@OpeningParenthesis}%
+		\else%
+		\def\@pytexTMP@symbol{CloseParen}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@ClosingParenthesis}%
+		\else%
+		\def\@pytexTMP@symbol{OpenBracket}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@OpeningBracket}%
+		\else%
+		\def\@pytexTMP@symbol{CloseBracket}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@ClosingBracket}%
+		\else%
+		\def\@pytexTMP@symbol{OpenBrace}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@OpeningBrace}%
+		\else%
+		\def\@pytexTMP@symbol{CloseBrace}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@ClosingBrace}%
+		\else%
+		\def\@pytexTMP@symbol{SingleQuote}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@SingleQuote}%
+		\else%
+		\def\@pytexTMP@symbol{DoubleQuote}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@DoubleQuote}%
+		\else%
+		\def\@pytexTMP@symbol{Hash}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Comment}%
+		\else%
+		\def\@pytexTMP@symbol{Semicolon}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Semicolon}%
+		\else%
+		\def\@pytexTMP@symbol{Backslash}%
+		\ifx\@pytexTokeniser@buffer\@pytexTMP@symbol%
+			\@pytexTokenList@push{\@pytexToken@Backslash}%
+		\else%
+		\@pytexError{Tokeniser error: unknown symbol: \@pytexTokeniser@buffer}%
+		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi%
+		\state=0%
+		\gdef\@pytexTokeniser@buffer{}%
+		\let\@pytexTMP@symbol\undefined%
+	\fi%
 }
 
 \def\@pytexChar@a{\@pytexTokeniser@letter{a}}

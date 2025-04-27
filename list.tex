@@ -24,13 +24,13 @@
 \def\@pytexList@getim#1#2{\csname#1@#2\endcsname}
 
 % #1 = list name, #2 = index from end (0 = last, 1 = before last)
-\def\@pytexList@getendim#1#2{
-	\csname#1@\the\numexpr\csname#1@size\endcsname-1-#2\relax\endcsname
+\def\@pytexList@getendim#1#2{%
+	\csname#1@\the\numexpr\csname#1@size\endcsname-1-#2\relax\endcsname%
 }
 
 % #1 = list name
 \def\@pytexList@delete#1{%
-	\ifnum\csname #1@size\endcsname=0 %
+	\ifnum\csname #1@size\endcsname=0%
 		\expandafter\let\csname #1@size\endcsname\undefined%
 		\expandafter\let\csname #1@push\endcsname\undefined%
 		\expandafter\let\csname #1@getim\endcsname\undefined%

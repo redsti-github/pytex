@@ -60,7 +60,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Type conversions
 % #1 = Int object ptr
 \def\@pytexRuntime@int@__bool__#1{%
-	\ifnum\csname#1@value\endcsname=0 %
+	\ifnum\csname#1@value\endcsname=0%
 		\@pytexRuntime@boolFalse%
 	\else%
 		\@pytexRuntime@boolTrue%
@@ -85,7 +85,7 @@
 % #1 = Int object ptr
 \def\@pytexRuntime@int@__abs__#1{%
 	\edef\result{\csname#1@value\endcsname}%
-	\ifnum\result<0 %
+	\ifnum\result<0%
 		\e\@pytexRuntime@int\e{\the\numexpr0-\result}%
 	\else%
 		\e\@pytexRuntime@int\e{\result}%
@@ -102,7 +102,7 @@
 \def\@pytexRuntime@int@__eq__#1#2{%
 	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
 	\ifx\STR_int\secondType%
-		\ifnum\numexpr\csname#1@value\endcsname=\csname#2@value\endcsname %
+		\ifnum\numexpr\csname#1@value\endcsname=\csname#2@value\endcsname%
 			\@pytexRuntime@boolTrue%
 		\else%
 			\@pytexRuntime@boolFalse%
@@ -115,7 +115,7 @@
 \def\@pytexRuntime@int@__ne__#1#2{%
 	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
 	\ifx\STR_int\secondType%
-		\ifnum\numexpr\csname#1@value\endcsname=\csname#2@value\endcsname %
+		\ifnum\numexpr\csname#1@value\endcsname=\csname#2@value\endcsname%
 			\@pytexRuntime@boolFalse%
 		\else%
 			\@pytexRuntime@boolTrue%
@@ -128,7 +128,7 @@
 \def\@pytexRuntime@int@__lt__#1#2{%
 	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
 	\ifx\STR_int\secondType%
-		\ifnum\numexpr\csname#1@value\endcsname<\csname#2@value\endcsname %
+		\ifnum\numexpr\csname#1@value\endcsname<\csname#2@value\endcsname%
 			\@pytexRuntime@boolTrue%
 		\else%
 			\@pytexRuntime@boolFalse%
@@ -141,7 +141,7 @@
 \def\@pytexRuntime@int@__gt__#1#2{%
 	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
 	\ifx\STR_int\secondType%
-		\ifnum\numexpr\csname#1@value\endcsname>\csname#2@value\endcsname %
+		\ifnum\numexpr\csname#1@value\endcsname>\csname#2@value\endcsname%
 			\@pytexRuntime@boolTrue%
 		\else%
 			\@pytexRuntime@boolFalse%
@@ -154,7 +154,7 @@
 \def\@pytexRuntime@int@__ge__#1#2{%
 	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
 	\ifx\STR_int\secondType%
-		\ifnum\numexpr\csname#1@value\endcsname<\csname#2@value\endcsname %
+		\ifnum\numexpr\csname#1@value\endcsname<\csname#2@value\endcsname%
 			\@pytexRuntime@boolFalse%
 		\else%
 			\@pytexRuntime@boolTrue%
@@ -167,7 +167,7 @@
 \def\@pytexRuntime@int@__le__#1#2{%
 	\edef\secondType{\@pytexRuntime@Typeof{#2}}%
 	\ifx\STR_int\secondType%
-		\ifnum\numexpr\csname#1@value\endcsname>\csname#2@value\endcsname %
+		\ifnum\numexpr\csname#1@value\endcsname>\csname#2@value\endcsname%
 			\@pytexRuntime@boolFalse%
 		\else%
 			\@pytexRuntime@boolTrue%

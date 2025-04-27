@@ -6,9 +6,9 @@
 \def\@pytexParser@trySum{%
 	\@pytexParser@tryTerm%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\@pytexParser@trySumNext%
-		\e\def\e\@pytexParserReturn\e{\current}%
+		\let\@pytexParserReturn\current%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@trySumNext{%
@@ -40,9 +40,9 @@
 \def\@pytexParser@tryTerm{%
 	\@pytexParser@tryFactor%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\@pytexParser@tryTermNext%
-		\e\def\e\@pytexParserReturn\e{\current}%
+		\let\@pytexParserReturn\current%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryTermNext{%
@@ -74,21 +74,21 @@
 
 
 % factor:
-%     | '+' factor 
-%     | '-' factor 
-%     | '~' factor 
+%     | '+' factor
+%     | '-' factor
+%     | '~' factor
 %     | power
 \def\@pytexParser@tryFactor{%
 	\@pytexParser@choiceFour%
 		{\@pytexParser@tryPower}% power
 		{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryFactor} % "-" u_expr
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeSUBTRACT}}{\@pytexParser@tryFactor}% "-" u_expr
 			{\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@negate\e{\second}}}%
 		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryFactor} % "+" u_expr
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeADD}}{\@pytexParser@tryFactor}% "+" u_expr
 			{\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@pos\e{\second}}}%
 		}{%
-		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeINVERT}}{\@pytexParser@tryFactor} % "~" u_expr
+		\@pytexParser@join{\@pytexParser@tryToken{\tokentypeINVERT}}{\@pytexParser@tryFactor}% "~" u_expr
 			{\e\def\e\@pytexParserReturn\e{\e\@pytexOperator@invert\e{\second}}}%
 		}%
 }
@@ -101,7 +101,7 @@
 \def\@pytexParser@tryPower{%
 	\@pytexParser@joinOptional%
 		{\@pytexParser@tryAwaitPrimary}
-		{\@pytexParser@join{\@pytexParser@tryToken{\tokentypeEXPONENTIATION}} {\@pytexParser@tryFactor} {\let\@pytexParserReturn\second}}%
+		{\@pytexParser@join{\@pytexParser@tryToken{\tokentypeEXPONENTIATION}}{\@pytexParser@tryFactor}{\let\@pytexParserReturn\second}}%
 		{\e\e\e\def\e\e\e\@pytexParserReturn\e\e\e{\e\e\e\@pytexOperator@pow\e\e\e{\e\first\e}\e{\second}}}%
 }
 

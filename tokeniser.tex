@@ -10,7 +10,7 @@
 \def\@pytexTokeniser@begin{%
 	\@pytexMakeAllActive%
 	\@pytexDefAll%
-
+	%
 	\def\@pytexTokeniser@buffer{}%
 	\@pytexList@new{@pytexTokenList}%
 	\@pytexStack@new{indentStack}%
@@ -23,12 +23,12 @@
 	\let\@pytexTokeniser@buffer\undefined%
 	\@pytexList@new{@pytexTokenList}%
 	\@pytexStack@delete{indentStack}%
-
+	%
 	\@pytexResetCatcodes%
 	\@pytexRelaxAll%
 	\expandafter\def\@pytexActive@Newline{\@pytexResetAll}%
 	\@pytexParser@parse%
-
+	%
 	\@pytexTokenList@delete%
 }
 
@@ -36,17 +36,17 @@
 	\@pytexTokenList@getendim{0}%
 	\ifnum\tokentype=\tokentypeIDENTIFIER% python
 		\ifx\tokenvalue\STR_python%
-		
+			%
 			\@pytexTokenList@getendim{1}%
 			\ifnum\tokentype=\tokentypeLBRACE% {
-			
+				%
 				\@pytexTokenList@getendim{2}%
 				\ifnum\tokentype=\tokentypeIDENTIFIER% end
 					\ifx\tokenvalue\STR_end%
-					
+						%
 						\@pytexTokenList@getendim{3}%
 						\ifnum\tokentype=\tokentypeBACKSLASH% \
-						
+							%
 							\ifx\@pytexTokeniser@buffer\STR_CloseBrace% }
 								\@pytexTokeniser@endsymboltoken%
 								\@pytexTokenList@popd% }
@@ -55,7 +55,7 @@
 								\@pytexTokenList@popd% end
 								\@pytexTokenList@popd% \
 								\@pytexTokenList@push{\edef\tokentype{\tokentypeEND}}%
-
+								%
 								\@pytexTokeniser@end%
 							\fi%
 						\fi%
@@ -67,111 +67,111 @@
 }
 
 
-\def\@pytexTokeniser@endnumbertoken{
-	\ifnum\state=2
-		\e\@pytexTokenList@push\e{\e\@pytexToken@Number\e{\@pytexTokeniser@buffer}}
-		\gdef\@pytexTokeniser@buffer{}
-		\state=0
-	\fi
+\def\@pytexTokeniser@endnumbertoken{%
+	\ifnum\state=2 %
+		\e\@pytexTokenList@push\e{\e\@pytexToken@Number\e{\@pytexTokeniser@buffer}}%
+		\gdef\@pytexTokeniser@buffer{}%
+		\state=0 %
+	\fi%
 }
 
-\def\@pytexTokeniser@dedent{
-	\ifnum\currentindent<\lastindent
-		\@pytexTokenList@push{\@pytexToken@Dedent}
-		\indentStack@popd
-		\indentStack@peek{\lastindent}
-		\ifnum\currentindent>\lastindent
-			\@pytexError{IndentationError: unindent does not match any outer indentation level}
-		\fi
-		\@pytexTokeniser@dedent
-	\fi
+\def\@pytexTokeniser@dedent{%
+	\ifnum\currentindent<\lastindent%
+		\@pytexTokenList@push{\@pytexToken@Dedent}%
+		\indentStack@popd%
+		\indentStack@peek{\lastindent}%
+		\ifnum\currentindent>\lastindent%
+			\@pytexError{IndentationError: unindent does not match any outer indentation level}%
+		\fi%
+		\@pytexTokeniser@dedent%
+	\fi%
 }
 
-\def\@pytexTokeniser@endindent{
-	\ifnum\state=5
-		\indentStack@peek{\lastindent}
-		\ifnum\currentindent>\lastindent
-			\e\indentStack@push\e{\the\currentindent}
-			\edef\lastindent{\the\currentindent}
-			\@pytexTokenList@push{\@pytexToken@Indent}
-		\fi
-		\@pytexTokeniser@dedent
-		\currentindent=0
-		\state=0
-	\fi
+\def\@pytexTokeniser@endindent{%
+	\ifnum\state=5%
+		\indentStack@peek{\lastindent}%
+		\ifnum\currentindent>\lastindent%
+			\e\indentStack@push\e{\the\currentindent}%
+			\edef\lastindent{\the\currentindent}%
+			\@pytexTokenList@push{\@pytexToken@Indent}%
+		\fi%
+		\@pytexTokeniser@dedent%
+		\currentindent=0 %
+		\state=0 %
+	\fi%
 }
 
 
 
-\def\@pytexTokeniser@letter#1{
-	\@pytexTokeniser@endindent
-	\@pytexTokeniser@endsymboltoken
-	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=1\else \@pytexError{Internal error: starting to tokenise name when not in 0 state.}\fi\fi
-		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-		\state=1
-	\fi
+\def\@pytexTokeniser@letter#1{%
+	\@pytexTokeniser@endindent%
+	\@pytexTokeniser@endsymboltoken%
+	\ifnum\state=4\else\ifnum\state=0\else\ifnum\state=1\else\@pytexError{Internal error: starting to tokenise name when not in 0 state.}\fi\fi%
+		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}%
+		\state=1 %
+	\fi%
 }
 
-\def\@pytexTokeniser@number#1{
-	\@pytexTokeniser@endindent
-	\@pytexTokeniser@endsymboltoken
-	\ifnum\state=4\else	\ifnum\state=1
-		\@pytexTokeniser@letter{#1}
-	\else
-		\ifnum\state=0\else\ifnum\state=2\else \@pytexError{Internal error: starting to tokenise number when not in 0 state.}\fi\fi
-		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-		\state=2
-	\fi
+\def\@pytexTokeniser@number#1{%
+	\@pytexTokeniser@endindent%
+	\@pytexTokeniser@endsymboltoken%
+	\ifnum\state=4\else\ifnum\state=1%
+		\@pytexTokeniser@letter{#1}%
+	\else%
+		\ifnum\state=0\else\ifnum\state=2\else\@pytexError{Internal error: starting to tokenise number when not in 0 state.}\fi\fi%
+		\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}%
+		\state=2 %
+	\fi%
 \fi}
 
-\def\@pytexTokeniser@symbol#1{
-	\@pytexTokeniser@endnametoken
-	\@pytexTokeniser@endnumbertoken
-	\@pytexTokeniser@endindent
-	\ifnum\state=4\else	\ifnum\state=0\else\ifnum\state=3\else \@pytexError{Internal error: starting to symbols name when not in 0 state.}\fi\fi
-	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}
-	\state=3
-	\fi
+\def\@pytexTokeniser@symbol#1{%
+	\@pytexTokeniser@endnametoken%
+	\@pytexTokeniser@endnumbertoken%
+	\@pytexTokeniser@endindent%
+	\ifnum\state=4\else\ifnum\state=0\else\ifnum\state=3\else\@pytexError{Internal error: starting to symbols name when not in 0 state.}\fi\fi%
+	\xdef\@pytexTokeniser@buffer{\@pytexTokeniser@buffer #1}%
+	\state=3 %
+	\fi%
 }
 
 
 
 
-\def\@pytexChar@Newline{
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endindent
-    \@pytexTokeniser@endsymboltoken
-    \ifnum\state=0\else\ifnum\state=4\else \@pytexError{Internal error: starting to tokenise comment when not in 0 state.}\fi\fi
-    \state=5
-    \@pytexTokenList@push{\@pytexToken@Newline}
+\def\@pytexChar@Newline{%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endindent%
+    \@pytexTokeniser@endsymboltoken%
+    \ifnum\state=0\else\ifnum\state=4\else \@pytexError{Internal error: starting to tokenise comment when not in 0 state.}\fi\fi%
+    \state=5 %
+    \@pytexTokenList@push{\@pytexToken@Newline}%
 }
 
-\def\@pytexChar@Space{
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endsymboltoken
-    \ifnum\state=5
-        \advance\currentindent by 1
-    \fi
+\def\@pytexChar@Space{%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endsymboltoken%
+    \ifnum\state=5 %
+        \advance\currentindent by 1%
+    \fi%
 }
 
-\def\@pytexChar@Tab{
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endsymboltoken
-    \ifnum\state=5
-        \advance\currentindent by 1
-	\fi
+\def\@pytexChar@Tab{%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endsymboltoken%
+    \ifnum\state=5 %
+        \advance\currentindent by 1%
+	\fi%
 }
 
-\def\@pytexChar@Hash{
-\ifnum\state=4\else
-    \@pytexTokeniser@endnametoken
-    \@pytexTokeniser@endnumbertoken
-    \@pytexTokeniser@endsymboltoken
-    \@pytexTokeniser@endindent
-    \ifnum\state=0\else \@pytexError{Internal error: starting comment when not in 0 state.}\fi
-    \state=4
-\fi
+\def\@pytexChar@Hash{%
+\ifnum\state=4\else%
+    \@pytexTokeniser@endnametoken%
+    \@pytexTokeniser@endnumbertoken%
+    \@pytexTokeniser@endsymboltoken%
+    \@pytexTokeniser@endindent%
+    \ifnum\state=0\else \@pytexError{Internal error: starting comment when not in 0 state.}\fi%
+    \state=4 %
+\fi%
 }

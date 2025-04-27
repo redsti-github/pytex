@@ -5,9 +5,9 @@
 \def\@pytexParser@tryBitwiseOr{%
 	\@pytexParser@tryBitwiseXor%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\@pytexParser@tryBitwiseOrNext%
-		\e\def\e\@pytexParserReturn\e{\current}%
+		\let\@pytexParserReturn\current%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryBitwiseOrNext{%
@@ -28,9 +28,9 @@
 \def\@pytexParser@tryBitwiseXor{%
 	\@pytexParser@tryBitwiseAnd%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\@pytexParser@tryBitwiseXorNext%
-		\e\def\e\@pytexParserReturn\e{\current}%
+		\let\@pytexParserReturn\current%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryBitwiseXorNext{%
@@ -51,9 +51,9 @@
 \def\@pytexParser@tryBitwiseAnd{%
 	\@pytexParser@tryShiftExpr%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\@pytexParser@tryBitwiseAndNext%
-		\e\def\e\@pytexParserReturn\e{\current}%
+		\let\@pytexParserReturn\current%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryBitwiseAndNext{%
@@ -75,9 +75,9 @@
 \def\@pytexParser@tryShiftExpr{%
 	\@pytexParser@trySum%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\@pytexParser@tryShiftExprNext%
-		\e\def\e\@pytexParserReturn\e{\current}%
+		\let\@pytexParserReturn\current%
 		\@pytexLocal@end{current}%
 }
 \def\@pytexParser@tryShiftExprNext{%

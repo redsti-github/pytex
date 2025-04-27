@@ -87,6 +87,7 @@
 \enumnext{LBRACE}
 \enumnext{BACKSLASH}
 
+\enumnext{PRINT}
 
 
 
@@ -132,17 +133,19 @@
 \def\@pytexToken@ClosingBrace{\edef\tokentype{\tokentypeRBRACE}}
 \def\@pytexToken@Backslash{\edef\tokentype{\tokentypeBACKSLASH}}
 
+\def\@pytexToken@print{\edef\tokentype{\tokentypePRINT}}
+
 
 
 
 \def\ifmatch#1{%
 	\e\@pytexTokenList@getim\e{\currentidx}%
-	\ifnum \tokentype = #1 %
+	\ifnum\tokentype=#1%
 		\edef\currentidx{\the\numexpr\currentidx+1}%
 }
 \def\ifpeek#1{%
 	\e\@pytexTokenList@getim\e{\currentidx}%
-	\ifnum \tokentype = #1 %
+	\ifnum\tokentype=#1%
 }
 
 \def\savestate{%
@@ -162,20 +165,20 @@
 
 % #1 = if, #2 = iftrue, #3 = iffalse
 \def\wrapif#1#2#3{%
-	#1 %
-		#2 %
-	\else %
-		#3 %
-	\fi %
+	#1%
+		#2%
+	\else%
+		#3%
+	\fi%
 }
 
 % #1 = iftrue, #2 = if, #3 = iffalse
 \def\wrapifsw#1#2#3{%
-	#2 %
-		#1 %
-	\else %
-		#3 %
-	\fi %
+	#2%
+		#1%
+	\else%
+		#3%
+	\fi%
 }
 
 % result ::= #1, ParserReturn is left untouched
@@ -200,7 +203,7 @@
 			\def\ifresult{0}%
 		}%
 	\fi%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 % result ::= #1 | #2 | #3
@@ -250,7 +253,7 @@
 		\def\ifresult{0}%
 		\restorestate%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 % similar to \@pytexParser@join, but \@pytexParserReturn is automatically set to the return value of #1
@@ -268,7 +271,7 @@
 		\restorestate%
 		\def\ifresult{0}%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 % similar to \@pytexParser@join, but \@pytexParserReturn is automatically set to the return value of #2
@@ -286,7 +289,7 @@
 		\restorestate%
 		\def\ifresult{0}%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 % similar to \@pytexParser@join, but \@pytexParserReturn is set to #3 (given \@pytexParserReturn as result of #1)
@@ -306,7 +309,7 @@
 		\restorestate%
 		\def\ifresult{0}%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 % similar to \@pytexParser@join, but \@pytexParserReturn is set to #3 (given \@pytexParserReturn as result of #2)
@@ -325,7 +328,7 @@
 		\restorestate%
 		\def\ifresult{0}%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 % #1 = first thing, #2 = second thing, #3 = joining operation (provided with \first and \second), only executed when #2 is present
@@ -347,7 +350,7 @@
 		\def\ifresult{0}%
 		\restorestate%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 
@@ -357,7 +360,7 @@
 	\savestate%
 	\wrapif{#1}{%
 		\@pytexLocal@begin{current}%
-		\e\def\e\current\e{\@pytexParserReturn}%
+		\let\current\@pytexParserReturn%
 		\wrapif{#2}{%
 			\let\first\current%
 			\let\second\@pytexParserReturn%
@@ -375,7 +378,7 @@
 		\def\ifresult{0}%
 		\restorestate%
 	}%
-	\ifnum\ifresult=1 %
+	\ifnum\ifresult=1%
 }
 
 
@@ -421,7 +424,7 @@
 	\@pytexParser@skipEmptyLines%
 	\ifmatch{\tokentypeEND}%
 		\def\next{\relax}%
-	\else %
+	\else%
 		\wrapif{\@pytexParser@tryStatement}{}%
 		{%
 			\let\@pytexParserReturn\undefined%
@@ -432,11 +435,11 @@
 		\@pytexParserReturn%
 		%
 		\def\next{\@pytexParser@parseNext}%
-	\fi %
+	\fi%
 	\next%
 }
 
-\def\@pytexParser@parse{
+\def\@pytexParser@parse{%
 	\@pytexLocal@new{current}%
 	\@pytexStack@new{idxsavestack}%
 	\@pytexStack@new{resultsavestack}%

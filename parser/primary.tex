@@ -13,6 +13,19 @@
     {\@pytexParser@tryPrimary}%
 }
 
+\def\@pytexParser@tryPrintFunc{%
+	\@pytexParser@joinSecond%
+		{\@pytexParser@tryToken{\tokentypePRINT}}%
+		{\@pytexParser@joinSecond%
+			{\@pytexParser@tryToken{\tokentypeLPAREN}}%
+			{\@pytexParser@joinFirst%
+				{\@pytexParser@tryExpression}%
+				{\@pytexParser@tryToken{\tokentypeRPAREN}}%
+			}%
+		}%
+		\e\def\e\@pytexParserReturn\e{\e\@pytexRuntime@print\e{\@pytexParserReturn}}%
+}
+
 % primary:
 % TODO | primary '.' NAME 
 % TODO | primary genexp 
@@ -20,7 +33,9 @@
 % TODO | primary '[' slices ']' 
 %      | atom
 \def\@pytexParser@tryPrimary{%
-	\@pytexParser@tryAtom%
+	\@pytexParser@choice%
+		{\@pytexParser@tryPrintFunc}%
+		{\@pytexParser@tryAtom}%
 }
 
 

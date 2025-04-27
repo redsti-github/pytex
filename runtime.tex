@@ -237,4 +237,20 @@
 		{\@pytexRuntime@boolTrue}%
 }
 
+% #1 = expression
+\def\@pytexRuntime@print#1{%
+	#1%
+	\edef\type{\e\@pytexRuntime@Typeof\e{\@pytexRuntime@return}}%
+	%
+	\ifx\type\STR_int%
+		\csname\@pytexRuntime@return @value\endcsname\ %
+	\else%
+		\ifx\type\STR_bool%
+			\wrapif{\e\@pytexRuntime@boolIf\e{\@pytexRuntime@return}}{True }{False }%
+		\else%
+			\@pytexError{Invalid type '\type' as parameter to function 'print'.}%
+		\fi%
+	\fi%
+}
+
 

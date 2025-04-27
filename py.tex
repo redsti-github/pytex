@@ -28,7 +28,7 @@
 }
 
 
-
+\loggingall
 \begin{python}
 
 # todo: function definitions
@@ -65,17 +65,20 @@ k = (a + b) * c
 
 # # Logical operators
 x = True and False  # AND
-y = False or 5   # OR
+y = False or 5      # OR
 z = not True        # NOT
-
+print(x)
+print(y)
+print(z)
+print(1+True)
 
 # Conditional statements
 if x:
-    pass
+    print(1)
 elif y:
-    pass
+    print(2)
 else:
-    pass
+    print(3)
 
 \end{python}
 % we support multiple python environments in a single file

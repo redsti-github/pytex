@@ -32,16 +32,7 @@
 }
 
 % #1 = stack name
-\def\@pytexStack@clear#1{% TODO: test
-	\ifnum \csname #1@size\endcsname = 0\else%
-		\e\edef\csname #1@size\endcsname{\the\numexpr\csname #1@size\endcsname-1\relax}%
-		\e\let\csname #1@size\endcsname\undefined%
-		\@pytexStack@clear{#1}%
-	\fi%
-}
-
-% #1 = stack name
-\def\@pytexStack@delete#1{% TODO: test
+\def\@pytexStack@delete#1{%
 	\ifnum\csname #1@size\endcsname=0 %
 		\expandafter\let\csname #1@size\endcsname\undefined%
 		\expandafter\let\csname #1@push\endcsname\undefined%
