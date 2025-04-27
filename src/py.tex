@@ -1,0 +1,28 @@
+\let\e\expandafter
+\catcode`@=11
+\catcode`_=11
+
+\def\@pytexError#1{%
+	\errmessage{#1}%
+}
+
+\input{stack.tex}
+\input{list.tex}
+\input{active_chars.tex}
+\input{localvar.tex}
+\input{parser.tex}
+\input{tokeniser.tex}
+\input{runtime.tex}
+
+\def\@pytexChar@DoubleQuote{\relax}
+\def\@pytexChar@SingleQuote{\relax}
+
+\let\@pytexPrevBeginMacro\begin
+\def\begin#1{%
+	\def\@pytexTMP{#1}%
+	\ifx\@pytexTMP\STR_python%
+		\@pytexTokeniser@begin%
+	\else%
+		\@pytexPrevBeginMacro{#1}%
+	\fi%
+}
