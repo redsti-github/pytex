@@ -3,7 +3,7 @@
 
 \def\@pytexRuntime@int#1{% -> int object ptr
 	\@pytexRuntime@allocType{int}%
-	\e\e\e\def\e\csname\@pytexRuntime@return @value\endcsname{#1}%
+	\e\def\csname\@pytexRuntime@return @value\endcsname{#1}%
 }
 
 \def\@pytexRuntime@intCopy#1{%
